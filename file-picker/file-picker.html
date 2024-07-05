@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Path Display</title>
+</head>
+<body>
+    <h1>File Path Display</h1>
+    <input type="file" id="filePicker">
+    <p>Selected file path: <span id="filePath"></span></p>
+
+    <script>
+        document.getElementById('filePicker').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // For security reasons, browsers don't allow access to the full file path
+                // We can only get the file name and some properties
+                document.getElementById('filePath').textContent = file.name;
+                
+                // If you need more details about the file:
+                console.log('File name:', file.name);
+                console.log('File size:', file.size, 'bytes');
+                console.log('File type:', file.type);s
+                console.log('Last modified:', new Date(file.lastModified));
+            } else {
+                document.getElementById('filePath').textContent = 'No file selected';
+            }
+        });
+    </script>
+</body>
+</html>
