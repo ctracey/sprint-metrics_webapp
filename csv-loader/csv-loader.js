@@ -8,13 +8,8 @@ function handleLoadedCSV(csvData) {
     //display csv data as table
     // const dataPresentationHTML = renderCSVDataAsTable(csvData);
 
-    //display loaded data as rawJson without processing data
-    const convertCSVStraightToJSON = true;
-    // const jsonData = csvToJson(csvData, convertCSVStraightToJSON);
-
     //process loaded data to structured data model
     const jsonData = csvToJson(csvData);
-
     const dataPresentationHTML = renderDataAsRawJson(jsonData);
 
     showDataViewer(dataPresentationHTML);
@@ -31,24 +26,28 @@ function handleLoadedCSV(csvData) {
   DATA PROCESSING
   --------------------------------------*/
 
-function csvToJson(csvData, convertStraight = false) {
+function csvToJson(csvData) {
     console.log('PARSING csv data to json');
     
     const rows = csvRows(csvData);
     const headers = csvHeaders(rows);
 
-    return csvRowsToJson(rows, headers, convertStraight);
+    return csvRowsToJson(rows, headers);
 }
 
-function csvRowsToJson(csvRows, headers, convertStraight) {
+function csvRowsToJson(csvRows, headers) {
+    console.log('PROCESSING csv data to json data model');
+
     const jsonObjectsPerRow = [];
+    let attributeMap = mapHeadersToAttributes(headers);
+    console.log('attribute map: ', attributeMap);
 
     const firstRowAfterHeaders = 1;
     for (let i = firstRowAfterHeaders; i < csvRows.length; i++) {
         const row = csvRows[i].split(',');
 
         if (!rowIsValid(row, headers)) {
-            const jsonObject = csvRowToJson(row, headers, convertStraight)
+            const jsonObject = csvRowToJson(row, attributeMap)
             jsonObjectsPerRow.push(jsonObject);
         }
     }
@@ -56,73 +55,55 @@ function csvRowsToJson(csvRows, headers, convertStraight) {
     return jsonObjectsPerRow;
 }
 
-function csvRowToJson(csvRow, csvHeaders, convertStraight) {
+function csvRowToJson(csvRow, attributeMap) {
     const jsonObject = {};
-    var attributeMap;
 
-    if (!convertStraight) {
-        attributeMap = mapHeadersToAttributes(csvHeaders);
-        console.log('attribute map: ', attributeMap);
-    }
+    attributeMap.collectionAttributes.forEach(function(attribute, index) {
+        jsonObject[attribute] = [];
+    });
 
-    // Add attributes to the object based on the headers
-    for (let cellIndex = 0; cellIndex < csvHeaders.length; cellIndex++) {
-        
-        
-        if (!convertStraight) {
-            console.log('PROCESSING csv data to json data model');
+    // Add attributes to the object aligned to attribute map
+    let headers = attributeMap.headers;
+    for (let cellIndex = 0; cellIndex < headers.length; cellIndex++) {
+        const cellValue = csvRow[cellIndex];
 
-            const attribute = headerToMappedAttribute(csvHeaders[cellIndex], attributeMap);
+        if (!(cellValue === "")) {
+            const attribute = headers[cellIndex];
             if (attributeIsCollection(attribute, attributeMap)) {
-                if (!Array.isArray(jsonObject[attribute])) {
-                    jsonObject[attribute] = [];
-                }
-                jsonObject[attribute].push(csvRow[cellIndex]);
+                jsonObject[attribute].push(cellValue);
             } else {
-                jsonObject[attribute] = csvRow[cellIndex];
+                jsonObject[attribute] = cellValue;
             }
-
-        } else {
-            console.log('CONVERTING csv data straign to json');
-            const attribute = csvHeaders[cellIndex];
-            jsonObject[attribute] = csvRow[cellIndex]; 
         }
     }
 
     return jsonObject;
 }
 
-function headerToMappedAttribute(header, attributeMap) {
-    return attributeMap.headerMapping[header];
-}
-
 function attributeIsCollection(attribute, attributeMap) {
-    return attributeMap.duplicateAttributes.includes(attribute)
+    return attributeMap.collectionAttributes.includes(attribute)
 }
 
 function mapHeadersToAttributes(csvHeaders) {
     //handles csv files that use /_[0-9]/ suffix to handle multiple values for an attribute
 
-    const headerMapping = {};
-    const duplicateAttributes = [];
+    let scannedHeaders = [];
+    const collectionAttributes = [];
 
     for (let i = 0; i < csvHeaders.length; i++) {
         const header = csvHeaders[i];
-        const attribute = trimDuplicateHeaderSuffix(header);
 
-        if (header != attribute) {
-            if (!duplicateAttributes.includes(attribute)) {
-                duplicateAttributes.push(attribute);
-            }            
+        if (scannedHeaders.includes(header)) {
+            collectionAttributes.push(header);
+        } else {
+            scannedHeaders.push(header);
         }
-
-       headerMapping[header] = attribute;  
     }
 
     const attributeMap = {
         headers: csvHeaders,
-        headerMapping: headerMapping,
-        duplicateAttributes: duplicateAttributes
+        attributes: scannedHeaders,
+        collectionAttributes: collectionAttributes
     }
 
     return attributeMap;
