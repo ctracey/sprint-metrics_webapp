@@ -3,12 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSV File Reader</title>
+
+    <title>CSV to JSON converter</title>
 </head>
 <body>
-    <h1>CSV File Reader</h1>
-    <input type="file" id="filePicker" accept=".csv">
-    <p>Selected file: <span id="fileName"></span></p>
+    <h1>Convert CSV to JSON</h1>
+    
+    <button id="loadCSVButton" title="select CSV file to convert to JSON">load CSV</button>
+    <input type="file" id="filePicker" accept=".csv" style="display:none">
+
+    <span id="fileName"></span>
+
+    <br><br>
+    <button id="downloadButton" style="display:none">download JSON</button>
+
+    <br>
     <div id="dataViewer"></div>
 
     <script src="csv-loader.js"></script>

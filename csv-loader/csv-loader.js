@@ -1,24 +1,66 @@
-document.getElementById('filePicker').addEventListener('change', function(event) {
-    filePickerAction(event);
-});
+let loadedCsvFilename = '';
+let convertedJsonData;
 
-function handleLoadedCSV(csvData) {
+const loadCSVButtonId = 'loadCSVButton';
+const downloadButtonId = 'downloadButton';
+
+document.getElementById(loadCSVButtonId).addEventListener('click', handleLoadCSVButtonClick);
+document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
+document.getElementById(downloadButtonId).addEventListener('click', handleDownloadJsonButtonClick);
+
+
+
+
+
+/*----------------------------------------
+  ACTION HANDLERS
+  --------------------------------------*/
+
+function handleLoadCSVButtonClick(event) {
+    document.getElementById('filePicker').click();
+}
+
+function handleFilePickerChange(event) {
+    //TODO: handle errors
+
+    const file = event.target.files[0];
+    if (file) {
+        loadedCsvFilename = file.name;
+        showFilename(loadedCsvFilename);
+        loadCSVFile(file, handleCsvLoaded);
+    } else {
+        showFilename('No file selected');
+        showDataViewer('');
+    }
+}
+
+function handleCsvLoaded(csvData) {
     console.log('handle loaded CSV data');
+
+    hideLoadCSVButton();
+    showDownloadButton();
 
     //display csv data as table
     // const dataPresentationHTML = renderCSVDataAsTable(csvData);
 
     //process loaded data to structured data model
-    const jsonData = csvToJson(csvData);
-    const dataPresentationHTML = renderDataAsRawJson(jsonData);
+    convertedJsonData = csvToJson(csvData);
+    const dataPresentationHTML = renderDataAsRawJson(convertedJsonData);
 
     showDataViewer(dataPresentationHTML);
 }
 
+function handleDownloadJsonButtonClick(event) {
+    const jsonString = JSON.stringify(convertedJsonData);
+    const downloadFilename = convertCSVFilenameToJsonFilename(loadedCsvFilename);
 
+    const link = setupDownloadLink(jsonString, downloadFilename);
+    link.click();
+}
 
-
-
+function convertCSVFilenameToJsonFilename(csvFilename) {
+    return csvFilename.split('.')[0] + '.json';
+}
 
 
 
@@ -141,19 +183,8 @@ function rowIsValid(row, headers) {
 
 
 /*----------------------------------------
-  FILE HANDLING
+  FILE LOADING
   --------------------------------------*/
-
-function filePickerAction(event) {
-    const file = event.target.files[0];
-    if (file) {
-        showFilename(file.name);
-        loadCSVFile(file, handleLoadedCSV);
-    } else {
-        showFilename('No file selected');
-        showDataViewer('');
-    }
-}
 
 function loadCSVFile(file, csvDataHandler) {
     const reader = new FileReader();
@@ -169,12 +200,36 @@ function loadCSVFile(file, csvDataHandler) {
 
 
 /*----------------------------------------
+  JSON DOWNLOADING
+  --------------------------------------*/
+
+function setupDownloadLink(jsonString, downloadFilename) {
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = downloadFilename;
+
+    return link;
+}
+
+
+
+
+
+
+/*----------------------------------------
   PRESENTATION LOGIC
   --------------------------------------*/
 
 function renderDataAsRawJson(jsonObject) {
     console.log('jsonData (unprocessed): ', jsonObject);
-    return JSON.stringify(jsonObject, null, 2);
+    const dataContent = JSON.stringify(jsonObject, null, 2);
+    const title = "<hr><h3>JSON Preview</h3><br>";
+
+    const htmlContent = '' + title + dataContent;
+    return htmlContent;
 }
 
 function renderCSVDataAsTable(csvData) {
@@ -195,6 +250,14 @@ function renderCSVDataAsTable(csvData) {
     return tableHTML;
 }
 
+function hideLoadCSVButton() {
+    document.getElementById(loadCSVButtonId).style.display = 'none';
+}
+
+function showDownloadButton() {
+    document.getElementById(downloadButtonId).style.display = 'block';
+}
+
 function showDataViewer(htmlContent) {
     const elementId = 'dataViewer';
     document.getElementById(elementId).innerHTML = htmlContent;
@@ -202,5 +265,6 @@ function showDataViewer(htmlContent) {
 
 function showFilename(filename) {
     console.log('display filename: ', filename);
-    document.getElementById('fileName').textContent = filename;
+    const contentHTML = 'CSV file: ' + filename;
+    document.getElementById('fileName').textContent = contentHTML;
 }
