@@ -225,7 +225,8 @@ function setupDownloadLink(jsonString, downloadFilename) {
 
 function renderDataAsRawJson(jsonObject) {
     console.log('jsonData (unprocessed): ', jsonObject);
-    const dataContent = JSON.stringify(jsonObject, null, 2);
+    const jsonString = JSON.stringify(jsonObject, null, 2);
+    const dataContent = "<pre>" + jsonString + "</pre>";
     const title = "<hr><h3>JSON Preview</h3><br>";
 
     const htmlContent = '' + title + dataContent;
