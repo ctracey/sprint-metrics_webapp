@@ -1,12 +1,15 @@
 let loadedJsonFilename = '';
 let loadedJson;
+let jirifiedJson;
 
 const loadJsonButtonId = 'loadJsonButton';
 const convertButtonId = 'convertButton';
+const downloadButtonId = 'downloadButton';
 
 document.getElementById(loadJsonButtonId).addEventListener('click', handleLoadJsonButtonClick);
 document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
 document.getElementById(convertButtonId).addEventListener('click', handleconvertButtonClick);
+document.getElementById(downloadButtonId).addEventListener('click', handleDownloadJsonButtonClick);
 
 
 
@@ -61,9 +64,18 @@ function handleconvertButtonClick(event) {
     const dataPresentationHTML = renderDataAsRawJson(jirifiedJson);
 
     showDataViewer(dataPresentationHTML);
-    
-    //TODO: enable download
-    // // showDownloadButton();
+    showDownloadButton();
+}
+
+function handleDownloadJsonButtonClick(event) {
+    const jsonString = JSON.stringify(jirifiedJson);
+
+    const link = setupDownloadLink(jsonString, downloadFileName());
+    link.click();
+}
+
+function downloadFileName() {
+    return loadedJsonFilename.split('.')[0] + '_jirified.json';
 }
 
 
@@ -144,6 +156,24 @@ function loadJSONFile(file, dataHandler) {
 
 
 /*----------------------------------------
+  JSON DOWNLOADING
+  --------------------------------------*/
+
+function setupDownloadLink(jsonString, downloadFilename) {
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = downloadFilename;
+
+    return link;
+}
+
+
+
+
+/*----------------------------------------
   PRESENTATION LOGIC
   --------------------------------------*/
 
@@ -207,6 +237,10 @@ function showConvertButton() {
 
 function hideConvertButton() {
     document.getElementById(convertButtonId).style.display = 'none';
+}
+
+function showDownloadButton() {
+    document.getElementById(downloadButtonId).style.display = 'block';
 }
 
 function showDataViewer(htmlContent) {
