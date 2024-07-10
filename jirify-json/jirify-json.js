@@ -1,3 +1,5 @@
+//needs defaultWorkitemModelDefinition.js to be sourced in html
+
 let loadedJsonFilename = '';
 let loadedJson;
 let jirifiedJson;
@@ -46,7 +48,7 @@ function handleJsonLoaded(loadedJsonText) {
     loadedJson = JSON.parse(loadedJsonText);
     console.log(loadedJson);
 
-    const workItemModelDefinition = defaultWorkitemModelDefinition();
+    const workItemModelDefinition = workitemModelDefinition();
     const loadedWorkitemAttributes = scanWorkitemAttributes(loadedJson);
 
     //TODO: enable config changes checkboxes   
@@ -57,10 +59,7 @@ function handleJsonLoaded(loadedJsonText) {
 function handleconvertButtonClick(event) {
     hideConvertButton();
 
-    //process loaded json to data model representing jira workitems
     jirifiedJson = jsonToJiraWorkitems();
-
-    //Preview Jirified Json
     const dataPresentationHTML = renderDataAsRawJson(jirifiedJson);
 
     showDataViewer(dataPresentationHTML);
@@ -85,14 +84,14 @@ function downloadFileName() {
   DATA PROCESSING
   --------------------------------------*/
 
-function defaultWorkitemModelDefinition() {
-    //TODO: load from relative json file
-    return {
-        attributes: [
-            'id',
-            'labels'
-        ]
-    };
+function workitemModelDefinition() {
+    return getDefaultWorkitemModelDefinition();
+}
+
+function getDefaultWorkitemModelDefinition() {
+    //value set by including defaultWorkitemModelDefinition.js in html where this js script is used
+    console.log('defaultWorkitemModelDefinition:', defaultWorkitemModelDefinition);
+    return defaultWorkitemModelDefinition;
 }
 
 function scanWorkitemAttributes(workitemsJson) {
@@ -111,7 +110,6 @@ function scanWorkitemAttributes(workitemsJson) {
 }
 
 function jsonToJiraWorkitems() {
-    // - keep only chosen attributes
     let jiraWorkitems = [];
 
     loadedJson.forEach(function(jsonObject) {
@@ -125,9 +123,10 @@ function jsonToJiraWorkitems() {
 function jsonToJiraWorkitem(jsonObject) {
     let jiraWorkitem = {};
 
-    let modelDefinition = defaultWorkitemModelDefinition();
+    let modelDefinition = workitemModelDefinition();
     let attributes = modelDefinition.attributes;
     
+    //only keep attributes in model definition
     attributes.forEach(function(attribute) {
         jiraWorkitem[attribute] = jsonObject[attribute];
     });
