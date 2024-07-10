@@ -49,7 +49,7 @@ function handleJsonLoaded(loadedJsonText) {
     const workItemModelDefinition = defaultWorkitemModelDefinition();
     const loadedWorkitemAttributes = scanWorkitemAttributes(loadedJson);
 
-    //TODO: enable config changes checkboxes    
+    //TODO: enable config changes checkboxes   
     showWorkItemChangesPreview(workItemModelDefinition, loadedWorkitemAttributes);
     showConvertButton();
 }
@@ -125,7 +125,6 @@ function jsonToJiraWorkitems() {
 function jsonToJiraWorkitem(jsonObject) {
     let jiraWorkitem = {};
 
-    //TODO: handle object missing attribute
     let modelDefinition = defaultWorkitemModelDefinition();
     let attributes = modelDefinition.attributes;
     
@@ -180,17 +179,9 @@ function setupDownloadLink(jsonString, downloadFilename) {
 function showWorkItemChangesPreview(workitemModelDefinition, availableAttributes) {
     let attributeChanges = [];
     availableAttributes.forEach(function (attribute) {
-        if (workitemModelDefinition.attributes.includes(attribute)) {
-            console.log(`[x] ${attribute}`);
-
-            let attributePreview = `[x] ${attribute}`;
-            attributeChanges.push(attributePreview);
-        } else {
-            console.log(`[ ] ${attribute}`);
-
-            let attributePreview = `[ ] ${attribute}`;
-            attributeChanges.push(attributePreview);
-        }
+        let keepingAttribute = workitemModelDefinition.attributes.includes(attribute);
+        attributeChange = renderAttributeChangeItem(attribute, keepingAttribute);
+        attributeChanges.push(attributeChange);
     });
 
     let previewHTML = `
@@ -208,6 +199,11 @@ function showWorkItemChangesPreview(workitemModelDefinition, availableAttributes
     `;
 
     showDataViewer(previewHTML);
+}
+
+function renderAttributeChangeItem(attribute, keepingAttribute) {
+    let checked = keepingAttribute ? 'x' : '';
+    return `[${checked}] ${attribute}`;
 }
 
 function renderDataAsRawJson(jsonObject) {
