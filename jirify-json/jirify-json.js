@@ -40,16 +40,43 @@ function handleJsonLoaded(loadedJsonText) {
     const loadedJson = JSON.parse(loadedJsonText);
     console.log(loadedJson);
 
-    //display csv data as table
-    // const dataPresentationHTML = renderCSVDataAsTable(csvData);
+    configDataChanges(loadedJson);
 
-    //process loaded data to structured data model
-    // convertedJsonData = csvToJson(csvData);
-    const dataPresentationHTML = renderDataAsRawJson(loadedJson);
+    //process loaded json to data model representing jira workitems
+    //TODO: trigger this on user config confirmation
+    jirifiedJson = jsonToJiraWorkitems(loadedJson);
+
+
+    //Preview Jirified Json
+    const dataPresentationHTML = renderDataAsRawJson(jirifiedJson);
 
     showDataViewer(dataPresentationHTML);
     // showDownloadButton();
 }
+
+
+
+/*----------------------------------------
+  DATA PROCESSING
+  --------------------------------------*/
+
+function configDataChanges(loadedJson) {
+	//TODO: preview changes based on default json config
+    // - show items to keep
+    // - show items config as collections
+
+    //TODO: enable config changes
+    // - 2 checkboxes per workitem attribute
+}
+
+function jsonToJiraWorkitems(loadedJson) {
+	//TODO: convert to workitem structure
+    // - keep only chosen attributes
+    // - ensure collection items are collections, even if only single value exists in current dataset
+
+    return loadedJson;
+}
+
 
 
 
@@ -77,7 +104,7 @@ function renderDataAsRawJson(jsonObject) {
     console.log('jsonData (unprocessed): ', jsonObject);
     const jsonString = JSON.stringify(jsonObject, null, 2);
     const dataContent = "<pre>" + jsonString + "</pre>";
-    const title = "<hr><h3>JSON Preview</h3><br>";
+    const title = "<hr><h3>Jirified JSON Preview</h3><br>";
 
     const htmlContent = '' + title + dataContent;
     return htmlContent;
