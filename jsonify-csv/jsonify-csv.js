@@ -25,8 +25,11 @@ function handleFilePickerChange(event) {
 
     const file = event.target.files[0];
     if (file) {
+        hideLoadCSVButton();
+
         loadedCsvFilename = file.name;
         showFilename(loadedCsvFilename);
+
         loadCSVFile(file, handleCsvLoaded);
     } else {
         showFilename('No file selected');
@@ -37,9 +40,6 @@ function handleFilePickerChange(event) {
 function handleCsvLoaded(csvData) {
     console.log('handle loaded CSV data');
 
-    hideLoadCSVButton();
-    showDownloadButton();
-
     //display csv data as table
     // const dataPresentationHTML = renderCSVDataAsTable(csvData);
 
@@ -48,6 +48,7 @@ function handleCsvLoaded(csvData) {
     const dataPresentationHTML = renderDataAsRawJson(convertedJsonData);
 
     showDataViewer(dataPresentationHTML);
+    showDownloadButton();
 }
 
 function handleDownloadJsonButtonClick(event) {
