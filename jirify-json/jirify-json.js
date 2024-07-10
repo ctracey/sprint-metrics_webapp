@@ -1,9 +1,12 @@
 let loadedJsonFilename = '';
+let loadedJson;
 
 const loadJsonButtonId = 'loadJsonButton';
+const convertButtonId = 'convertButton';
 
 document.getElementById(loadJsonButtonId).addEventListener('click', handleLoadJsonButtonClick);
 document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
+document.getElementById(convertButtonId).addEventListener('click', handleconvertButtonClick);
 
 
 
@@ -37,18 +40,112 @@ function handleFilePickerChange(event) {
 function handleJsonLoaded(loadedJsonText) {
     console.log('handle loaded Json data');
 
-    const loadedJson = JSON.parse(loadedJsonText);
+    loadedJson = JSON.parse(loadedJsonText);
     console.log(loadedJson);
 
     const workItemModelDefinition = defaultWorkitemModelDefinition();
     const loadedWorkitemAttributes = scanWorkitemAttributes(loadedJson);
 
+    //TODO: enable config changes checkboxes    
     showWorkItemChangesPreview(workItemModelDefinition, loadedWorkitemAttributes);
-
-
-    //TODO: enable config changes
-    // - checkboxes per workitem attribute    
+    showConvertButton();
 }
+
+function handleconvertButtonClick(event) {
+    hideConvertButton();
+
+    //process loaded json to data model representing jira workitems
+    jirifiedJson = jsonToJiraWorkitems();
+
+    //Preview Jirified Json
+    const dataPresentationHTML = renderDataAsRawJson(jirifiedJson);
+
+    showDataViewer(dataPresentationHTML);
+    
+    //TODO: enable download
+    // // showDownloadButton();
+}
+
+
+
+
+/*----------------------------------------
+  DATA PROCESSING
+  --------------------------------------*/
+
+function defaultWorkitemModelDefinition() {
+    //TODO: load from relative json file
+    return {
+        attributes: [
+            'id',
+            'labels'
+        ]
+    };
+}
+
+function scanWorkitemAttributes(workitemsJson) {
+    let scannedAttributes = [];
+
+    workitemsJson.forEach(function(workitem) {
+        workitemAttributes = Object.keys(workitem);
+        workitemAttributes.forEach(function(attribute) {
+            if (!scannedAttributes.includes(attribute)) {
+                scannedAttributes.push(attribute);
+            }
+        });
+    });
+
+    return scannedAttributes;
+}
+
+function jsonToJiraWorkitems() {
+    // - keep only chosen attributes
+    let jiraWorkitems = [];
+
+    loadedJson.forEach(function(jsonObject) {
+        let jiraWorkitem = jsonToJiraWorkitem(jsonObject);
+        jiraWorkitems.push(jiraWorkitem);
+    });
+
+    return jiraWorkitems;
+}
+
+function jsonToJiraWorkitem(jsonObject) {
+    let jiraWorkitem = {};
+
+    //TODO: handle object missing attribute
+    let modelDefinition = defaultWorkitemModelDefinition();
+    let attributes = modelDefinition.attributes;
+    
+    attributes.forEach(function(attribute) {
+        jiraWorkitem[attribute] = jsonObject[attribute];
+    });
+
+    return jiraWorkitem;
+}
+
+
+
+
+/*----------------------------------------
+  FILE LOADING
+  --------------------------------------*/
+
+function loadJSONFile(file, dataHandler) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const contents = e.target.result;
+        dataHandler(contents);
+    };
+    reader.readAsText(file);
+}
+
+
+
+
+/*----------------------------------------
+  PRESENTATION LOGIC
+  --------------------------------------*/
 
 function showWorkItemChangesPreview(workitemModelDefinition, availableAttributes) {
     let attributeChanges = [];
@@ -83,79 +180,6 @@ function showWorkItemChangesPreview(workitemModelDefinition, availableAttributes
     showDataViewer(previewHTML);
 }
 
-function handleConvertAction() {
-    // //process loaded json to data model representing jira workitems
-    // //TODO: trigger this on user config confirmation
-    // jirifiedJson = jsonToJiraWorkitems(loadedJson);
-
-
-    // //Preview Jirified Json
-    // const dataPresentationHTML = renderDataAsRawJson(jirifiedJson);
-
-    // showDataViewer(dataPresentationHTML);
-    // // showDownloadButton();
-}
-
-/*----------------------------------------
-  DATA PROCESSING
-  --------------------------------------*/
-
-function defaultWorkitemModelDefinition() {
-    //TODO: load from relative json file
-    return {
-        attributes: [
-            'id',
-            'labels'
-        ]
-    };
-}
-
-function scanWorkitemAttributes(workitemsJson) {
-    let scannedAttributes = [];
-
-    workitemsJson.forEach(function(workitem) {
-        workitemAttributes = Object.keys(workitem);
-        workitemAttributes.forEach(function(attribute) {
-            if (!scannedAttributes.includes(attribute)) {
-                scannedAttributes.push(attribute);
-            }
-        });
-    });
-
-    return scannedAttributes;
-}
-
-function jsonToJiraWorkitems(loadedJson) {
-	//TODO: convert to workitem structure
-    // - keep only chosen attributes
-    // - ensure collection items are collections, even if only single value exists in current dataset
-
-    return loadedJson;
-}
-
-
-
-
-/*----------------------------------------
-  FILE LOADING
-  --------------------------------------*/
-
-function loadJSONFile(file, dataHandler) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const contents = e.target.result;
-        dataHandler(contents);
-    };
-    reader.readAsText(file);
-}
-
-
-
-
-/*----------------------------------------
-  PRESENTATION LOGIC
-  --------------------------------------*/
-
 function renderDataAsRawJson(jsonObject) {
     console.log('jsonData (unprocessed): ', jsonObject);
 
@@ -175,6 +199,14 @@ function renderDataAsRawJson(jsonObject) {
 
 function hideLoadCSVButton() {
     document.getElementById(loadJsonButtonId).style.display = 'none';
+}
+
+function showConvertButton() {
+    document.getElementById(convertButtonId).style.display = 'block';
+}
+
+function hideConvertButton() {
+    document.getElementById(convertButtonId).style.display = 'none';
 }
 
 function showDataViewer(htmlContent) {
