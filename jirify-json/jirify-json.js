@@ -102,11 +102,18 @@ function loadJSONFile(file, dataHandler) {
 
 function renderDataAsRawJson(jsonObject) {
     console.log('jsonData (unprocessed): ', jsonObject);
-    const jsonString = JSON.stringify(jsonObject, null, 2);
-    const dataContent = "<pre>" + jsonString + "</pre>";
-    const title = "<hr><h3>Jirified JSON Preview</h3><br>";
 
-    const htmlContent = '' + title + dataContent;
+    const jsonString = JSON.stringify(jsonObject, null, 2);
+
+    const htmlContent = `
+        <div class='json-preview'>
+            <hr>
+            <span class='sub-title'>Jirified</span>
+            
+            <pre class='json-data'>${jsonString}</pre>
+        </div>
+    `;
+
     return htmlContent;
 }
 

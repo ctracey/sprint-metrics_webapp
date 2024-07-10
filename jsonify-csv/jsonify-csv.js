@@ -110,7 +110,7 @@ function csvRowToJson(csvRow, attributeMap) {
     for (let cellIndex = 0; cellIndex < headers.length; cellIndex++) {
         const cellValue = csvRow[cellIndex];
 
-        if (!(cellValue === "")) {
+        if (!(cellValue === '')) {
             const attribute = headers[cellIndex];
             if (attributeIsCollection(attribute, attributeMap)) {
                 jsonObject[attribute].push(cellValue);
@@ -227,16 +227,22 @@ function setupDownloadLink(jsonString, downloadFilename) {
 function renderDataAsRawJson(jsonObject) {
     console.log('jsonData (unprocessed): ', jsonObject);
     const jsonString = JSON.stringify(jsonObject, null, 2);
-    const dataContent = "<pre>" + jsonString + "</pre>";
-    const title = "<hr><h3>JSON Preview</h3><br>";
 
-    const htmlContent = '' + title + dataContent;
+    const htmlContent = `
+        <div class='json-preview'>
+            <hr>
+            <span class='sub-title'>JSON Preview</span>
+
+            <pre class='json-data'>${jsonString}</pre>
+        </div>
+    `;
+    
     return htmlContent;
 }
 
 function renderCSVDataAsTable(csvData) {
     const rows = csvData.split('\n');
-    let tableHTML = '<table border="1">';
+    let tableHTML = "<table border='1'>";
     
     rows.forEach(row => {
         tableHTML += '<tr>';

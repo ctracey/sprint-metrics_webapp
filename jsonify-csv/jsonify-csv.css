@@ -1,4 +1,39 @@
 body {
-	background-color: #000;
+	background-color: #181818;
+
+	font-family: sans-serif;
+	color: #b3b3b3;
+}
+
+.title {
 	color: #FFF;
+	font-size: 3em;
+	display: block;
+
+	padding-top: 0.5em;
+	padding-bottom: 0.2em;
+}
+
+.sub-title {
+	font-size: 1.5em;
+}
+
+.properties {
+	padding-top: 3em;
+}
+
+.controls {
+	padding-top: 3em;
+}
+
+.json-preview {
+	padding-top: 3em;
+}
+
+.json-data {
+	color: #8899a6;
+	background-color: #282828;
+
+	margin:1em;
+	padding: 0.5em;
 }

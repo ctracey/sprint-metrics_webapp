@@ -1,27 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 
-    <link rel="stylesheet" href="jsonify-csv.css">
+    <link rel='stylesheet' href='jsonify-csv.css'>
 
     <title>Jsonify CSV</title>
 </head>
 <body>
-    <h1>Convert CSV to JSON</h1>
+    <div>
+        <span class='title'>Jsonify CSV</span>
+        <span class='sub-title'>Convert CSV to JSON</span>
+    </div>
     
-    <button id="loadCSVButton" title="select CSV file to convert to JSON">load CSV</button>
-    <input type="file" id="filePicker" accept=".csv" style="display:none">
+    <div class='properties'>
+        <span id='fileName'></span>
+    </div>
 
-    <span id="fileName"></span>
+    <div class='controls'>
+        <button id='loadCSVButton' title='select CSV file to convert to JSON'>load CSV</button>
+        <input type='file' id='filePicker' accept='.csv' style='display:none'>    
 
-    <br><br>
-    <button id="downloadButton" style="display:none">download JSON</button>
+        <button id='downloadButton' style='display:none'>download JSON</button>
+    </div>
+    
+    <div id='dataViewer'></div>
 
-    <br>
-    <div id="dataViewer"></div>
-
-    <script src="jsonify-csv.js"></script>
+    <script src='jsonify-csv.js'></script>
 </body>
 </html>
