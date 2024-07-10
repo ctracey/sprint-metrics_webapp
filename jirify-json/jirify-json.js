@@ -40,33 +40,89 @@ function handleJsonLoaded(loadedJsonText) {
     const loadedJson = JSON.parse(loadedJsonText);
     console.log(loadedJson);
 
-    configDataChanges(loadedJson);
+    const workItemModelDefinition = defaultWorkitemModelDefinition();
+    const loadedWorkitemAttributes = scanWorkitemAttributes(loadedJson);
 
-    //process loaded json to data model representing jira workitems
-    //TODO: trigger this on user config confirmation
-    jirifiedJson = jsonToJiraWorkitems(loadedJson);
+    showWorkItemChangesPreview(workItemModelDefinition, loadedWorkitemAttributes);
 
 
-    //Preview Jirified Json
-    const dataPresentationHTML = renderDataAsRawJson(jirifiedJson);
-
-    showDataViewer(dataPresentationHTML);
-    // showDownloadButton();
+    //TODO: enable config changes
+    // - checkboxes per workitem attribute    
 }
 
+function showWorkItemChangesPreview(workitemModelDefinition, availableAttributes) {
+    let attributeChanges = [];
+    availableAttributes.forEach(function (attribute) {
+        if (workitemModelDefinition.attributes.includes(attribute)) {
+            console.log(`[x] ${attribute}`);
 
+            let attributePreview = `[x] ${attribute}`;
+            attributeChanges.push(attributePreview);
+        } else {
+            console.log(`[ ] ${attribute}`);
+
+            let attributePreview = `[ ] ${attribute}`;
+            attributeChanges.push(attributePreview);
+        }
+    });
+
+    let previewHTML = `
+        <div>
+            <hr>
+            <span class='sub-title'>Workitem Changes Preview</span>
+            <span class='heading'>attributes to keep:</span>
+
+            <div class='attribute-preview'>
+                <ul class='attributeChangesPreviewList'>
+                    <li>${attributeChanges.join('</li><li>')}</li>
+                </ul>
+            </div>
+        </div>
+    `;
+
+    showDataViewer(previewHTML);
+}
+
+function handleConvertAction() {
+    // //process loaded json to data model representing jira workitems
+    // //TODO: trigger this on user config confirmation
+    // jirifiedJson = jsonToJiraWorkitems(loadedJson);
+
+
+    // //Preview Jirified Json
+    // const dataPresentationHTML = renderDataAsRawJson(jirifiedJson);
+
+    // showDataViewer(dataPresentationHTML);
+    // // showDownloadButton();
+}
 
 /*----------------------------------------
   DATA PROCESSING
   --------------------------------------*/
 
-function configDataChanges(loadedJson) {
-	//TODO: preview changes based on default json config
-    // - show items to keep
-    // - show items config as collections
+function defaultWorkitemModelDefinition() {
+    //TODO: load from relative json file
+    return {
+        attributes: [
+            'id',
+            'labels'
+        ]
+    };
+}
 
-    //TODO: enable config changes
-    // - 2 checkboxes per workitem attribute
+function scanWorkitemAttributes(workitemsJson) {
+    let scannedAttributes = [];
+
+    workitemsJson.forEach(function(workitem) {
+        workitemAttributes = Object.keys(workitem);
+        workitemAttributes.forEach(function(attribute) {
+            if (!scannedAttributes.includes(attribute)) {
+                scannedAttributes.push(attribute);
+            }
+        });
+    });
+
+    return scannedAttributes;
 }
 
 function jsonToJiraWorkitems(loadedJson) {
