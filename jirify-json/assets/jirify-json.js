@@ -90,7 +90,6 @@ function workitemModelDefinition() {
 
 function getDefaultWorkitemModelDefinition() {
     //value set by including defaultWorkitemModelDefinition.js in html where this js script is used
-    console.log('defaultWorkitemModelDefinition:', defaultWorkitemModelDefinition);
     return defaultWorkitemModelDefinition;
 }
 
