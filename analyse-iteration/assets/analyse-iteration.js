@@ -51,9 +51,10 @@ function handleJsonLoaded(loadedJsonText) {
   DATA PROCESSING
   --------------------------------------*/
 
-const workitemType_story = 'Story';
-const workitemType_task = 'Task';
-const workitemType_externalDependency = 'External Dependency';
+const WORKITEMTYPE_STORY = 'Story';
+const WORKITEMTYPE_TASK = 'Task';
+const WORKITEMTYPE_EXTERNALDEPENDENCY = 'External Dependency';
+const WORKITEMSTATUS_DONE = 'Done';
 
 const attribute_issueType = 'Issue Type';
 const attribute_storyPoints = 'Custom field (Story Points)';
@@ -115,7 +116,7 @@ function countStoryPoints(workitems) {
 
 function filterCompletedWorkItems(workitems) {
     let filter = {};
-    filter[attribute_status] = 'Done';
+    filter[attribute_status] = WORKITEMSTATUS_DONE;
 
     return filterWorkItems(workitems, filter);
 }
@@ -130,9 +131,9 @@ function filterWorkitemsByIssueType(workitems, workItemTypes) {
 function nonStructuralWorkitemTypes() {
     //TODO: configure this list
     return [
-        workitemType_story,
-        workitemType_task,
-        workitemType_externalDependency
+        WORKITEMTYPE_STORY,
+        WORKITEMTYPE_TASK,
+        WORKITEMTYPE_EXTERNALDEPENDENCY
     ];
 }
 
