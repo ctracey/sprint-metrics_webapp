@@ -67,21 +67,21 @@ function analyseIteration(allWorkitems) {
     let workitems = filterNonStructuralWorkitems(allWorkitems);
     
     let stats = {
-        points: {},
+        estimate: {},
         throughput: {}
     };
 
     //backlog size
-    stats.points.backlogSize = countStoryPoints(workitems);
+    stats.estimate.backlogSize = countStoryPoints(workitems);
     stats.throughput.backlogSize = workitems.length;
 
     //completed work
     const completedWorkitems = filterCompletedWorkItems(workitems);
-    stats.points.completedTotal = countStoryPoints(completedWorkitems);
+    stats.estimate.completedTotal = countStoryPoints(completedWorkitems);
     stats.throughput.completedTotal = completedWorkitems.length;
 
     //not completed in sprint
-    stats.points.notCompletedInSprint = notCompletedInSprint(stats.points.backlogSize, stats.points.completedTotal);
+    stats.estimate.notCompletedInSprint = notCompletedInSprint(stats.estimate.backlogSize, stats.estimate.completedTotal);
     stats.throughput.notCompletedInSprint = notCompletedInSprint(stats.throughput.backlogSize, stats.throughput.completedTotal);
 
     console.log('stats', stats);
