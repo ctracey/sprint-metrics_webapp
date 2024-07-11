@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+    <link rel='stylesheet' href='./assets/analyse-iteration.css'>
+
+    <title>Analyse Iteration</title>
+</head>
+<body>
+	<div>
+        <span class='title'>Analyse Iteration</span>
+        <span class='sub-title'>Generate stats for workitems included in a planned iteration</span> 
+    </div>
+
+    <div class='properties'>
+        <span id='fileName'></span>
+    </div>
+
+    <div class='controls'>
+        <button id='loadJsonButton' title='select JSON file to analyse'>load workitems</button>
+        <input type='file' id='filePicker' accept='.json' style='display:none'>
+    </div>
+
+    <div id='dataViewer'></div>
+
+    <script src='./assets/analyse-iteration.js'></script>
+</body>
+</html>
