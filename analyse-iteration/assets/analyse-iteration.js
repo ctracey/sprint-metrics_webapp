@@ -23,7 +23,6 @@ function handleFilePickerChange(event) {
 
     const file = event.target.files[0];
     if (file) {
-    	console.log('loaded json');
         hideLoadCSVButton();
 
         loadedJsonFilename = file.name;
@@ -37,11 +36,11 @@ function handleFilePickerChange(event) {
 }
 
 function handleJsonLoaded(loadedJsonText) {
-    console.log('handle loaded Json data');
-
+    console.log('loaded json');
+    
     iterationWorkitems = JSON.parse(loadedJsonText);
     console.log(iterationWorkitems);
-
+    
     analyseIteration(iterationWorkitems);
 }
 
@@ -54,22 +53,76 @@ function handleJsonLoaded(loadedJsonText) {
 
 const workitemType_story = 'Story';
 const workitemType_task = 'Task';
+const workitemType_externalDependency = 'External Dependency';
 
 const attribute_issueType = 'Issue Type';
+const attribute_storyPoints = 'Custom field (Story Points)';
+const attribute_status = 'Status';
 
-function analyseIteration(workitems) {
-    issueTypes = scanWorkitemTypes(workitems);
-    console.log('workitem types found: ', issueTypes);
+function analyseIteration(allWorkitems) {
+    console.log('ANALYSING work items');
+    console.log('total work items in dataset: ', allWorkitems.length);
 
-    let nonStructuralWorkitems = filterNonStructuralWorkitems(workitems);
-    //filter parent work items (epic, feature, initiative, etc)
+    let workitems = filterNonStructuralWorkitems(allWorkitems);
+    
+    let stats = {
+        points: {},
+        throughput: {}
+    };
+
+    //backlog size
+    stats.points.backlogSize = countStoryPoints(workitems);
+    stats.throughput.backlogSize = workitems.length;
+
+    //completed work
+    const completedWorkitems = filterCompletedWorkItems(workitems);
+    stats.points.completedTotal = countStoryPoints(completedWorkitems);
+    stats.throughput.completedTotal = completedWorkitems.length;
+
+    //not completed in sprint
+    stats.points.notCompletedInSprint = notCompletedInSprint(stats.points.backlogSize, stats.points.completedTotal);
+    stats.throughput.notCompletedInSprint = notCompletedInSprint(stats.throughput.backlogSize, stats.throughput.completedTotal);
+
+    console.log('stats', stats);
 }
 
-function filterNonStructuralWorkitems(workitems) {
-    console.log('Filtering nonstructural workitems: ', nonStructuralWorkitemTypes());
+function notCompletedInSprint(backlogSize, completedTotal) {
+    return backlogSize - completedTotal;
+}
 
+function filterNonStructuralWorkitems(allWorkitems) {
+    const issueTypes = scanWorkitemTypes(allWorkitems);
+    console.log('workitem types found: ', issueTypes);
+
+    let workitems = filterWorkitemsByIssueType(allWorkitems, nonStructuralWorkitemTypes());
+    console.log('Filter nonstructural workitems: ', nonStructuralWorkitemTypes());
+
+    return workitems;
+}
+
+function countStoryPoints(workitems) {
+    let count = 0;
+
+    workitems.forEach(function(workitem){
+        let storyPoints = workitem[attribute_storyPoints];
+        if (!isNaN(storyPoints)) {
+            count += Number(storyPoints);
+        }
+    });
+
+    return count;
+}
+
+function filterCompletedWorkItems(workitems) {
     let filter = {};
-    filter[attribute_issueType] = nonStructuralWorkitemTypes();
+    filter[attribute_status] = 'Done';
+
+    return filterWorkItems(workitems, filter);
+}
+
+function filterWorkitemsByIssueType(workitems, workItemTypes) {
+    let filter = {};
+    filter[attribute_issueType] = workItemTypes;
 
     return filterWorkItems(workitems, filter);
 }
@@ -78,7 +131,8 @@ function nonStructuralWorkitemTypes() {
     //TODO: configure this list
     return [
         workitemType_story,
-        workitemType_task
+        workitemType_task,
+        workitemType_externalDependency
     ];
 }
 
