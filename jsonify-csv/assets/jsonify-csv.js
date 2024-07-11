@@ -30,21 +30,19 @@ function handleFilePickerChange(event) {
         loadedCsvFilename = file.name;
         showFilename(loadedCsvFilename);
 
-        loadCSVFile(file, handleCsvLoaded);
+        parseCSVFile(file, handleCsvLoaded);
     } else {
         showFilename('No file selected');
         showDataViewer('');
     }
 }
 
-function handleCsvLoaded(csvData) {
+function handleCsvLoaded(csvRows) {
     console.log('handle loaded CSV data');
 
-    //display csv data as table
-    // const dataPresentationHTML = renderCSVDataAsTable(csvData);
-
     //process loaded data to structured data model
-    convertedJsonData = csvToJson(csvData);
+    convertedJsonData = csvToJson(csvRows);
+    console.log('convertedJsonData', convertedJsonData);
     const dataPresentationHTML = renderDataAsRawJson(convertedJsonData);
 
     showDataViewer(dataPresentationHTML);
@@ -69,13 +67,12 @@ function convertCSVFilenameToJsonFilename(csvFilename) {
   DATA PROCESSING
   --------------------------------------*/
 
-function csvToJson(csvData) {
+function csvToJson(csvRows) {
     console.log('PARSING csv data to json');
     
-    const rows = csvRows(csvData);
-    const headers = csvHeaders(rows);
+    const headers = csvHeaders(csvRows);
 
-    return csvRowsToJson(rows, headers);
+    return csvRowsToJson(csvRows, headers);
 }
 
 function csvRowsToJson(csvRows, headers) {
@@ -87,12 +84,10 @@ function csvRowsToJson(csvRows, headers) {
 
     const firstRowAfterHeaders = 1;
     for (let i = firstRowAfterHeaders; i < csvRows.length; i++) {
-        const row = csvRows[i].split(',');
+        const row = csvRows[i];
 
-        if (!rowIsValid(row, headers)) {
-            const jsonObject = csvRowToJson(row, attributeMap)
-            jsonObjectsPerRow.push(jsonObject);
-        }
+        const jsonObject = csvRowToJson(row, attributeMap)
+        jsonObjectsPerRow.push(jsonObject);
     }
 
     return jsonObjectsPerRow;
@@ -110,7 +105,8 @@ function csvRowToJson(csvRow, attributeMap) {
     for (let cellIndex = 0; cellIndex < headers.length; cellIndex++) {
         const cellValue = csvRow[cellIndex];
 
-        if (!(cellValue === '')) {
+        if (cellValue) {
+            //TODO: check undefined
             const attribute = headers[cellIndex];
             if (attributeIsCollection(attribute, attributeMap)) {
                 jsonObject[attribute].push(cellValue);
@@ -168,17 +164,8 @@ function trimDuplicateHeaderSuffix(text) {
 
 function csvHeaders(csvRows) {
     // Get the headers from the first row
-    return csvRows[0].split(',');
+    return csvRows[0];
 }
-
-function csvRows(csvData) {
-    return csvData.split('\n');
-}
-
-function rowIsValid(row, headers) {
-  return row.length !== headers.length;
-}
-
 
 
 
@@ -187,15 +174,16 @@ function rowIsValid(row, headers) {
   FILE LOADING
   --------------------------------------*/
 
-function loadCSVFile(file, csvDataHandler) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const contents = e.target.result;
-        csvDataHandler(contents);
-    };
-    reader.readAsText(file);
+function parseCSVFile(file, csvDataHandler) {
+    Papa.parse(file, {
+      header: false,
+      dynamicTyping: true,
+      complete: function(results) {
+        console.log('Parsed csv rows: ', results.data);
+        csvDataHandler(results.data);
+      }
+    });
 }
-
 
 
 
@@ -238,24 +226,6 @@ function renderDataAsRawJson(jsonObject) {
     `;
     
     return htmlContent;
-}
-
-function renderCSVDataAsTable(csvData) {
-    const rows = csvData.split('\n');
-    let tableHTML = "<table border='1'>";
-    
-    rows.forEach(row => {
-        tableHTML += '<tr>';
-        const cells = row.split(',');
-        cells.forEach(cell => {
-            tableHTML += `<td>${cell}</td>`;
-        });
-        tableHTML += '</tr>';
-    });
-    
-    tableHTML += '</table>';
-
-    return tableHTML;
 }
 
 function hideLoadCSVButton() {
