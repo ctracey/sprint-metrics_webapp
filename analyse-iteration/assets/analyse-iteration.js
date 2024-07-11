@@ -41,7 +41,85 @@ function handleJsonLoaded(loadedJsonText) {
 
     iterationWorkitems = JSON.parse(loadedJsonText);
     console.log(iterationWorkitems);
+
+    analyseIteration(iterationWorkitems);
 }
+
+
+
+
+/*----------------------------------------
+  DATA PROCESSING
+  --------------------------------------*/
+
+const workitemType_story = 'Story';
+const workitemType_task = 'Task';
+
+const attribute_issueType = 'Issue Type';
+
+function analyseIteration(workitems) {
+    issueTypes = scanWorkitemTypes(workitems);
+    console.log('workitem types found: ', issueTypes);
+
+    let nonStructuralWorkitems = filterNonStructuralWorkitems(workitems);
+    //filter parent work items (epic, feature, initiative, etc)
+}
+
+function filterNonStructuralWorkitems(workitems) {
+    console.log('Filtering nonstructural workitems: ', nonStructuralWorkitemTypes());
+
+    let filter = {};
+    filter[attribute_issueType] = nonStructuralWorkitemTypes();
+
+    return filterWorkItems(workitems, filter);
+}
+
+function nonStructuralWorkitemTypes() {
+    //TODO: configure this list
+    return [
+        workitemType_story,
+        workitemType_task
+    ];
+}
+
+function scanWorkitemTypes(workitems) {   
+    let issueTypes = [];
+
+    workitems.forEach(function(workitem) {
+        issueType = workitem[attribute_issueType];
+        if (!issueTypes.includes(issueType)) {
+            issueTypes.push(issueType);
+        }
+    });
+
+    return issueTypes;
+}
+
+function filterWorkItems(workitems, filter) {
+    let filteredWorkitems = [];
+
+    let filterAttributes = Object.keys(filter);
+
+    workitems.forEach(function(workitem) {
+        let filterMatch = true;
+
+        filterAttributes.forEach(function(attribute) {
+            workitemValue = workitem[attribute];
+
+            if (!filter[attribute].includes(workitemValue)) {
+                filterMatch = false;
+            }
+        })
+
+        if (filterMatch) {
+            filteredWorkitems.push(workitem);
+        }
+    });
+
+    return filteredWorkitems;
+}
+
+
 
 
 /*----------------------------------------
