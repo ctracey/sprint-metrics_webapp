@@ -4,9 +4,11 @@ let stats;
 
 const loadJsonButtonId = 'loadJsonButton';
 const filePickerId = 'filePicker';
+const downloadButtonId = 'downloadButton';
 
 document.getElementById(loadJsonButtonId).addEventListener('click', handleLoadJsonButtonClick);
 document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
+document.getElementById(downloadButtonId).addEventListener('click', handleDownloadJsonButtonClick);
 
 
 
@@ -44,10 +46,25 @@ function handleJsonLoaded(loadedJsonText) {
     
     analyseIteration(iterationWorkitems);
 
-    //preview stats
     showAnalysisPreview(this.stats);
+    showDownloadButton();
 }
 
+function handleDownloadJsonButtonClick(event) {
+    const jsonString = JSON.stringify(getStats());
+    console.log('jsonString', jsonString);
+
+    const link = setupDownloadLink(jsonString, downloadFileName());
+    link.click();
+}
+
+function downloadFileName() {
+    return loadedJsonFilename.split('.')[0] + '_analysis.json';
+}
+
+function getStats() {
+    return this.stats;
+}
 
 
 
@@ -198,8 +215,39 @@ function loadJSONFile(file, dataHandler) {
 
 
 /*----------------------------------------
+  JSON DOWNLOADING
+  --------------------------------------*/
+
+function setupDownloadLink(jsonString, downloadFilename) {
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = downloadFilename;
+
+    return link;
+}
+
+
+
+
+/*----------------------------------------
   PRESENTATION LOGIC
   --------------------------------------*/
+
+function hideLoadCSVButton() {
+    document.getElementById(loadJsonButtonId).style.display = 'none';
+}
+
+function showDataViewer(htmlContent) {
+    const elementId = 'dataViewer';
+    document.getElementById(elementId).innerHTML = htmlContent;
+}
+
+function showDownloadButton() {
+    document.getElementById(downloadButtonId).style.display = 'block';
+}
 
 function showAnalysisPreview(analysisStats) {
     console.log('analysisStats', analysisStats);
@@ -223,15 +271,6 @@ function renderDataAsRawJson(jsonObject, title) {
     `;
 
     return htmlContent;
-}
-
-function hideLoadCSVButton() {
-    document.getElementById(loadJsonButtonId).style.display = 'none';
-}
-
-function showDataViewer(htmlContent) {
-    const elementId = 'dataViewer';
-    document.getElementById(elementId).innerHTML = htmlContent;
 }
 
 function showFilename(filename) {
