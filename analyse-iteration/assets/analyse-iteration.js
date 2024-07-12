@@ -1,5 +1,6 @@
 let loadedJsonFilename = '';
 let iterationWorkitems;
+let stats;
 
 const loadJsonButtonId = 'loadJsonButton';
 const filePickerId = 'filePicker';
@@ -42,6 +43,9 @@ function handleJsonLoaded(loadedJsonText) {
     console.log(iterationWorkitems);
     
     analyseIteration(iterationWorkitems);
+
+    //preview stats
+    showAnalysisPreview(this.stats);
 }
 
 
@@ -66,23 +70,23 @@ function analyseIteration(allWorkitems) {
 
     let workitems = filterNonStructuralWorkitems(allWorkitems);
     
-    let stats = {
+    this.stats = {
         estimate: {},
         throughput: {}
     };
 
     //backlog size
-    stats.estimate.backlogSize = countStoryPoints(workitems);
-    stats.throughput.backlogSize = workitems.length;
+    this.stats.estimate.backlogSize = countStoryPoints(workitems);
+    this.stats.throughput.backlogSize = workitems.length;
 
     //completed work
     const completedWorkitems = filterCompletedWorkItems(workitems);
-    stats.estimate.completedTotal = countStoryPoints(completedWorkitems);
-    stats.throughput.completedTotal = completedWorkitems.length;
+    this.stats.estimate.completedTotal = countStoryPoints(completedWorkitems);
+    this.stats.throughput.completedTotal = completedWorkitems.length;
 
     //not completed in sprint
-    stats.estimate.notCompletedInSprint = notCompletedInSprint(stats.estimate.backlogSize, stats.estimate.completedTotal);
-    stats.throughput.notCompletedInSprint = notCompletedInSprint(stats.throughput.backlogSize, stats.throughput.completedTotal);
+    this.stats.estimate.notCompletedInSprint = notCompletedInSprint(this.stats.estimate.backlogSize, this.stats.estimate.completedTotal);
+    this.stats.throughput.notCompletedInSprint = notCompletedInSprint(this.stats.throughput.backlogSize, this.stats.throughput.completedTotal);
 
     console.log('stats', stats);
 }
@@ -196,6 +200,30 @@ function loadJSONFile(file, dataHandler) {
 /*----------------------------------------
   PRESENTATION LOGIC
   --------------------------------------*/
+
+function showAnalysisPreview(analysisStats) {
+    console.log('analysisStats', analysisStats);
+    let previewHTML = renderDataAsRawJson(analysisStats, 'Analysis Preview');
+
+    showDataViewer(previewHTML);
+}
+
+function renderDataAsRawJson(jsonObject, title) {
+    console.log('jsonData: ', jsonObject);
+
+    const jsonString = JSON.stringify(jsonObject, null, 2);
+
+    const htmlContent = `
+        <div class='json-preview'>
+            <hr>
+            <span class='sub-title'>${title}</span>
+            
+            <pre class='json-data'>${jsonString}</pre>
+        </div>
+    `;
+
+    return htmlContent;
+}
 
 function hideLoadCSVButton() {
     document.getElementById(loadJsonButtonId).style.display = 'none';
