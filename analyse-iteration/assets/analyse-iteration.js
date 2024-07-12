@@ -46,12 +46,13 @@ function handleJsonLoaded(loadedJsonText) {
     
     analyseIteration(iterationWorkitems);
 
-    showAnalysisPreview(this.stats);
+    showAnalysisPreview(getFlattenedStats());
+
     showDownloadButton();
 }
 
 function handleDownloadJsonButtonClick(event) {
-    const jsonString = JSON.stringify(getStats());
+    const jsonString = JSON.stringify(getFlattenedStats(getStats()));
     console.log('jsonString', jsonString);
 
     const link = setupDownloadLink(jsonString, downloadFileName());
@@ -62,9 +63,6 @@ function downloadFileName() {
     return loadedJsonFilename.split('.')[0] + '_analysis.json';
 }
 
-function getStats() {
-    return this.stats;
-}
 
 
 
@@ -80,6 +78,15 @@ const WORKITEMSTATUS_DONE = 'Done';
 const attribute_issueType = 'Issue Type';
 const attribute_storyPoints = 'Custom field (Story Points)';
 const attribute_status = 'Status';
+
+
+function getStats() {
+    return this.stats;
+}
+
+function getFlattenedStats() {
+    return flattenJSON(getStats());
+}
 
 function analyseIteration(allWorkitems) {
     console.log('ANALYSING work items');
@@ -193,6 +200,18 @@ function filterWorkItems(workitems, filter) {
     });
 
     return filteredWorkitems;
+}
+
+function flattenJSON(obj, prefix = '') {
+  return Object.keys(obj).reduce((acc, key) => {
+    const pre = prefix.length ? prefix + '_' : '';
+    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+      Object.assign(acc, flattenJSON(obj[key], pre + key));
+    } else {
+      acc[pre + key] = obj[key];
+    }
+    return acc;
+  }, {});
 }
 
 
