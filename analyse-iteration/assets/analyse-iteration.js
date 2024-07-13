@@ -46,7 +46,8 @@ function handleJsonLoaded(loadedJsonText) {
     
     analyseIteration(iterationWorkitems);
 
-    showAnalysisPreview(getFlattenedStats());
+    // showAnalysisPreview(getFlattenedStats());
+    showAnalysisPreview(getStats());
 
     showDownloadButton();
 }
@@ -75,9 +76,11 @@ const WORKITEMTYPE_TASK = 'Task';
 const WORKITEMTYPE_EXTERNALDEPENDENCY = 'External Dependency';
 const WORKITEMSTATUS_DONE = 'Done';
 
-const attribute_issueType = 'Issue Type';
-const attribute_storyPoints = 'Custom field (Story Points)';
-const attribute_status = 'Status';
+const ATTRIBUTE_ISSUETYPE = 'Issue Type';
+const ATTRIBUTE_STORYPOINTS = 'Custom field (Story Points)';
+const ATTRIBUTE_STATUS = 'Status';
+const ATTRIBUTE_LABELS = 'Labels';
+const ATTRIBUTE_COMPONENTS = 'Components';
 
 
 function getStats() {
@@ -94,25 +97,57 @@ function analyseIteration(allWorkitems) {
 
     let workitems = filterNonStructuralWorkitems(allWorkitems);
     
-    this.stats = {
+    this.stats = {};
+
+    this.stats.sprintOverview = analyseSprintOverview(workitems);
+    this.stats.labels = analyseLabels(workitems);
+    this.stats.components = analyseComponents(workitems);
+
+    console.log('stats', this.stats);
+}
+
+function analyseSprintOverview(workitems){
+    let sprintOverview = {
         estimate: {},
         throughput: {}
     };
 
     //backlog size
-    this.stats.estimate.backlogSize = countStoryPoints(workitems);
-    this.stats.throughput.backlogSize = workitems.length;
+    sprintOverview.estimate.backlogSize = countStoryPoints(workitems);
+    sprintOverview.throughput.backlogSize = workitems.length;
 
     //completed work
     const completedWorkitems = filterCompletedWorkItems(workitems);
-    this.stats.estimate.completedTotal = countStoryPoints(completedWorkitems);
-    this.stats.throughput.completedTotal = completedWorkitems.length;
+    sprintOverview.estimate.completedTotal = countStoryPoints(completedWorkitems);
+    sprintOverview.throughput.completedTotal = completedWorkitems.length;
 
     //not completed in sprint
-    this.stats.estimate.notCompletedInSprint = notCompletedInSprint(this.stats.estimate.backlogSize, this.stats.estimate.completedTotal);
-    this.stats.throughput.notCompletedInSprint = notCompletedInSprint(this.stats.throughput.backlogSize, this.stats.throughput.completedTotal);
+    sprintOverview.estimate.notCompletedInSprint = notCompletedInSprint(sprintOverview.estimate.backlogSize, sprintOverview.estimate.completedTotal);
+    sprintOverview.throughput.notCompletedInSprint = notCompletedInSprint(sprintOverview.throughput.backlogSize, sprintOverview.throughput.completedTotal);
 
-    console.log('stats', stats);
+    return sprintOverview;
+}
+
+function analyseLabels(workitems) {
+    return analyseAttribute(workitems, ATTRIBUTE_LABELS);
+}
+
+function analyseComponents(workitems) {
+    return analyseAttribute(workitems, ATTRIBUTE_COMPONENTS);
+}
+
+function analyseAttribute(workitems, attribute) {
+    let analysis = {};
+    
+    scanWorkitemAttributeValues(workitems, attribute).forEach(function(value) {
+        filtered_workitems = filterByAttributeValue(workitems, attribute, value);
+        analysis[value] = {
+            count: filtered_workitems.length,
+            storyPoints: countStoryPoints(filtered_workitems)
+        }
+    });
+
+    return analysis;
 }
 
 function notCompletedInSprint(backlogSize, completedTotal) {
@@ -133,7 +168,7 @@ function countStoryPoints(workitems) {
     let count = 0;
 
     workitems.forEach(function(workitem){
-        let storyPoints = workitem[attribute_storyPoints];
+        let storyPoints = workitem[ATTRIBUTE_STORYPOINTS];
         if (!isNaN(storyPoints)) {
             count += Number(storyPoints);
         }
@@ -144,14 +179,22 @@ function countStoryPoints(workitems) {
 
 function filterCompletedWorkItems(workitems) {
     let filter = {};
-    filter[attribute_status] = WORKITEMSTATUS_DONE;
+    filter[ATTRIBUTE_STATUS] = WORKITEMSTATUS_DONE;
 
     return filterWorkItems(workitems, filter);
 }
 
 function filterWorkitemsByIssueType(workitems, workItemTypes) {
     let filter = {};
-    filter[attribute_issueType] = workItemTypes;
+    filter[ATTRIBUTE_ISSUETYPE] = workItemTypes;
+
+    return filterWorkItems(workitems, filter);
+}
+
+function filterByAttributeValue(workitems, attribute, value) {
+    console.log(`#filterByAttributeValue: ${attribute}:${value}`)
+    let filter = {};
+    filter[attribute] = value;
 
     return filterWorkItems(workitems, filter);
 }
@@ -166,16 +209,28 @@ function nonStructuralWorkitemTypes() {
 }
 
 function scanWorkitemTypes(workitems) {   
-    let issueTypes = [];
+    return scanWorkitemAttributeValues(workitems, ATTRIBUTE_ISSUETYPE);
+}
+
+function scanWorkitemAttributeValues(workitems, attribute) {   
+    let attributeValues = [];
 
     workitems.forEach(function(workitem) {
-        issueType = workitem[attribute_issueType];
-        if (!issueTypes.includes(issueType)) {
-            issueTypes.push(issueType);
+        workitemValue = workitem[attribute];
+        if (Array.isArray(workitemValue)) {
+            workitemValue.forEach(function (value) {
+                if (!attributeValues.includes(value)) {
+                    attributeValues.push(value);
+                }    
+            });
+        } else {
+            if (!attributeValues.includes(workitemValue)) {
+                attributeValues.push(workitemValue);
+            }
         }
     });
 
-    return issueTypes;
+    return attributeValues;
 }
 
 function filterWorkItems(workitems, filter) {
