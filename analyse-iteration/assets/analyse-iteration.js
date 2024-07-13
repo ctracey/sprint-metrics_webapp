@@ -105,9 +105,13 @@ function analyseIteration(allWorkitems) {
 
     this.stats.sprintOverview = analyseSprintOverview(workitems);
 
+    let completedWorkitems = filterCompletedWorkItems(workitems);
+    
     //TODO: filter to completed work items before analysing labels & components
     this.stats.labels = analyseLabels(workitems);
     this.stats.components = analyseComponents(workitems);
+    this.stats.completedLabels = analyseLabels(completedWorkitems);
+    this.stats.completedComponents = analyseComponents(completedWorkitems);
 
     console.log('stats', this.stats);
 }
