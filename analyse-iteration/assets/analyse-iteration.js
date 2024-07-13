@@ -96,10 +96,16 @@ function analyseIteration(allWorkitems) {
     console.log('total work items in dataset: ', allWorkitems.length);
 
     let workitems = filterNonStructuralWorkitems(allWorkitems);
+    console.log('total non structural work items in dataset: ', workitems.length);
     
+    //TODO: why is last item blank
+    // console.log('last: ', allWorkitems[allWorkitems.length-1]);
+
     this.stats = {};
 
     this.stats.sprintOverview = analyseSprintOverview(workitems);
+
+    //TODO: filter to completed work items before analysing labels & components
     this.stats.labels = analyseLabels(workitems);
     this.stats.components = analyseComponents(workitems);
 
@@ -192,7 +198,6 @@ function filterWorkitemsByIssueType(workitems, workItemTypes) {
 }
 
 function filterByAttributeValue(workitems, attribute, value) {
-    console.log(`#filterByAttributeValue: ${attribute}:${value}`)
     let filter = {};
     filter[attribute] = value;
 
@@ -212,7 +217,7 @@ function scanWorkitemTypes(workitems) {
     return scanWorkitemAttributeValues(workitems, ATTRIBUTE_ISSUETYPE);
 }
 
-function scanWorkitemAttributeValues(workitems, attribute) {   
+function scanWorkitemAttributeValues(workitems, attribute) {
     let attributeValues = [];
 
     workitems.forEach(function(workitem) {
@@ -244,8 +249,21 @@ function filterWorkItems(workitems, filter) {
         filterAttributes.forEach(function(attribute) {
             workitemValue = workitem[attribute];
 
-            if (!filter[attribute].includes(workitemValue)) {
-                filterMatch = false;
+            if (Array.isArray(filter[attribute])) {
+                if (Array.isArray(workitemValue)) {
+                    //TODO: test with array value vs multi value filter ???
+                    workitemValue.forEach(function(value) {
+                        filterMatch = filter[attribute].includes(workitemValue);
+                    });
+                } else {
+                    filterMatch = filter[attribute].includes(workitemValue);
+                }
+            } else {
+                if (Array.isArray(workitemValue)) {
+                    filterMatch = workitemValue.includes(filter[attribute])
+                } else {
+                    filterMatch = workitemValue == filter[attribute];
+                }
             }
         })
 
