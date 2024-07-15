@@ -66,6 +66,14 @@ body {
 	padding-top: 1em;
 }
 
+.formSection {
+	padding-top: 2em;
+}
+
+.formSection-heading {
+	font-size: 1.3em;
+}
+
 .inputField {
 	padding-top: 0.5em;
 }

@@ -11,6 +11,12 @@ const analyseButtonId = 'analyseButton';
 
 const input_squadNameId = 'input_squadName';
 const input_sprintNameId = 'input_sprintName';
+const input_sprintDateStartId = 'input_sprintDate-start';
+const input_sprintDateEndId = 'input_sprintDate-end';
+const input_committedAtStartOfSprintEstimateId = 'input_committedAtStartOfSprint-estimate';
+const input_committedAtStartOfSprintThroughputId = 'input_committedAtStartOfSprint-throughput';
+const input_removedFromSprintEstimateId = 'input_removedFromSprint-estimate';
+const input_removedFromSprintThroughputId = 'input_removedFromSprint-throughput';
 
 document.getElementById(loadJsonButtonId).addEventListener('click', handleLoadJsonButtonClick);
 document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
@@ -128,8 +134,13 @@ function analyseIteration(allWorkitems) {
 
     this.stats.sprintName = this.manualSprintData.sprintName;
     this.stats.squadName = this.manualSprintData.squadName;
+    this.stats.sprintDate = this.manualSprintData.sprintDate;
 
+    //TODO: fix consistency of structure of objects with throughput & estimate values
     this.stats.sprintOverview = analyseSprintOverview(workitems);
+    this.stats.sprintOverview.committedAtStartOfSprint = this.manualSprintData.committedAtStartOfSprint;
+    this.stats.sprintOverview.removedFromSprint = this.manualSprintData.removedFromSprint;
+
     this.stats.sprintCompletion = analyseSprintCompletion(workitems);
 
     let completedWorkitems = filterCompletedWorkItems(workitems);
@@ -502,15 +513,45 @@ function showSprintDetailsForm() {
 
 function renderSprintDetailsForm() {
     const htmlContent = `
+        <hr>
+        <span class='sub-title'>Manually Captured Data</span>
+
         <div id='sprintDetailsForm' class='sprintDetailsForm'>
             <div class='inputField'>
                 <label for'${input_squadNameId}'>squad name</label>
                 <input id='${input_squadNameId}' type='text'>
             </div>
-
             <div class='inputField'>
                 <label for'${input_sprintNameId}'>sprint name</label>
                 <input id='${input_sprintNameId}' type='text'>
+            </div>
+
+            <div class='formSection'>
+                <span class='formSection-heading'>Extra Jira Data</span>
+                <div class='inputField'>
+                    <label for'${input_sprintDateStartId}'>sprint start date</label>
+                    <input id='${input_sprintDateStartId}' type='text'>
+                </div>
+                <div class='inputField'>
+                    <label for'${input_sprintDateEndId}'>sprint end date</label>
+                    <input id='${input_sprintDateEndId}' type='text'>
+                </div>
+                <div class='inputField'>
+                    <label for'${input_committedAtStartOfSprintEstimateId}'>committed at start of sprint (estimate)</label>
+                    <input id='${input_committedAtStartOfSprintEstimateId}' type='text'>
+                </div>
+                <div class='inputField'>
+                    <label for'${input_committedAtStartOfSprintThroughputId}'>committed at start of sprint (throughput)</label>
+                    <input id='${input_committedAtStartOfSprintThroughputId}' type='text'>
+                </div>
+                <div class='inputField'>
+                    <label for'${input_removedFromSprintEstimateId}'>removed from sprint (estimate)</label>
+                    <input id='${input_removedFromSprintEstimateId}' type='text'>
+                </div>
+                <div class='inputField'>
+                    <label for'${input_removedFromSprintThroughputId}'>removed from sprint (throughput)</label>
+                    <input id='${input_removedFromSprintThroughputId}' type='text'>
+                </div>
             </div>
         </div>
     `;
@@ -529,6 +570,20 @@ function getSprintDetails() {
     
     sprintDetails.squadName = getInputValueById(input_squadNameId);
     sprintDetails.sprintName = getInputValueById(input_sprintNameId);
+
+    //extra jira details
+    sprintDetails.sprintDate = {
+        start: getInputValueById(input_sprintDateStartId),
+        end: getInputValueById(input_sprintDateEndId)
+    };
+    sprintDetails.committedAtStartOfSprint = {
+        estimate: getInputValueById(input_committedAtStartOfSprintEstimateId),
+        throughput: getInputValueById(input_committedAtStartOfSprintThroughputId)
+    };
+    sprintDetails.removedFromSprint = {
+        estimate: getInputValueById(input_removedFromSprintEstimateId),
+        throughput: getInputValueById(input_removedFromSprintThroughputId)
+    };
 
     return sprintDetails;
 }
