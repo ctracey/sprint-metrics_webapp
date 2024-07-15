@@ -75,10 +75,14 @@ const WORKITEMTYPE_STORY = 'Story';
 const WORKITEMTYPE_TASK = 'Task';
 const WORKITEMTYPE_EXTERNALDEPENDENCY = 'External Dependency';
 const WORKITEMSTATUS_DONE = 'Done';
+const WORKITEMSTATUSCATEGORY_NOTSTARTED = 'To Do';
+const WORKITEMSTATUSCATEGORY_INPROGRESS = 'In Progress';
+const WORKITEMSTATUSCATEGORY_DONE = 'Done';
 
 const ATTRIBUTE_ISSUETYPE = 'Issue Type';
 const ATTRIBUTE_STORYPOINTS = 'Custom field (Story Points)';
 const ATTRIBUTE_STATUS = 'Status';
+const ATTRIBUTE_STATUS_CATEGORY = 'Status Category';
 const ATTRIBUTE_LABELS = 'Labels';
 const ATTRIBUTE_COMPONENTS = 'Components';
 
@@ -104,16 +108,48 @@ function analyseIteration(allWorkitems) {
     this.stats = {};
 
     this.stats.sprintOverview = analyseSprintOverview(workitems);
+    this.stats.sprintCompletion = analyseSprintCompletion(workitems);
 
     let completedWorkitems = filterCompletedWorkItems(workitems);
     
-    //TODO: filter to completed work items before analysing labels & components
     this.stats.labels = analyseLabels(workitems);
     this.stats.components = analyseComponents(workitems);
     this.stats.completedLabels = analyseLabels(completedWorkitems);
     this.stats.completedComponents = analyseComponents(completedWorkitems);
 
+    //TODO
+    //recognise emergent work items
+    //stream allocation by labels
+    //metric confidence - work item granularity ratio
+    //metric confidence - unestimated work in sprint %
+
+    //TODO insight
+    //calculated capacity
+    //sprint goal
+    //performance
+    //performance trend
+    //achievable sprint goal
+    //health performance target
+
+
     console.log('stats', this.stats);
+}
+
+function analyseSprintCompletion(workitems) {
+    let sprintCompletion = {
+        estimate: {},
+        throughput: {}
+    };
+
+    sprintCompletion.throughput.notStarted = filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_NOTSTARTED).length;
+    sprintCompletion.throughput.inProgress = filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_INPROGRESS).length;
+    sprintCompletion.throughput.done = filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_DONE).length;
+
+    sprintCompletion.estimate.notStarted = countStoryPoints(filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_NOTSTARTED));
+    sprintCompletion.estimate.inProgress = countStoryPoints(filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_INPROGRESS));
+    sprintCompletion.estimate.done = countStoryPoints(filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_DONE));
+
+    return sprintCompletion;
 }
 
 function analyseSprintOverview(workitems){
@@ -164,16 +200,6 @@ function notCompletedInSprint(backlogSize, completedTotal) {
     return backlogSize - completedTotal;
 }
 
-function filterNonStructuralWorkitems(allWorkitems) {
-    const issueTypes = scanWorkitemTypes(allWorkitems);
-    console.log('workitem types found: ', issueTypes);
-
-    let workitems = filterWorkitemsByIssueType(allWorkitems, nonStructuralWorkitemTypes());
-    console.log('Filter nonstructural workitems: ', nonStructuralWorkitemTypes());
-
-    return workitems;
-}
-
 function countStoryPoints(workitems) {
     let count = 0;
 
@@ -185,6 +211,23 @@ function countStoryPoints(workitems) {
     });
 
     return count;
+}
+
+function filterStatusCategory(workitems, category) {
+    let filter = {};
+    filter[ATTRIBUTE_STATUS_CATEGORY] = category;
+
+    return filterWorkItems(workitems, filter);
+}
+
+function filterNonStructuralWorkitems(allWorkitems) {
+    const issueTypes = scanWorkitemTypes(allWorkitems);
+    console.log('workitem types found: ', issueTypes);
+
+    let workitems = filterWorkitemsByIssueType(allWorkitems, nonStructuralWorkitemTypes());
+    console.log('Filter nonstructural workitems: ', nonStructuralWorkitemTypes());
+
+    return workitems;
 }
 
 function filterCompletedWorkItems(workitems) {
