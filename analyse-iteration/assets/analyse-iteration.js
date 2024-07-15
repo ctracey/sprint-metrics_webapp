@@ -83,18 +83,19 @@ function handleAnalyseButtonClick() {
 function handleDownloadJsonButtonClick(event) {
     let analysedStatsJson = getStats();
 
-    let flattenedJson = getFlattenedStats(analysedStatsJson);
-    console.log('flattenedJson', flattenedJson);
+    // let flattenedJson = getFlattenedStats(analysedStatsJson);
+    // console.log('flattenedJson', flattenedJson);
 
-    let statsCsv = convertJsonToCSV(flattenedJson);
-    console.log('statsCsv', statsCsv);
+    // let statsCsv = convertJsonToCSV(flattenedJson);
+    // console.log('statsCsv', statsCsv);
 
-    const link = setupDownloadLink(statsCsv, downloadFileName());
+    const jsonString = JSON.stringify(analysedStatsJson, null, 2);
+
+    const link = setupDownloadLink(jsonString, downloadFileName('json'));
     link.click();
 }
 
-function downloadFileName() {
-    let fileType = 'csv';
+function downloadFileName(fileType) {
     return loadedJsonFilename.split('.')[0] + '_analysis.' + fileType;
 }
 
