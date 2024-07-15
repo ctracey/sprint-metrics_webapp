@@ -120,8 +120,11 @@ function analyseIteration(allWorkitems) {
     //TODO
     //recognise emergent work items
     //stream allocation by labels
-    //metric confidence - work item granularity ratio
-    //metric confidence - unestimated work in sprint %
+
+    this.stats.metricConfidence = {
+        workitemGranularity: analyseWorkitemGranularity(this.stats.sprintOverview.estimate.backlogSize, this.stats.sprintOverview.throughput.backlogSize),
+        unestimatedWorkPercentage: analyseUnestimatedWorkInSprint(workitems, this.stats.sprintOverview.throughput.backlogSize)
+    }
 
     //TODO insight
     //calculated capacity
@@ -133,6 +136,22 @@ function analyseIteration(allWorkitems) {
 
 
     console.log('stats', this.stats);
+}
+
+function analyseUnestimatedWorkInSprint(workitems, backlogItemCount) {
+    let unestimatedWorkitems = filterUnestimatedWork(workitems);
+
+    let totalUnestimatedWorkitems = unestimatedWorkitems.length;
+    let percentageWorkUnestimated = (totalUnestimatedWorkitems/backlogItemCount*100).toFixed(0);
+
+    return percentageWorkUnestimated;
+}
+
+function analyseWorkitemGranularity(backlogTotalPoints, backlogItemCount) {
+    let granularity = backlogTotalPoints / backlogItemCount;
+    let roundedGranularity = granularity.toFixed(1);
+
+    return roundedGranularity;
 }
 
 function analyseSprintCompletion(workitems) {
@@ -211,6 +230,19 @@ function countStoryPoints(workitems) {
     });
 
     return count;
+}
+
+function filterUnestimatedWork(workitems) {
+    let unestimatedWorkitems = [];
+
+    workitems.forEach(function(workitem) {
+        let storyPoints = workitem[ATTRIBUTE_STORYPOINTS];
+        if (!storyPoints) {
+            unestimatedWorkitems.push(workitem);
+        }
+    });
+
+    return unestimatedWorkitems;
 }
 
 function filterStatusCategory(workitems, category) {
