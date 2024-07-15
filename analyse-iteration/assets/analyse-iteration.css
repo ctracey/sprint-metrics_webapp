@@ -61,3 +61,11 @@ body {
 	padding: 0em;
 	margin: 0em;
 }
+
+.sprintDetailsForm {
+	padding-top: 1em;
+}
+
+.inputField {
+	padding-top: 0.5em;
+}

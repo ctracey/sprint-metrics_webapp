@@ -502,10 +502,17 @@ function showSprintDetailsForm() {
 
 function renderSprintDetailsForm() {
     const htmlContent = `
-        <form id='sprintDetailsForm'>
-            <input id='${input_squadNameId}' type='text'>squad name</input>
-            <input id='${input_sprintNameId}' type='text'>sprint name</input>
-        </form>
+        <div id='sprintDetailsForm' class='sprintDetailsForm'>
+            <div class='inputField'>
+                <label for'${input_squadNameId}'>squad name</label>
+                <input id='${input_squadNameId}' type='text'>
+            </div>
+
+            <div class='inputField'>
+                <label for'${input_sprintNameId}'>sprint name</label>
+                <input id='${input_sprintNameId}' type='text'>
+            </div>
+        </div>
     `;
 
     return htmlContent;
