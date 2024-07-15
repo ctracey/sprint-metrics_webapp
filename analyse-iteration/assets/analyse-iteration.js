@@ -166,18 +166,46 @@ function analyseIteration(allWorkitems) {
 
     this.stats.strategy_bauCapacityAllocationPercentage = this.manualSprintData.strategy_bauCapacityAllocationPercentage;
     this.stats.sprintPlanning_targetCapacity = this.manualSprintData.sprintPlanning_targetCapacity;
-    this.stats.trends_velocityTrends_estimate = this.manualSprintData.trends_velocityTrends_estimate;
+    this.stats.trends_velocityTrends = {
+        estimate: this.manualSprintData.trends_velocityTrends.estimate,
+        throughput: this.manualSprintData.trends_velocityTrends.throughput,
+    }
 
-    //TODO insight
-    //calculated capacity
-    //sprint goal
-    //performance
-    //performance trend
-    //achievable sprint goal
-    //health performance target
-
+    this.stats.insights = analyseInsights();
 
     console.log('stats', this.stats);
+}
+
+function analyseInsights() {
+    let achievableSprintGoal = {
+        estimate: analyseAchievableSprintGoal(this.stats.sprintOverview.estimate.backlogSize, this.stats.sprintPlanning_targetCapacity.estimate),
+        throughput: analyseAchievableSprintGoal(this.stats.sprintOverview.throughput.backlogSize, this.stats.sprintPlanning_targetCapacity.throughput)
+    }
+    let healthyPerformanceTarget = {
+        estimate: analyseHealthyPerformanceTarget(this.stats.sprintOverview.estimate.completedTotal, this.stats.trends_velocityTrends.estimate),
+        throughput: analyseHealthyPerformanceTarget(this.stats.sprintOverview.throughput.completedTotal, this.stats.trends_velocityTrends.throughput)
+    }
+
+    return {
+        achievableSprintGoal: achievableSprintGoal,
+        healthyPerformanceTarget: healthyPerformanceTarget
+    }
+}
+
+function analyseAchievableSprintGoal(backlogSize, targetCapacity) {
+    if (backlogSize < targetCapacity) {
+        return true;
+    }
+
+    return false;
+}
+
+function analyseHealthyPerformanceTarget(completedInSprint, velocityTrend) {
+    if ((completedInSprint - velocityTrend > 0) || (Math.abs(completedInSprint - velocityTrend) <= 5)) {
+        return true;
+    }
+    
+    return false;
 }
 
 function analyseEmergentWork(labels) {
@@ -627,7 +655,7 @@ function getSprintDetails() {
         estimate: getInputValueById(input_sprintPlanning_targetCapacity_estimateId),
         throughput: getInputValueById(input_sprintPlanning_targetCapacity_throughputId)
     };
-    sprintDetails.trends_velocityTrends_estimate = {
+    sprintDetails.trends_velocityTrends = {
         estimate: getInputValueById(input_trends_velocityTrends_estimateId),
         throughput: getInputValueById(input_trends_velocityTrends_throughputId)
     };    
