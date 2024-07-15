@@ -86,6 +86,9 @@ const ATTRIBUTE_STATUS_CATEGORY = 'Status Category';
 const ATTRIBUTE_LABELS = 'Labels';
 const ATTRIBUTE_COMPONENTS = 'Components';
 
+//TODO: configure this list
+const EMERGENTWORK_LABELS = ['BAU', 'Improvement'];
+
 
 function getStats() {
     return this.stats;
@@ -117,9 +120,7 @@ function analyseIteration(allWorkitems) {
     this.stats.completedLabels = analyseLabels(completedWorkitems);
     this.stats.completedComponents = analyseComponents(completedWorkitems);
 
-    //TODO
-    //recognise emergent work items
-    //stream allocation by labels
+    this.stats.emergentWork = analyseEmergentWork(this.stats.labels);
 
     this.stats.metricConfidence = {
         workitemGranularity: analyseWorkitemGranularity(this.stats.sprintOverview.estimate.backlogSize, this.stats.sprintOverview.throughput.backlogSize),
@@ -136,6 +137,23 @@ function analyseIteration(allWorkitems) {
 
 
     console.log('stats', this.stats);
+}
+
+function analyseEmergentWork(labels) {
+    let emergentWork = {
+        count: 0,
+        storyPoints: 0
+    };
+
+    EMERGENTWORK_LABELS.forEach((label) => {
+        labelStats = labels[label];
+        if (labelStats) {
+            emergentWork.count += labelStats.count;
+            emergentWork.storyPoints += labelStats.storyPoints;    
+        }
+    });
+
+    return emergentWork;
 }
 
 function analyseUnestimatedWorkInSprint(workitems, backlogItemCount) {
