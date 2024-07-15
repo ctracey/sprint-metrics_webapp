@@ -11,12 +11,19 @@ const analyseButtonId = 'analyseButton';
 
 const input_squadNameId = 'input_squadName';
 const input_sprintNameId = 'input_sprintName';
+
 const input_sprintDateStartId = 'input_sprintDate-start';
 const input_sprintDateEndId = 'input_sprintDate-end';
 const input_committedAtStartOfSprintEstimateId = 'input_committedAtStartOfSprint-estimate';
 const input_committedAtStartOfSprintThroughputId = 'input_committedAtStartOfSprint-throughput';
 const input_removedFromSprintEstimateId = 'input_removedFromSprint-estimate';
 const input_removedFromSprintThroughputId = 'input_removedFromSprint-throughput';
+
+const input_strategy_bauCapacityAllocationPercentageId = 'input_strategy_bauCapacityAllocationPercentage';
+const input_sprintPlanning_targetCapacity_estimateId = 'input_sprintPlanning_targetCapacity_estimate';
+const input_sprintPlanning_targetCapacity_throughputId = 'input_sprintPlanning_targetCapacity_throughput';
+const input_trends_velocityTrends_estimateId = 'input_trends_velocityTrends_estimate';
+const input_trends_velocityTrends_throughputId = 'input_trends_velocityTrends_throughput';
 
 document.getElementById(loadJsonButtonId).addEventListener('click', handleLoadJsonButtonClick);
 document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
@@ -156,6 +163,10 @@ function analyseIteration(allWorkitems) {
         workitemGranularity: analyseWorkitemGranularity(this.stats.sprintOverview.estimate.backlogSize, this.stats.sprintOverview.throughput.backlogSize),
         unestimatedWorkPercentage: analyseUnestimatedWorkInSprint(workitems, this.stats.sprintOverview.throughput.backlogSize)
     }
+
+    this.stats.strategy_bauCapacityAllocationPercentage = this.manualSprintData.strategy_bauCapacityAllocationPercentage;
+    this.stats.sprintPlanning_targetCapacity = this.manualSprintData.sprintPlanning_targetCapacity;
+    this.stats.trends_velocityTrends_estimate = this.manualSprintData.trends_velocityTrends_estimate;
 
     //TODO insight
     //calculated capacity
@@ -553,6 +564,30 @@ function renderSprintDetailsForm() {
                     <input id='${input_removedFromSprintThroughputId}' type='text'>
                 </div>
             </div>
+
+            <div class='formSection'>
+                <span class='formSection-heading'>Scrum Master Intel</span>
+                <div class='inputField'>
+                    <label for'${input_strategy_bauCapacityAllocationPercentageId}'>BAU Capacity Allocation Percentage</label>
+                    <input id='${input_strategy_bauCapacityAllocationPercentageId}' type='text'>
+                </div>
+                <div class='inputField'>
+                    <label for'${input_sprintPlanning_targetCapacity_estimateId}'>Sprint Planning Target Capacity (estimate)</label>
+                    <input id='${input_sprintPlanning_targetCapacity_estimateId}' type='text'>
+                </div>
+                <div class='inputField'>
+                    <label for'${input_sprintPlanning_targetCapacity_throughputId}'>Sprint Planning Target Capacity (throughput)</label>
+                    <input id='${input_sprintPlanning_targetCapacity_throughputId}' type='text'>
+                </div>
+                <div class='inputField'>
+                    <label for'${input_trends_velocityTrends_estimateId}'>Velocity Trends (estimate)</label>
+                    <input id='${input_trends_velocityTrends_estimateId}' type='text'>
+                </div>
+                <div class='inputField'>
+                    <label for'${input_trends_velocityTrends_throughputId}'>Velocity Trends (throughput)</label>
+                    <input id='${input_trends_velocityTrends_throughputId}' type='text'>
+                </div>
+            </div>
         </div>
     `;
 
@@ -566,6 +601,7 @@ function showFilename(filename) {
 }
 
 function getSprintDetails() {
+    //rename this to refer to manual data
     let sprintDetails = {}
     
     sprintDetails.squadName = getInputValueById(input_squadNameId);
@@ -584,6 +620,17 @@ function getSprintDetails() {
         estimate: getInputValueById(input_removedFromSprintEstimateId),
         throughput: getInputValueById(input_removedFromSprintThroughputId)
     };
+
+    //scrum master intel
+    sprintDetails.strategy_bauCapacityAllocationPercentage = getInputValueById(input_strategy_bauCapacityAllocationPercentageId);
+    sprintDetails.sprintPlanning_targetCapacity = {
+        estimate: getInputValueById(input_sprintPlanning_targetCapacity_estimateId),
+        throughput: getInputValueById(input_sprintPlanning_targetCapacity_throughputId)
+    };
+    sprintDetails.trends_velocityTrends_estimate = {
+        estimate: getInputValueById(input_trends_velocityTrends_estimateId),
+        throughput: getInputValueById(input_trends_velocityTrends_throughputId)
+    };    
 
     return sprintDetails;
 }
