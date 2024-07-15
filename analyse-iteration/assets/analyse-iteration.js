@@ -81,15 +81,21 @@ function handleAnalyseButtonClick() {
 }
 
 function handleDownloadJsonButtonClick(event) {
-    const jsonString = JSON.stringify(getFlattenedStats(getStats()));
-    console.log('jsonString', jsonString);
+    let analysedStatsJson = getStats();
 
-    const link = setupDownloadLink(jsonString, downloadFileName());
+    let flattenedJson = getFlattenedStats(analysedStatsJson);
+    console.log('flattenedJson', flattenedJson);
+
+    let statsCsv = convertJsonToCSV(flattenedJson);
+    console.log('statsCsv', statsCsv);
+
+    const link = setupDownloadLink(statsCsv, downloadFileName());
     link.click();
 }
 
 function downloadFileName() {
-    return loadedJsonFilename.split('.')[0] + '_analysis.json';
+    let fileType = 'csv';
+    return loadedJsonFilename.split('.')[0] + '_analysis.' + fileType;
 }
 
 
@@ -462,6 +468,19 @@ function flattenJSON(obj, prefix = '') {
     }
     return acc;
   }, {});
+}
+
+function convertJsonToCSV(jsonObject) {
+    console.log('jsonObject', jsonObject);
+    let csvString = '';
+
+    let attributes = Object.keys(jsonObject);
+    let values = Object.values(jsonObject);
+
+    csvString = `${attributes.toString()}\n${values.toString()}`;
+    console.log('csvString  ', csvString);
+
+    return csvString;
 }
 
 
