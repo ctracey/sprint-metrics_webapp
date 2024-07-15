@@ -1,13 +1,20 @@
 let loadedJsonFilename = '';
 let iterationWorkitems;
+let manualSprintData;
 let stats;
 
+const userInputSectionId = 'section_userInput';
 const loadJsonButtonId = 'loadJsonButton';
 const filePickerId = 'filePicker';
 const downloadButtonId = 'downloadButton';
+const analyseButtonId = 'analyseButton';
+
+const input_squadNameId = 'input_squadName';
+const input_sprintNameId = 'input_sprintName';
 
 document.getElementById(loadJsonButtonId).addEventListener('click', handleLoadJsonButtonClick);
 document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
+document.getElementById(analyseButtonId).addEventListener('click', handleAnalyseButtonClick);
 document.getElementById(downloadButtonId).addEventListener('click', handleDownloadJsonButtonClick);
 
 
@@ -26,7 +33,7 @@ function handleFilePickerChange(event) {
 
     const file = event.target.files[0];
     if (file) {
-        hideLoadCSVButton();
+        hideLoadJsonButton();
 
         loadedJsonFilename = file.name;
         showFilename(loadedJsonFilename);
@@ -43,7 +50,15 @@ function handleJsonLoaded(loadedJsonText) {
     
     iterationWorkitems = JSON.parse(loadedJsonText);
     console.log(iterationWorkitems);
-    
+
+    showSprintDetailsForm();
+}
+
+function handleAnalyseButtonClick() {
+    hideAnalyseButton();
+    hideSprintDetailsForm();
+
+    processManualSprintDetails();
     analyseIteration(iterationWorkitems);
 
     // showAnalysisPreview(getFlattenedStats());
@@ -89,6 +104,10 @@ const ATTRIBUTE_COMPONENTS = 'Components';
 //TODO: configure this list
 const EMERGENTWORK_LABELS = ['BAU', 'Improvement'];
 
+function processManualSprintDetails() {
+    this.manualSprintData = getSprintDetails();
+    console.log('sprintDetails', this.manualSprintData);
+}
 
 function getStats() {
     return this.stats;
@@ -105,10 +124,10 @@ function analyseIteration(allWorkitems) {
     let workitems = filterNonStructuralWorkitems(allWorkitems);
     console.log('total non structural work items in dataset: ', workitems.length);
     
-    //TODO: why is last item blank
-    // console.log('last: ', allWorkitems[allWorkitems.length-1]);
-
     this.stats = {};
+
+    this.stats.sprintName = this.manualSprintData.sprintName;
+    this.stats.squadName = this.manualSprintData.squadName;
 
     this.stats.sprintOverview = analyseSprintOverview(workitems);
     this.stats.sprintCompletion = analyseSprintCompletion(workitems);
@@ -425,7 +444,7 @@ function setupDownloadLink(jsonString, downloadFilename) {
   PRESENTATION LOGIC
   --------------------------------------*/
 
-function hideLoadCSVButton() {
+function hideLoadJsonButton() {
     document.getElementById(loadJsonButtonId).style.display = 'none';
 }
 
@@ -436,6 +455,14 @@ function showDataViewer(htmlContent) {
 
 function showDownloadButton() {
     document.getElementById(downloadButtonId).style.display = 'block';
+}
+
+function showAnalyseButton() {
+    document.getElementById(analyseButtonId).style.display = 'block';
+}
+
+function hideAnalyseButton() {
+    document.getElementById(analyseButtonId).style.display = 'none';
 }
 
 function showAnalysisPreview(analysisStats) {
@@ -462,8 +489,43 @@ function renderDataAsRawJson(jsonObject, title) {
     return htmlContent;
 }
 
+function hideSprintDetailsForm() {
+    document.getElementById(userInputSectionId).style.display = 'none';
+}
+
+function showSprintDetailsForm() {
+    let sprintDetailsFornHTML = renderSprintDetailsForm();
+    document.getElementById(userInputSectionId).innerHTML = sprintDetailsFornHTML;
+
+    showAnalyseButton();
+}
+
+function renderSprintDetailsForm() {
+    const htmlContent = `
+        <form id='sprintDetailsForm'>
+            <input id='${input_squadNameId}' type='text'>squad name</input>
+            <input id='${input_sprintNameId}' type='text'>sprint name</input>
+        </form>
+    `;
+
+    return htmlContent;
+}
+
 function showFilename(filename) {
     console.log('display filename: ', filename);
     const contentHTML = 'JSON file: ' + filename;
     document.getElementById('fileName').textContent = contentHTML;
+}
+
+function getSprintDetails() {
+    let sprintDetails = {}
+    
+    sprintDetails.squadName = getInputValueById(input_squadNameId);
+    sprintDetails.sprintName = getInputValueById(input_sprintNameId);
+
+    return sprintDetails;
+}
+
+function getInputValueById(inputElementId) {
+    return document.getElementById(inputElementId).value
 }
