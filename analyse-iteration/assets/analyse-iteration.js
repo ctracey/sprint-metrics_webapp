@@ -143,7 +143,6 @@ function analyseIteration(allWorkitems) {
     this.stats.squadName = this.manualSprintData.squadName;
     this.stats.sprintDate = this.manualSprintData.sprintDate;
 
-    //TODO: fix consistency of structure of objects with throughput & estimate values
     this.stats.sprintOverview = analyseSprintOverview(workitems);
     this.stats.sprintOverview.committedAtStartOfSprint = this.manualSprintData.committedAtStartOfSprint;
     this.stats.sprintOverview.removedFromSprint = this.manualSprintData.removedFromSprint;
@@ -160,8 +159,8 @@ function analyseIteration(allWorkitems) {
     this.stats.emergentWork = analyseEmergentWork(this.stats.labels);
 
     this.stats.metricConfidence = {
-        workitemGranularity: analyseWorkitemGranularity(this.stats.sprintOverview.estimate.backlogSize, this.stats.sprintOverview.throughput.backlogSize),
-        unestimatedWorkPercentage: analyseUnestimatedWorkInSprint(workitems, this.stats.sprintOverview.throughput.backlogSize)
+        workitemGranularity: analyseWorkitemGranularity(this.stats.sprintOverview.backlogSize.estimate, this.stats.sprintOverview.backlogSize.throughput),
+        unestimatedWorkPercentage: analyseUnestimatedWorkInSprint(workitems, this.stats.sprintOverview.backlogSize.throughput)
     }
 
     this.stats.strategy_bauCapacityAllocationPercentage = this.manualSprintData.strategy_bauCapacityAllocationPercentage;
@@ -178,12 +177,13 @@ function analyseIteration(allWorkitems) {
 
 function analyseInsights() {
     let achievableSprintGoal = {
-        estimate: analyseAchievableSprintGoal(this.stats.sprintOverview.estimate.backlogSize, this.stats.sprintPlanning_targetCapacity.estimate),
-        throughput: analyseAchievableSprintGoal(this.stats.sprintOverview.throughput.backlogSize, this.stats.sprintPlanning_targetCapacity.throughput)
+        estimate: analyseAchievableSprintGoal(this.stats.sprintOverview.backlogSize.estimate, this.stats.sprintPlanning_targetCapacity.estimate),
+        throughput: analyseAchievableSprintGoal(this.stats.sprintOverview.backlogSize.throughput, this.stats.sprintPlanning_targetCapacity.throughput)
     }
+    console.log('so', this.stats);
     let healthyPerformanceTarget = {
-        estimate: analyseHealthyPerformanceTarget(this.stats.sprintOverview.estimate.completedTotal, this.stats.trends_velocityTrends.estimate),
-        throughput: analyseHealthyPerformanceTarget(this.stats.sprintOverview.throughput.completedTotal, this.stats.trends_velocityTrends.throughput)
+        estimate: analyseHealthyPerformanceTarget(this.stats.sprintOverview.completedTotal.estimate, this.stats.trends_velocityTrends.estimate),
+        throughput: analyseHealthyPerformanceTarget(this.stats.sprintOverview.completedTotal.throughput, this.stats.trends_velocityTrends.throughput)
     }
 
     return {
@@ -242,42 +242,53 @@ function analyseWorkitemGranularity(backlogTotalPoints, backlogItemCount) {
 }
 
 function analyseSprintCompletion(workitems) {
-    let sprintCompletion = {
-        estimate: {},
-        throughput: {}
+    let notStarted = {
+        throughput: filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_NOTSTARTED).length,
+        estimate: countStoryPoints(filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_NOTSTARTED))
+    }
+
+    let inProgress = {
+        throughput: filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_INPROGRESS).length,
+        estimate: countStoryPoints(filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_INPROGRESS))
+    }
+
+    let done = {
+        throughput: filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_DONE).length,
+        estimate: countStoryPoints(filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_DONE))
+    }
+
+    return {
+        notStarted: notStarted,
+        inProgress: inProgress,
+        done: done
     };
-
-    sprintCompletion.throughput.notStarted = filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_NOTSTARTED).length;
-    sprintCompletion.throughput.inProgress = filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_INPROGRESS).length;
-    sprintCompletion.throughput.done = filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_DONE).length;
-
-    sprintCompletion.estimate.notStarted = countStoryPoints(filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_NOTSTARTED));
-    sprintCompletion.estimate.inProgress = countStoryPoints(filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_INPROGRESS));
-    sprintCompletion.estimate.done = countStoryPoints(filterStatusCategory(workitems, WORKITEMSTATUSCATEGORY_DONE));
-
-    return sprintCompletion;
 }
 
 function analyseSprintOverview(workitems){
-    let sprintOverview = {
-        estimate: {},
-        throughput: {}
-    };
-
     //backlog size
-    sprintOverview.estimate.backlogSize = countStoryPoints(workitems);
-    sprintOverview.throughput.backlogSize = workitems.length;
+    let backlogSize = {
+        estimate: countStoryPoints(workitems),
+        throughput: workitems.length
+    };
 
     //completed work
     const completedWorkitems = filterCompletedWorkItems(workitems);
-    sprintOverview.estimate.completedTotal = countStoryPoints(completedWorkitems);
-    sprintOverview.throughput.completedTotal = completedWorkitems.length;
-
+    let completedTotal = {
+        estimate: countStoryPoints(completedWorkitems),
+        throughput: completedWorkitems.length
+    };
+    
     //not completed in sprint
-    sprintOverview.estimate.notCompletedInSprint = notCompletedInSprint(sprintOverview.estimate.backlogSize, sprintOverview.estimate.completedTotal);
-    sprintOverview.throughput.notCompletedInSprint = notCompletedInSprint(sprintOverview.throughput.backlogSize, sprintOverview.throughput.completedTotal);
+    let notCompletedInSprint = {
+        estimate: analyseNotCompletedInSprint(backlogSize.estimate, completedTotal.estimate),
+        throughput: analyseNotCompletedInSprint(backlogSize.throughput, completedTotal.throughput)
+    };
 
-    return sprintOverview;
+    return {
+        backlogSize: backlogSize,
+        completedTotal: completedTotal,
+        notCompletedInSprint: notCompletedInSprint
+    };
 }
 
 function analyseLabels(workitems) {
@@ -302,7 +313,7 @@ function analyseAttribute(workitems, attribute) {
     return analysis;
 }
 
-function notCompletedInSprint(backlogSize, completedTotal) {
+function analyseNotCompletedInSprint(backlogSize, completedTotal) {
     return backlogSize - completedTotal;
 }
 
