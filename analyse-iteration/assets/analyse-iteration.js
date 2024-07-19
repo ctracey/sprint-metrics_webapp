@@ -83,16 +83,27 @@ function handleAnalyseButtonClick() {
 function handleDownloadJsonButtonClick(event) {
     let analysedStatsJson = getStats();
 
-    // let flattenedJson = getFlattenedStats(analysedStatsJson);
-    // console.log('flattenedJson', flattenedJson);
+    // const analysisContent = prepareAnalysisAsJson(analysedStatsJson);
+    // const link = setupDownloadLink(analysisContent, downloadFileName('json'));
 
-    // let statsCsv = convertJsonToCSV(flattenedJson);
-    // console.log('statsCsv', statsCsv);
+    const analysisContent = prepareAnalysisAsCsv(analysedStatsJson);
+    const link = setupDownloadLink(analysisContent, downloadFileName('csv'));
 
-    const jsonString = JSON.stringify(analysedStatsJson, null, 2);
-
-    const link = setupDownloadLink(jsonString, downloadFileName('json'));
     link.click();
+}
+
+function prepareAnalysisAsJson(analysedStatsJson) {
+    return JSON.stringify(analysedStatsJson, null, 2);
+}
+
+function prepareAnalysisAsCsv(analysedStatsJson) {
+    let flattenedJson = getFlattenedStats(analysedStatsJson);
+    console.log('flattenedJson', flattenedJson);
+
+    let statsCsv = convertJsonToCSV(flattenedJson);
+    console.log('statsCsv', statsCsv);
+
+    return statsCsv;
 }
 
 function downloadFileName(fileType) {
@@ -342,12 +353,16 @@ function filterUnestimatedWork(workitems) {
 
     workitems.forEach(function(workitem) {
         let storyPoints = workitem[ATTRIBUTE_STORYPOINTS];
-        if (!storyPoints) {
+        if (!isEstimated(storyPoints)) {
             unestimatedWorkitems.push(workitem);
         }
     });
 
     return unestimatedWorkitems;
+}
+
+function isEstimated(storyPoints) {
+    return storyPoints && storyPoints > 0
 }
 
 function filterStatusCategory(workitems, category) {
