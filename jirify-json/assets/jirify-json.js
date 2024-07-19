@@ -127,10 +127,18 @@ function jsonToJiraWorkitem(jsonObject) {
     
     //only keep attributes in model definition
     attributes.forEach(function(attribute) {
-        jiraWorkitem[attribute] = jsonObject[attribute];
+        let jsonValue = jsonObject[attribute];
+        if (Array.isArray(jsonValue) && isAttributeLimitedToSingleValue(attribute)) {
+            jsonValue = jsonValue[0];
+        }
+        jiraWorkitem[attribute] = jsonValue;
     });
 
     return jiraWorkitem;
+}
+
+function isAttributeLimitedToSingleValue(attribute) {
+    return workitemModelDefinition().singleValueLimitAttributes.includes(attribute);
 }
 
 
@@ -178,7 +186,8 @@ function showWorkItemChangesPreview(workitemModelDefinition, availableAttributes
     let attributeChanges = [];
     availableAttributes.forEach(function (attribute) {
         let keepingAttribute = workitemModelDefinition.attributes.includes(attribute);
-        attributeChange = renderAttributeChangeItem(attribute, keepingAttribute);
+        let limitedToSingleValue = isAttributeLimitedToSingleValue(attribute);
+        attributeChange = renderAttributeChangeItem(attribute, keepingAttribute, limitedToSingleValue);
         attributeChanges.push(attributeChange);
     });
 
@@ -199,9 +208,10 @@ function showWorkItemChangesPreview(workitemModelDefinition, availableAttributes
     showDataViewer(previewHTML);
 }
 
-function renderAttributeChangeItem(attribute, keepingAttribute) {
+function renderAttributeChangeItem(attribute, keepingAttribute, limitedToSingleValue) {
     let checked = keepingAttribute ? 'x' : '';
-    return `[${checked}] ${attribute}`;
+    let onlyUseFirstValueWarning = limitedToSingleValue ? '(LIMITED TO SINGLE VALUE)' : '';
+    return `[${checked}] ${attribute} ${onlyUseFirstValueWarning}`;
 }
 
 function renderDataAsRawJson(jsonObject) {
