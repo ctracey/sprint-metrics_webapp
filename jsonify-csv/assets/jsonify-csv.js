@@ -132,7 +132,7 @@ function mapHeadersToAttributes(csvHeaders) {
     for (let i = 0; i < csvHeaders.length; i++) {
         const header = csvHeaders[i];
 
-        if (scannedHeaders.includes(header)) {
+        if (scannedHeaders.includes(header) && !collectionAttributes.includes(header)) {
             collectionAttributes.push(header);
         } else {
             scannedHeaders.push(header);
