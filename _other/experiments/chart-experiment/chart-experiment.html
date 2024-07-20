@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pie Chart Example</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="pieChart" style="width:600px;height:400px;"></div>
+    <script>
+        // JSON data
+        var data = {
+            food: {
+                veggies: 3,
+                meat: 2,
+                snax: 7
+            }
+        };
+
+        // Prepare data for Plotly
+        var values = Object.values(data.food);
+        var labels = Object.keys(data.food);
+
+        var pieData = [{
+            values: values,
+            labels: labels,
+            type: 'pie'
+        }];
+
+        var layout = {
+            title: 'Food Pie Chart'
+        };
+
+        // Create the pie chart
+        Plotly.newPlot('pieChart', pieData, layout);
+    </script>
+</body>
+</html>
