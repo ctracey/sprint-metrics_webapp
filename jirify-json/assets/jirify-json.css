@@ -3,10 +3,89 @@ body {
 
 	font-family: sans-serif;
 	color: #b3b3b3;
+
+	margin: 0px;
+}
+
+.content {
+	margin: 8px;
+}
+
+.steps {
+	background-color: #000;
+	width: 100%;
+
+	display: flex;
+	justify-content: space-between;
+	gap: 0.2em;
+
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+.steps_step {
+	width: 25%;
+	height: 1.8em;
+	flex: 1;
+
+	background-color: #FFF;
+	color: #000;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	padding-bottom: 0px;
+}
+
+.steps_active-step {
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+.steps_step-0 {
+	background-color: #282828;
+	color: #b3b3b3;
+}
+
+.steps_step-1 {
+	background-color: #FC9548; /* orange */
+}
+
+.steps_step-2 {
+	background-color: #F2CE3F; /* yellow */
+}
+
+.steps_step-3 {
+	background-color: #88BB64; /* green */
+}
+
+.steps_header-bar {
+	width: 100%;
+	height: 0.3em;
+}
+
+.steps_header {
+	padding: 8px;
+}
+
+.steps_step-0-text {
+	color: #b3b3b3;
+}
+
+.steps_step-1-text {
+	color: #FC9548; /* orange */
+}
+
+.steps_step-2-text {
+	color: #F2CE3F; /* yellow */
+}
+
+.steps_step-3-text {
+	color: #88BB64; /* green */
 }
 
 .title {
-	color: #FFF;
 	font-size: 3em;
 	display: block;
 
@@ -16,7 +95,6 @@ body {
 
 .sub-title {
 	font-size: 1.5em;
-	display: block;
 }
 
 .heading {

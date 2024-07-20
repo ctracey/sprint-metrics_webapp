@@ -9,27 +9,37 @@
     <title>Analyse Iteration</title>
 </head>
 <body>
-	<div>
-        <span class='title'>Analyse Iteration</span>
-        <span class='sub-title'>Generate stats for workitems included in a planned iteration</span> 
+	<div class='steps'>
+        <div class='steps_step steps_step-0'>start</div>
+        <div class='steps_step steps_step-1'>jsonify csv</div>
+        <div class='steps_step steps_step-2'>jirify json</div>
+        <div class='steps_active-step steps_step steps_step-3'>analyse iteration</div>
     </div>
 
-    <div class='properties'>
-        <span id='fileName'></span>
+    <div class='steps_header-bar steps_step-3'></div>
+    <div class='steps_header'>
+        <span class='title steps_step-3-text'>Analyse Iteration</span>
+        <span class='sub-title'>Generate stats for workitems included in a planned iteration</span>
     </div>
 
-    <div id='section_userInput' class='userInput'></div>
+    <div class='content'>
+        <div class='properties'>
+            <span id='fileName'></span>
+        </div>
 
-    <div class='controls'>
-        <button id='loadJsonButton' title='select JSON file to analyse'>load workitems</button>
-        <input type='file' id='filePicker' accept='.json' style='display:none'>
+        <div id='section_userInput' class='userInput'></div>
 
-        <button id='analyseButton' style='display:none'>analyse</button>
+        <div class='controls'>
+            <button id='loadJsonButton' title='select JSON file to analyse'>load workitems</button>
+            <input type='file' id='filePicker' accept='.json' style='display:none'>
 
-        <button id='downloadButton' style='display:none'>download CSV</button>
+            <button id='analyseButton' style='display:none'>analyse</button>
+
+            <button id='downloadButton' style='display:none'>download CSV</button>
+        </div>
+
+        <div id='dataViewer'></div>
     </div>
-
-    <div id='dataViewer'></div>
 
     <script src='./assets/analyse-iteration.js'></script>
 </body>

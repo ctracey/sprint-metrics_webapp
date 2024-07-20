@@ -9,25 +9,35 @@
     <title>Jirify JSON</title>
 </head>
 <body>
-	<div>
-        <span class='title'>Jirify JSON</span>
-        <span class='sub-title'>Structure JSON to consistently represent Jira Workitems</span> 
+	<div class='steps'>
+        <div class='steps_step steps_step-0'>start</div>
+        <div class='steps_step steps_step-1'>jsonify csv</div>
+        <div class='steps_active-step steps_step steps_step-2'>jirify json</div>
+        <div class='steps_step steps_step-3'>analyse iteration</div>
     </div>
 
-    <div class='properties'>
-        <span id='fileName'></span>
+    <div class='steps_header-bar steps_step-2'></div>
+    <div class='steps_header'>
+        <span class='title steps_step-2-text'>Jirify JSON</span>
+        <span class='sub-title'>Structure JSON to consistently represent Jira Workitems</span>
     </div>
 
-    <div class='controls'>
-        <button id='loadJsonButton' title='select JSON file to structure'>load JSON</button>
-        <input type='file' id='filePicker' accept='.json' style='display:none'>
+    <div class='content'>
+        <div class='properties'>
+            <span id='fileName'></span>
+        </div>
 
-        <button id='convertButton' title='create new json file for work item structure' style='display:none'>convert</button>
+        <div class='controls'>
+            <button id='loadJsonButton' title='select JSON file to structure'>load JSON</button>
+            <input type='file' id='filePicker' accept='.json' style='display:none'>
 
-        <button id='downloadButton' style='display:none'>download JSON</button>
+            <button id='convertButton' title='create new json file for work item structure' style='display:none'>convert</button>
+
+            <button id='downloadButton' style='display:none'>download JSON</button>
+        </div>
+
+        <div id='dataViewer'></div>
     </div>
-
-    <div id='dataViewer'></div>
 
 	<script src='./workitemModelDefinition.js'></script>
     <script src='./assets/jirify-json.js'></script>

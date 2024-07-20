@@ -9,23 +9,33 @@
     <title>Jsonify CSV</title>
 </head>
 <body>
-    <div>
-        <span class='title'>Jsonify CSV</span>
+    <div class='steps'>
+        <div class='steps_step steps_step-0'>start</div>
+        <div class='steps_active-step steps_step steps_step-1'>jsonify csv</div>
+        <div class='steps_step steps_step-2'>jirify json</div>
+        <div class='steps_step steps_step-3'>analyse iteration</div>
+    </div>
+
+    <div class='steps_header-bar steps_step-1'></div>
+    <div class='steps_header'>
+        <span class='title steps_step-1-text'>Jsonify CSV</span>
         <span class='sub-title'>Convert CSV to JSON</span>
     </div>
-    
-    <div class='properties'>
-        <span id='fileName'></span>
-    </div>
 
-    <div class='controls'>
-        <button id='loadCSVButton' title='select CSV file to convert to JSON'>load CSV</button>
-        <input type='file' id='filePicker' accept='.csv' style='display:none'>    
+    <div class='content'>
+        <div class='properties'>
+            <span id='fileName'></span>
+        </div>
 
-        <button id='downloadButton' style='display:none'>download JSON</button>
+        <div class='controls'>
+            <button id='loadCSVButton' title='select CSV file to convert to JSON'>load CSV</button>
+            <input type='file' id='filePicker' accept='.csv' style='display:none'>    
+
+            <button id='downloadButton' style='display:none'>download JSON</button>
+        </div>
+        
+        <div id='dataViewer'></div>
     </div>
-    
-    <div id='dataViewer'></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src='./assets/jsonify-csv.js'></script>
