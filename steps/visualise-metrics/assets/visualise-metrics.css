@@ -30,6 +30,7 @@ body {
 
 	background-color: #FFF;
 	color: #000;
+	text-decoration: none;
 
 	display: flex;
 	justify-content: center;
@@ -92,6 +93,42 @@ body {
 	color: #9fbf2c; /* green */
 }
 
+.content {
+	color: #000;
+	margin-top: 10em;
+}
+
+.step-descriptions {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	gap: 1em;
+}
+
+.step-description {
+	width: 100%;
+	background-color: #dbdbdb;
+
+	margin: 1em;
+	padding-left: 0.1em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+.step-description_title {
+	font-size: 1.5em;
+	font-weight: bolder;
+
+	padding-bottom: 8px;
+	margin-bottom: 8px;
+	border-bottom: 1px solid #000;
+}
+
+.step-description_text {
+	padding-top: 1em;
+	color: #737373;
+}
+
 .title {
 	font-size: 3em;
 	display: block;
@@ -102,13 +139,6 @@ body {
 
 .sub-title {
 	font-size: 1.5em;
-}
-
-.heading {
-	font-size: 1em;
-	display: block;
-
-	padding-top: 1em;
 }
 
 .properties {
@@ -130,35 +160,4 @@ body {
 
 	margin:1em;
 	padding: 0.5em;
-}
-
-.attribute-preview {
-	color: #8899a6;
-	background-color: #282828;
-
-	margin:1em;
-	padding: 0.5em;
-}
-
-.attributeChangesPreviewList {
-	list-style: none;
-
-	padding: 0em;
-	margin: 0em;
-}
-
-.sprintDetailsForm {
-	padding-top: 1em;
-}
-
-.formSection {
-	padding-top: 2em;
-}
-
-.formSection-heading {
-	font-size: 1.3em;
-}
-
-.inputField {
-	padding-top: 0.5em;
 }

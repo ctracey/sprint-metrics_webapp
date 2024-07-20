@@ -30,6 +30,7 @@ body {
 
 	background-color: #FFF;
 	color: #000;
+	text-decoration: none;
 
 	display: flex;
 	justify-content: center;
@@ -43,21 +44,24 @@ body {
 	font-size: 1.1em;
 }
 
-.steps_step-0 {
-	background-color: #282828;
-	color: #b3b3b3;
-}
-
 .steps_step-1 {
-	background-color: #FC9548; /* orange */
+	background-color: #f27b3f !important; /* redish-orange */
 }
 
 .steps_step-2 {
-	background-color: #F2CE3F; /* yellow */
+	background-color: #f2b03f !important; /* orange */
 }
 
 .steps_step-3 {
-	background-color: #88BB64; /* green */
+	background-color: #F2CE3F !important; /* yellow */
+}
+
+.steps_step-4 {
+	background-color: #bfbf2c !important; /* yellowy-green */
+}
+
+.steps_step-5 {
+	background-color: #9fbf2c !important; /* green */
 }
 
 .steps_header-bar {
@@ -69,20 +73,24 @@ body {
 	padding: 8px;
 }
 
-.steps_step-0-text {
-	color: #b3b3b3;
-}
-
 .steps_step-1-text {
-	color: #FC9548; /* orange */
+	color: #f27b3f; /* reddish-orange */
 }
 
 .steps_step-2-text {
-	color: #F2CE3F; /* yellow */
+	color: #f2b03f; /* orange */
 }
 
 .steps_step-3-text {
-	color: #88BB64; /* green */
+	color: #F2CE3F; /* yellow */
+}
+
+.steps_step-4-text {
+	color: #bfbf2c; /* green */
+}
+
+.steps_step-5-text {
+	color: #9fbf2c; /* green */
 }
 
 .title {
