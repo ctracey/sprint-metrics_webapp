@@ -113,6 +113,13 @@ body {
 	padding-top: 3em;
 }
 
+.control-button {
+	font-weight: bold;
+	width: 10em;
+	height: 3em;
+	cursor: pointer;
+}
+
 .json-preview {
 	padding-top: 3em;
 }
