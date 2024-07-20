@@ -107,7 +107,10 @@ body {
 
 .step-description {
 	width: 100%;
+	
 	background-color: #dbdbdb;
+	text-decoration: none;
+	color: inherit;
 
 	margin: 1em;
 	padding-left: 0.1em;
@@ -126,7 +129,6 @@ body {
 
 .step-description_text {
 	padding-top: 1em;
-	color: #737373;
 }
 
 .title {

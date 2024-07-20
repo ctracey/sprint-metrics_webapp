@@ -109,6 +109,8 @@ body {
 	width: 100%;
 
 	background-color: #FFF;
+	text-decoration: none;
+	color: inherit;
 
 	margin: 1em;
 	padding-left: 0.1em;
