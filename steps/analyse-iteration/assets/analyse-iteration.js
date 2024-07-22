@@ -176,10 +176,7 @@ function analyseIteration(allWorkitems) {
 
     this.stats.emergentWork = analyseEmergentWork(this.stats.labels);
 
-    this.stats.metricConfidence = {
-        workitemGranularity: analyseWorkitemGranularity(this.stats.sprintOverview.backlogSize.estimate, this.stats.sprintOverview.backlogSize.throughput),
-        unestimatedWorkPercentage: analyseUnestimatedWorkInSprint(workitems, this.stats.sprintOverview.backlogSize.throughput)
-    }
+    this.stats.metricConfidence = analyseMetricConfidence(workitems, this.stats.sprintOverview.backlogSize);
 
     this.stats.strategy_bauCapacityAllocationPercentage = this.manualSprintData.strategy_bauCapacityAllocationPercentage;
     this.stats.sprintPlanning_targetCapacity = this.manualSprintData.sprintPlanning_targetCapacity;
@@ -191,6 +188,16 @@ function analyseIteration(allWorkitems) {
     this.stats.insights = analyseInsights();
 
     console.log('stats', this.stats);
+}
+
+function analyseMetricConfidence(workitems, backlogSize) {
+    let totalUnestimatedWorkitems = filterUnestimatedWork(workitems).length;
+
+    return {
+        workitemGranularity: analyseWorkitemGranularity(backlogSize.estimate, backlogSize.throughput),
+        totalUnestimatedWorkitems: totalUnestimatedWorkitems,
+        unestimatedWorkPercentage: calculatePercentage(totalUnestimatedWorkitems, backlogSize.throughput)
+    }
 }
 
 function analyseInsights() {
@@ -241,15 +248,6 @@ function analyseEmergentWork(labels) {
     });
 
     return emergentWork;
-}
-
-function analyseUnestimatedWorkInSprint(workitems, backlogItemCount) {
-    let unestimatedWorkitems = filterUnestimatedWork(workitems);
-
-    let totalUnestimatedWorkitems = unestimatedWorkitems.length;
-    let percentageWorkUnestimated = (totalUnestimatedWorkitems/backlogItemCount*100).toFixed(0);
-
-    return percentageWorkUnestimated;
 }
 
 function analyseWorkitemGranularity(backlogTotalPoints, backlogItemCount) {
@@ -363,6 +361,10 @@ function filterUnestimatedWork(workitems) {
 
 function isEstimated(storyPoints) {
     return storyPoints && storyPoints > 0
+}
+
+function calculatePercentage(numerator, denominator) {
+    return (numerator/denominator*100).toFixed(0);
 }
 
 function filterStatusCategory(workitems, category) {
