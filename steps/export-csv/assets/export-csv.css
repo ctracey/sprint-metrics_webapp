@@ -161,19 +161,11 @@ body {
 	padding-top: 3em;
 }
 
-.button_next-step {
-	display: block;
+.control-button {
 	font-weight: bold;
-	width: 8em;
-	height: 2.5em;
+	width: 10em;
+	height: 3em;
 	cursor: pointer;
-
-	text-decoration: none;
-	color: inherit;
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
 }
 
 .json-preview {

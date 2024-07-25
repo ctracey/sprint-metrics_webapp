@@ -116,6 +116,10 @@ body {
 
 .controls {
 	padding-top: 3em;
+
+	display: flex;
+/*	justify-content: space-between;*/
+	gap: 0.2em;
 }
 
 .control-button {

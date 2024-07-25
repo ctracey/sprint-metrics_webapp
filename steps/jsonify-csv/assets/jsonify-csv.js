@@ -3,11 +3,12 @@ let convertedJsonData;
 
 const loadCSVButtonId = 'loadCSVButton';
 const downloadButtonId = 'downloadButton';
+const nextStepButtonId = 'nextStepButton';
 
 document.getElementById(loadCSVButtonId).addEventListener('click', handleLoadCSVButtonClick);
 document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
 document.getElementById(downloadButtonId).addEventListener('click', handleDownloadJsonButtonClick);
-
+document.getElementById(nextStepButtonId).addEventListener('click', handleNextStepButtonClick);
 
 
 
@@ -15,6 +16,12 @@ document.getElementById(downloadButtonId).addEventListener('click', handleDownlo
 /*----------------------------------------
   ACTION HANDLERS
   --------------------------------------*/
+
+function handleNextStepButtonClick(event) {
+    const link = document.createElement('a');
+    link.href = event.target.getAttribute('href');
+    link.click();
+}
 
 function handleLoadCSVButtonClick(event) {
     document.getElementById('filePicker').click();
@@ -47,6 +54,7 @@ function handleCsvLoaded(csvRows) {
 
     showDataViewer(dataPresentationHTML);
     showDownloadButton();
+    showNextStepButton();
 }
 
 function handleDownloadJsonButtonClick(event) {
@@ -234,6 +242,10 @@ function hideLoadCSVButton() {
 
 function showDownloadButton() {
     document.getElementById(downloadButtonId).style.display = 'block';
+}
+
+function showNextStepButton() {
+    document.getElementById(nextStepButtonId).style.display = 'block';
 }
 
 function showDataViewer(htmlContent) {

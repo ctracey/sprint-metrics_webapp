@@ -8,6 +8,7 @@ const loadJsonButtonId = 'loadJsonButton';
 const filePickerId = 'filePicker';
 const downloadButtonId = 'downloadButton';
 const analyseButtonId = 'analyseButton';
+const nextStepButtonId = 'nextStepButton';
 
 const input_squadNameId = 'input_squadName';
 const input_sprintNameId = 'input_sprintName';
@@ -29,6 +30,7 @@ document.getElementById(loadJsonButtonId).addEventListener('click', handleLoadJs
 document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
 document.getElementById(analyseButtonId).addEventListener('click', handleAnalyseButtonClick);
 document.getElementById(downloadButtonId).addEventListener('click', handleDownloadJsonButtonClick);
+document.getElementById(nextStepButtonId).addEventListener('click', handleNextStepButtonClick);
 
 
 
@@ -36,6 +38,12 @@ document.getElementById(downloadButtonId).addEventListener('click', handleDownlo
 /*----------------------------------------
   ACTION HANDLERS
   --------------------------------------*/
+
+function handleNextStepButtonClick(event) {
+    const link = document.createElement('a');
+    link.href = event.target.getAttribute('href');
+    link.click();
+}
 
 function handleLoadJsonButtonClick(event) {
     document.getElementById(filePickerId).click();
@@ -78,6 +86,7 @@ function handleAnalyseButtonClick() {
     showAnalysisPreview(getStats());
 
     showDownloadButton();
+    showNextStepButton();
 }
 
 function handleDownloadJsonButtonClick(event) {
@@ -553,6 +562,10 @@ function showDataViewer(htmlContent) {
 
 function showDownloadButton() {
     document.getElementById(downloadButtonId).style.display = 'block';
+}
+
+function showNextStepButton() {
+    document.getElementById(nextStepButtonId).style.display = 'block';
 }
 
 function showAnalyseButton() {
