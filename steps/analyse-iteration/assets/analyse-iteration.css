@@ -44,6 +44,11 @@ body {
 	font-size: 1.1em;
 }
 
+.steps_step-0 {
+	color: #b3b3b3;
+	background-color: #282828 !important; /* redish-orange */
+}
+
 .steps_step-1 {
 	background-color: #f27b3f !important; /* redish-orange */
 }

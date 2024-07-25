@@ -9,6 +9,7 @@ body {
 
 .content {
 	margin: 8px;
+	color: #000;
 }
 
 .steps {
@@ -98,6 +99,48 @@ body {
 	color: #9fbf2c; /* green */
 }
 
+.step-descriptions {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	gap: 1em;
+
+	margin-top: 10em;
+}
+
+.step-description {
+	width: 100%;
+
+	background-color: #FFF;
+	text-decoration: none;
+	color: inherit;
+
+	margin: 1em;
+/*	padding-left: 0.1em;*/
+/*	padding-top: 1em;*/
+	padding-bottom: 1em;
+}
+
+.step-description_title {
+	font-size: 1.5em;
+	font-weight: bolder;
+
+	padding-top: 0.5em;
+	padding-left: 0.1em;
+	padding-bottom: 8px;
+	margin-bottom: 8px;
+	border-bottom: 1px solid #000;
+}
+
+.step-description_sub-title {
+	font-size: 1.5em;
+	padding-left: 0.1em;
+}
+
+.step-description_text {
+	padding-top: 1em;
+}
+
 .title {
 	font-size: 3em;
 	display: block;
@@ -110,13 +153,6 @@ body {
 	font-size: 1.5em;
 }
 
-.heading {
-	font-size: 1em;
-	display: block;
-
-	padding-top: 1em;
-}
-
 .properties {
 	padding-top: 3em;
 }
@@ -125,11 +161,19 @@ body {
 	padding-top: 3em;
 }
 
-.control-button {
+.button_next-step {
+	display: block;
 	font-weight: bold;
-	width: 10em;
-	height: 3em;
+	width: 8em;
+	height: 2.5em;
 	cursor: pointer;
+
+	text-decoration: none;
+	color: inherit;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .json-preview {
@@ -143,19 +187,4 @@ body {
 
 	margin:1em;
 	padding: 0.5em;
-}
-
-.attribute-preview {
-	color: #8899a6;
-	background-color: #282828;
-
-	margin:1em;
-	padding: 0.5em;
-}
-
-.attributeChangesPreviewList {
-	list-style: none;
-
-	padding: 0em;
-	margin: 0em;
 }

@@ -9,6 +9,11 @@ body {
 
 .content {
 	margin: 8px;
+	color: #000;
+}
+
+.process-overview {
+	margin-top: 10em;
 }
 
 .steps {
@@ -42,6 +47,15 @@ body {
 .steps_active-step {
 	font-weight: bold;
 	font-size: 1.1em;
+}
+
+.steps_step-0-text {
+	color: #fff; /* reddish-orange */
+}
+
+.steps_step-0 {
+	color: #b3b3b3;
+	background-color: #282828 !important; /* redish-orange */
 }
 
 .steps_step-1 {
@@ -91,11 +105,6 @@ body {
 
 .steps_step-5-text {
 	color: #9fbf2c; /* green */
-}
-
-.content {
-	color: #000;
-	margin-top: 10em;
 }
 
 .step-descriptions {
@@ -149,6 +158,21 @@ body {
 
 .controls {
 	padding-top: 3em;
+}
+
+.button_get-started {
+	display: block;
+	font-weight: bold;
+	width: 8em;
+	height: 2.5em;
+	cursor: pointer;
+
+	text-decoration: none;
+	color: inherit;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .json-preview {
