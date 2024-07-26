@@ -3,26 +3,18 @@ let convertedJsonData;
 
 const loadCSVButtonId = 'loadCSVButton';
 const downloadButtonId = 'downloadButton';
-const nextStepButtonId = 'nextStepButton';
 
 
 
 document.getElementById(loadCSVButtonId).addEventListener('click', handleLoadCSVButtonClick);
 document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
 document.getElementById(downloadButtonId).addEventListener('click', handleDownloadJsonButtonClick);
-document.getElementById(nextStepButtonId).addEventListener('click', handleNextStepButtonClick);
 
 
 
 /*----------------------------------------
   ACTION HANDLERS
   --------------------------------------*/
-
-function handleNextStepButtonClick(event) {
-    const link = document.createElement('a');
-    link.href = event.target.getAttribute('href');
-    link.click();
-}
 
 function handleLoadCSVButtonClick(event) {
     document.getElementById('filePicker').click();
@@ -64,7 +56,7 @@ function handleDownloadJsonButtonClick(event) {
     const jsonString = JSON.stringify(convertedJsonData);
     const downloadFilename = convertCSVFilenameToJsonFilename(loadedCsvFilename);
 
-    const link = setupDownloadLink(jsonString, downloadFilename);
+    const link = setupJsonDownloadLink(jsonString, downloadFilename);
     link.click();
 }
 
@@ -203,7 +195,7 @@ function parseCSVFile(file, csvDataHandler) {
   JSON DOWNLOADING
   --------------------------------------*/
 
-function setupDownloadLink(jsonString, downloadFilename) {
+function setupJsonDownloadLink(jsonString, downloadFilename) {
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     

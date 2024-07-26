@@ -7,13 +7,11 @@ let jirifiedJson;
 const loadJsonButtonId = 'loadJsonButton';
 const convertButtonId = 'convertButton';
 const downloadButtonId = 'downloadButton';
-const nextStepButtonId = 'nextStepButton';
 
 document.getElementById(loadJsonButtonId).addEventListener('click', handleLoadJsonButtonClick);
 document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
 document.getElementById(convertButtonId).addEventListener('click', handleconvertButtonClick);
 document.getElementById(downloadButtonId).addEventListener('click', handleDownloadJsonButtonClick);
-document.getElementById(nextStepButtonId).addEventListener('click', handleNextStepButtonClick);
 
 
 
@@ -22,12 +20,6 @@ document.getElementById(nextStepButtonId).addEventListener('click', handleNextSt
 /*----------------------------------------
   ACTION HANDLERS
   --------------------------------------*/
-
-function handleNextStepButtonClick(event) {
-    const link = document.createElement('a');
-    link.href = event.target.getAttribute('href');
-    link.click();
-}
 
 function handleLoadJsonButtonClick(event) {
     document.getElementById('filePicker').click();
