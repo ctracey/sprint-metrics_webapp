@@ -128,16 +128,3 @@ body {
 	height: 3em;
 	cursor: pointer;
 }
-
-.json-preview {
-	padding-top: 3em;
-}
-
-.json-data {
-	color: #8899a6;
-	font-size: x-small;
-	background-color: #282828;
-
-	margin:1em;
-	padding: 0.5em;
-}

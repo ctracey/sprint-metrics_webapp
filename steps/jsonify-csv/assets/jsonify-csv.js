@@ -1,15 +1,17 @@
 let loadedCsvFilename = '';
 let convertedJsonData;
+let jsonPreviewToggleState = false;
 
 const loadCSVButtonId = 'loadCSVButton';
 const downloadButtonId = 'downloadButton';
 const nextStepButtonId = 'nextStepButton';
 
+
+
 document.getElementById(loadCSVButtonId).addEventListener('click', handleLoadCSVButtonClick);
 document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
 document.getElementById(downloadButtonId).addEventListener('click', handleDownloadJsonButtonClick);
 document.getElementById(nextStepButtonId).addEventListener('click', handleNextStepButtonClick);
-
 
 
 
@@ -50,9 +52,11 @@ function handleCsvLoaded(csvRows) {
     //process loaded data to structured data model
     convertedJsonData = csvToJson(csvRows);
     console.log('convertedJsonData', convertedJsonData);
-    const dataPresentationHTML = renderDataAsRawJson(convertedJsonData);
+    const dataPresentationHTML = renderDataAsRawJson(convertedJsonData, 'JSON Preview');
 
     showDataViewer(dataPresentationHTML);
+    enableJsonPreviewToggle();
+
     showDownloadButton();
     showNextStepButton();
 }
@@ -219,22 +223,6 @@ function setupDownloadLink(jsonString, downloadFilename) {
 /*----------------------------------------
   PRESENTATION LOGIC
   --------------------------------------*/
-
-function renderDataAsRawJson(jsonObject) {
-    console.log('jsonData (unprocessed): ', jsonObject);
-    const jsonString = JSON.stringify(jsonObject, null, 2);
-
-    const htmlContent = `
-        <div class='json-preview'>
-            <hr>
-            <span class='sub-title'>JSON Preview</span>
-
-            <pre class='json-data'>${jsonString}</pre>
-        </div>
-    `;
-    
-    return htmlContent;
-}
 
 function hideLoadCSVButton() {
     document.getElementById(loadCSVButtonId).style.display = 'none';
