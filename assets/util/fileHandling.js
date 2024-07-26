@@ -26,10 +26,20 @@ function parseCSVFile(file, csvDataHandler) {
 
 
 /*----------------------------------------
-  JSON DOWNLOADING
+  FILE DOWNLOADING
   --------------------------------------*/
 
 function setupJsonDownloadLink(jsonString, downloadFilename) {
+    const fileType = 'application/json';
+    return setupDownloadLink(jsonString, downloadFilename, fileType);
+}
+
+function setupCsvDownloadLink(jsonString, downloadFilename) {
+    const fileType = 'text/csv';
+    return setupDownloadLink(jsonString, downloadFilename, fileType);
+}
+
+function setupDownloadLink(jsonString, downloadFilename, fileType) {
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     

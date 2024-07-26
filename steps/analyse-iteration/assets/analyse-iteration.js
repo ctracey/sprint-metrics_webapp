@@ -88,7 +88,7 @@ function handleDownloadJsonButtonClick(event) {
     // const link = setupJsonDownloadLink(analysisContent, downloadFileName('json'));
 
     const analysisContent = prepareAnalysisAsCsv(analysedStatsJson);
-    const link = setupJsonDownloadLink(analysisContent, downloadFileName('csv'));
+    const link = setupCsvDownloadLink(analysisContent, downloadFileName('csv'));
 
     link.click();
 }
@@ -206,7 +206,7 @@ function analyseInsights() {
         estimate: analyseAchievableSprintGoal(this.stats.sprintOverview.backlogSize.estimate, this.stats.sprintPlanning_targetCapacity.estimate),
         throughput: analyseAchievableSprintGoal(this.stats.sprintOverview.backlogSize.throughput, this.stats.sprintPlanning_targetCapacity.throughput)
     }
-    console.log('so', this.stats);
+
     let healthyPerformanceTarget = {
         estimate: analyseHealthyPerformanceTarget(this.stats.sprintOverview.completedTotal.estimate, this.stats.trends_velocityTrends.estimate),
         throughput: analyseHealthyPerformanceTarget(this.stats.sprintOverview.completedTotal.throughput, this.stats.trends_velocityTrends.throughput)
@@ -475,31 +475,6 @@ function filterWorkItems(workitems, filter) {
     });
 
     return filteredWorkitems;
-}
-
-function flattenJSON(obj, prefix = '') {
-  return Object.keys(obj).reduce((acc, key) => {
-    const pre = prefix.length ? prefix + '_' : '';
-    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-      Object.assign(acc, flattenJSON(obj[key], pre + key));
-    } else {
-      acc[pre + key] = obj[key];
-    }
-    return acc;
-  }, {});
-}
-
-function convertJsonToCSV(jsonObject) {
-    console.log('jsonObject', jsonObject);
-    let csvString = '';
-
-    let attributes = Object.keys(jsonObject);
-    let values = Object.values(jsonObject);
-
-    csvString = `${attributes.toString()}\n${values.toString()}`;
-    console.log('csvString  ', csvString);
-
-    return csvString;
 }
 
 
