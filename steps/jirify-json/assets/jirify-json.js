@@ -71,7 +71,7 @@ function handleconvertButtonClick(event) {
 function handleDownloadJsonButtonClick(event) {
     const jsonString = JSON.stringify(jirifiedJson);
 
-    const link = setupDownloadLink(jsonString, downloadFileName());
+    const link = setupJsonDownloadLink(jsonString, downloadFileName());
     link.click();
 }
 
@@ -141,40 +141,6 @@ function jsonToJiraWorkitem(jsonObject) {
 
 function isAttributeLimitedToSingleValue(attribute) {
     return workitemModelDefinition().singleValueLimitAttributes.includes(attribute);
-}
-
-
-
-
-/*----------------------------------------
-  FILE LOADING
-  --------------------------------------*/
-
-function loadJSONFile(file, dataHandler) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const contents = e.target.result;
-        dataHandler(contents);
-    };
-    reader.readAsText(file);
-}
-
-
-
-
-/*----------------------------------------
-  JSON DOWNLOADING
-  --------------------------------------*/
-
-function setupDownloadLink(jsonString, downloadFilename) {
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = downloadFilename;
-
-    return link;
 }
 
 

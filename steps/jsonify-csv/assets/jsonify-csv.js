@@ -4,11 +4,10 @@ let convertedJsonData;
 const loadCSVButtonId = 'loadCSVButton';
 const downloadButtonId = 'downloadButton';
 
-
-
 document.getElementById(loadCSVButtonId).addEventListener('click', handleLoadCSVButtonClick);
 document.getElementById('filePicker').addEventListener('change', handleFilePickerChange);
 document.getElementById(downloadButtonId).addEventListener('click', handleDownloadJsonButtonClick);
+
 
 
 
@@ -169,44 +168,6 @@ function csvHeaders(csvRows) {
     // Get the headers from the first row
     return csvRows[0];
 }
-
-
-
-
-/*----------------------------------------
-  FILE LOADING
-  --------------------------------------*/
-
-function parseCSVFile(file, csvDataHandler) {
-    Papa.parse(file, {
-      header: false,
-      dynamicTyping: true,
-      complete: function(results) {
-        console.log('Parsed csv rows: ', results.data);
-        csvDataHandler(results.data);
-      }
-    });
-}
-
-
-
-
-/*----------------------------------------
-  JSON DOWNLOADING
-  --------------------------------------*/
-
-function setupJsonDownloadLink(jsonString, downloadFilename) {
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = downloadFilename;
-
-    return link;
-}
-
-
 
 
 

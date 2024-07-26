@@ -85,10 +85,10 @@ function handleDownloadJsonButtonClick(event) {
     let analysedStatsJson = getStats();
 
     // const analysisContent = prepareAnalysisAsJson(analysedStatsJson);
-    // const link = setupDownloadLink(analysisContent, downloadFileName('json'));
+    // const link = setupJsonDownloadLink(analysisContent, downloadFileName('json'));
 
     const analysisContent = prepareAnalysisAsCsv(analysedStatsJson);
-    const link = setupDownloadLink(analysisContent, downloadFileName('csv'));
+    const link = setupJsonDownloadLink(analysisContent, downloadFileName('csv'));
 
     link.click();
 }
@@ -500,40 +500,6 @@ function convertJsonToCSV(jsonObject) {
     console.log('csvString  ', csvString);
 
     return csvString;
-}
-
-
-
-
-/*----------------------------------------
-  FILE LOADING
-  --------------------------------------*/
-
-function loadJSONFile(file, dataHandler) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const contents = e.target.result;
-        dataHandler(contents);
-    };
-    reader.readAsText(file);
-}
-
-
-
-
-/*----------------------------------------
-  JSON DOWNLOADING
-  --------------------------------------*/
-
-function setupDownloadLink(jsonString, downloadFilename) {
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = downloadFilename;
-
-    return link;
 }
 
 
