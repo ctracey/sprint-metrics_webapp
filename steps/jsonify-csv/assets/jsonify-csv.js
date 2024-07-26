@@ -1,6 +1,5 @@
 let loadedCsvFilename = '';
 let convertedJsonData;
-let jsonPreviewToggleState = false;
 
 const loadCSVButtonId = 'loadCSVButton';
 const downloadButtonId = 'downloadButton';

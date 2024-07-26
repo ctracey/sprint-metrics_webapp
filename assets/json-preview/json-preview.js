@@ -1,6 +1,8 @@
 const jsonPreviewToggleId = 'jsonPreviewToggle';
 const jsonPreviewContentId = 'json-preview-content';
 
+let jsonPreviewToggleState = false;
+
 function enableJsonPreviewToggle() {
     document.getElementById(jsonPreviewToggleId).addEventListener('click', handleJsonPreviewToggleIdClick);
 }

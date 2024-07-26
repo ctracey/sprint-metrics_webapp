@@ -68,9 +68,10 @@ function handleconvertButtonClick(event) {
     hideConvertButton();
 
     jirifiedJson = jsonToJiraWorkitems();
-    const dataPresentationHTML = renderDataAsRawJson(jirifiedJson);
+    const dataPresentationHTML = renderDataAsRawJson(jirifiedJson, 'JSON Preview');
 
     showDataViewer(dataPresentationHTML);
+    enableJsonPreviewToggle();
     showDownloadButton();
     showNextStepButton();
 }
@@ -204,7 +205,7 @@ function showWorkItemChangesPreview(workitemModelDefinition, availableAttributes
         <div>
             <hr>
             <span class='sub-title'>Workitem Changes Preview</span>
-            <span class='heading'>attributes to keep:</span>
+            <span class='attribute-heading'>attributes to keep:</span>
 
             <div class='attribute-preview'>
                 <ul class='attributeChangesPreviewList'>
@@ -221,23 +222,6 @@ function renderAttributeChangeItem(attribute, keepingAttribute, limitedToSingleV
     let checked = keepingAttribute ? 'x' : '';
     let onlyUseFirstValueWarning = limitedToSingleValue ? '(LIMITED TO SINGLE VALUE)' : '';
     return `[${checked}] ${attribute} ${onlyUseFirstValueWarning}`;
-}
-
-function renderDataAsRawJson(jsonObject) {
-    console.log('jsonData (unprocessed): ', jsonObject);
-
-    const jsonString = JSON.stringify(jsonObject, null, 2);
-
-    const htmlContent = `
-        <div class='json-preview'>
-            <hr>
-            <span class='sub-title'>Jirified</span>
-            
-            <pre class='json-data'>${jsonString}</pre>
-        </div>
-    `;
-
-    return htmlContent;
 }
 
 function hideLoadCSVButton() {

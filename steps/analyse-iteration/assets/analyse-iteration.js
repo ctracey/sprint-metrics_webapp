@@ -581,23 +581,7 @@ function showAnalysisPreview(analysisStats) {
     let previewHTML = renderDataAsRawJson(analysisStats, 'Analysis Preview');
 
     showDataViewer(previewHTML);
-}
-
-function renderDataAsRawJson(jsonObject, title) {
-    console.log('jsonData: ', jsonObject);
-
-    const jsonString = JSON.stringify(jsonObject, null, 2);
-
-    const htmlContent = `
-        <div class='json-preview'>
-            <hr>
-            <span class='sub-title'>${title}</span>
-            
-            <pre class='json-data'>${jsonString}</pre>
-        </div>
-    `;
-
-    return htmlContent;
+    enableJsonPreviewToggle();
 }
 
 function hideSprintDetailsForm() {

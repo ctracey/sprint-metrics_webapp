@@ -1,0 +1,43 @@
+body {
+	background-color: #181818;
+
+	font-family: sans-serif;
+	color: #b3b3b3;
+
+	margin: 0px;
+}
+
+.content {
+	margin: 8px;
+}
+
+.title {
+	font-size: 3em;
+	display: block;
+
+	padding-top: 0.5em;
+	padding-bottom: 0.2em;
+}
+
+.sub-title {
+	font-size: 1.5em;
+}
+
+.properties {
+	padding-top: 3em;
+}
+
+.controls {
+	padding-top: 3em;
+
+	display: flex;
+/*	justify-content: space-between;*/
+	gap: 0.2em;
+}
+
+.control-button {
+	font-weight: bold;
+	width: 10em;
+	height: 3em;
+	cursor: pointer;
+}
