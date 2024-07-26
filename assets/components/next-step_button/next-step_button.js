@@ -3,7 +3,9 @@ const nextStepButtonId = 'nextStepButton';
 document.getElementById(nextStepButtonId).addEventListener('click', handleNextStepButtonClick);
 
 
-
+function showNextStepButton() {
+    document.getElementById(nextStepButtonId).style.display = 'block';
+}
 
 /*----------------------------------------
   ACTION HANDLERS

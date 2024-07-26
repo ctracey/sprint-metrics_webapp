@@ -30,7 +30,7 @@ function handleFilePickerChange(event) {
 
     const file = event.target.files[0];
     if (file) {
-        hideLoadCSVButton();
+        hideButton(loadJsonButtonId);
 
         loadedJsonFilename = file.name;
         showFilename(loadedJsonFilename);
@@ -53,18 +53,18 @@ function handleJsonLoaded(loadedJsonText) {
 
     //TODO: enable config changes checkboxes   
     showWorkItemChangesPreview(workItemModelDefinition, loadedWorkitemAttributes);
-    showConvertButton();
+    showButton(convertButtonId);
 }
 
 function handleconvertButtonClick(event) {
-    hideConvertButton();
+    hideButton(convertButtonId);
 
     jirifiedJson = jsonToJiraWorkitems();
     const dataPresentationHTML = renderDataAsRawJson(jirifiedJson, 'JSON Preview');
 
     showDataViewer(dataPresentationHTML);
     enableJsonPreviewToggle();
-    showDownloadButton();
+    showButton(downloadButtonId);
     showNextStepButton();
 }
 
@@ -180,26 +180,6 @@ function renderAttributeChangeItem(attribute, keepingAttribute, limitedToSingleV
     let checked = keepingAttribute ? 'x' : '';
     let onlyUseFirstValueWarning = limitedToSingleValue ? '(LIMITED TO SINGLE VALUE)' : '';
     return `[${checked}] ${attribute} ${onlyUseFirstValueWarning}`;
-}
-
-function hideLoadCSVButton() {
-    document.getElementById(loadJsonButtonId).style.display = 'none';
-}
-
-function showConvertButton() {
-    document.getElementById(convertButtonId).style.display = 'block';
-}
-
-function hideConvertButton() {
-    document.getElementById(convertButtonId).style.display = 'none';
-}
-
-function showDownloadButton() {
-    document.getElementById(downloadButtonId).style.display = 'block';
-}
-
-function showNextStepButton() {
-    document.getElementById(nextStepButtonId).style.display = 'block';
 }
 
 function showDataViewer(htmlContent) {

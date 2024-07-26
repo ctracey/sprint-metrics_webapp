@@ -46,7 +46,7 @@ function handleFilePickerChange(event) {
 
     const file = event.target.files[0];
     if (file) {
-        hideLoadJsonButton();
+        hideButton(loadJsonButtonId);
 
         loadedJsonFilename = file.name;
         showFilename(loadedJsonFilename);
@@ -68,7 +68,7 @@ function handleJsonLoaded(loadedJsonText) {
 }
 
 function handleAnalyseButtonClick() {
-    hideAnalyseButton();
+    hideButton(analyseButtonId);
     hideSprintDetailsForm();
 
     processManualSprintDetails();
@@ -77,7 +77,7 @@ function handleAnalyseButtonClick() {
     // showAnalysisPreview(getFlattenedStats());
     showAnalysisPreview(getStats());
 
-    showDownloadButton();
+    showButton(downloadButtonId);
     showNextStepButton();
 }
 
@@ -484,29 +484,9 @@ function filterWorkItems(workitems, filter) {
   PRESENTATION LOGIC
   --------------------------------------*/
 
-function hideLoadJsonButton() {
-    document.getElementById(loadJsonButtonId).style.display = 'none';
-}
-
 function showDataViewer(htmlContent) {
     const elementId = 'dataViewer';
     document.getElementById(elementId).innerHTML = htmlContent;
-}
-
-function showDownloadButton() {
-    document.getElementById(downloadButtonId).style.display = 'block';
-}
-
-function showNextStepButton() {
-    document.getElementById(nextStepButtonId).style.display = 'block';
-}
-
-function showAnalyseButton() {
-    document.getElementById(analyseButtonId).style.display = 'block';
-}
-
-function hideAnalyseButton() {
-    document.getElementById(analyseButtonId).style.display = 'none';
 }
 
 function showAnalysisPreview(analysisStats) {
@@ -525,7 +505,7 @@ function showSprintDetailsForm() {
     let sprintDetailsFornHTML = renderSprintDetailsForm();
     document.getElementById(userInputSectionId).innerHTML = sprintDetailsFornHTML;
 
-    showAnalyseButton();
+    showButton(analyseButtonId);
 }
 
 function renderSprintDetailsForm() {

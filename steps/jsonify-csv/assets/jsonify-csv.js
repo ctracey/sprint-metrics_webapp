@@ -24,7 +24,7 @@ function handleFilePickerChange(event) {
 
     const file = event.target.files[0];
     if (file) {
-        hideLoadCSVButton();
+        hideButton(loadCSVButtonId);
 
         loadedCsvFilename = file.name;
         showFilename(loadedCsvFilename);
@@ -47,7 +47,7 @@ function handleCsvLoaded(csvRows) {
     showDataViewer(dataPresentationHTML);
     enableJsonPreviewToggle();
 
-    showDownloadButton();
+    showButton(downloadButtonId);
     showNextStepButton();
 }
 
@@ -69,18 +69,6 @@ function convertCSVFilenameToJsonFilename(csvFilename) {
 /*----------------------------------------
   PRESENTATION LOGIC
   --------------------------------------*/
-
-function hideLoadCSVButton() {
-    document.getElementById(loadCSVButtonId).style.display = 'none';
-}
-
-function showDownloadButton() {
-    document.getElementById(downloadButtonId).style.display = 'block';
-}
-
-function showNextStepButton() {
-    document.getElementById(nextStepButtonId).style.display = 'block';
-}
 
 function showDataViewer(htmlContent) {
     const elementId = 'dataViewer';
