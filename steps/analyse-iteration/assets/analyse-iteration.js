@@ -78,7 +78,6 @@ function handleAnalyseButtonClick() {
     showAnalysisPreview(getStats());
 
     showButton(downloadButtonId);
-    showNextStepButton();
 }
 
 function handleDownloadJsonButtonClick(event) {
@@ -91,6 +90,8 @@ function handleDownloadJsonButtonClick(event) {
     const link = setupCsvDownloadLink(analysisContent, downloadFileName('csv'));
 
     link.click();
+
+    showNextStepButton();
 }
 
 function prepareAnalysisAsJson(analysedStatsJson) {

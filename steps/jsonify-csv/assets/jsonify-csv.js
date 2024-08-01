@@ -48,7 +48,6 @@ function handleCsvLoaded(csvRows) {
     enableJsonPreviewToggle();
 
     showButton(downloadButtonId);
-    showNextStepButton();
 }
 
 function handleDownloadJsonButtonClick(event) {
@@ -57,6 +56,8 @@ function handleDownloadJsonButtonClick(event) {
 
     const link = setupJsonDownloadLink(jsonString, downloadFilename);
     link.click();
+
+    showNextStepButton();
 }
 
 function convertCSVFilenameToJsonFilename(csvFilename) {

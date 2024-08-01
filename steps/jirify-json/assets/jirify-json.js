@@ -65,7 +65,6 @@ function handleconvertButtonClick(event) {
     showDataViewer(dataPresentationHTML);
     enableJsonPreviewToggle();
     showButton(downloadButtonId);
-    showNextStepButton();
 }
 
 function handleDownloadJsonButtonClick(event) {
@@ -73,6 +72,8 @@ function handleDownloadJsonButtonClick(event) {
 
     const link = setupJsonDownloadLink(jsonString, downloadFileName());
     link.click();
+
+    showNextStepButton();
 }
 
 function downloadFileName() {
