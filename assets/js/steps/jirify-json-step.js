@@ -1,11 +1,31 @@
-function analyseAttributeChanges(workitemsJson) {
-    const workitemAttributes = scanWorkitemAttributes(workitemsJson);
+const jirifyJsonStep = {
+	analyseAttributeChanges: (workitemsJson) => {
+	    const workitemAttributes = scanWorkitemAttributes(workitemsJson);
 
-    //TODO: enable config changes checkboxes
-    let attributeChanges = identifyAttributeChanges(workitemAttributes);
+	    //TODO: enable config changes checkboxes
+	    let attributeChanges = identifyAttributeChanges(workitemAttributes);
 
-    return attributeChanges;
+	    return attributeChanges;
+	},
+
+	jsonToJiraWorkitems: (workitemsJson) => {
+	    let jiraWorkitems = [];
+
+	    workitemsJson.forEach(function(jsonObject) {
+	        let jiraWorkitem = jsonToJiraWorkitem(jsonObject);
+	        jiraWorkitems.push(jiraWorkitem);
+	    });
+
+	    return jiraWorkitems;
+	}
 }
+
+
+
+
+/*----------------------------------------
+  PRIVATE
+  --------------------------------------*/
 
 function scanWorkitemAttributes(workitemsJson) {
     let scannedAttributes = [];
@@ -39,17 +59,6 @@ function identifyAttributeChanges(availableAttributes) {
     });
 
     return attributeChanges;
-}
-
-function jsonToJiraWorkitems() {
-    let jiraWorkitems = [];
-
-    loadedJson.forEach(function(jsonObject) {
-        let jiraWorkitem = jsonToJiraWorkitem(jsonObject);
-        jiraWorkitems.push(jiraWorkitem);
-    });
-
-    return jiraWorkitems;
 }
 
 function jsonToJiraWorkitem(jsonObject) {

@@ -47,7 +47,7 @@ function handleJsonLoaded(loadedJsonText) {
     loadedJson = JSON.parse(loadedJsonText);
     console.log(loadedJson);
 
-    let attributeChanges = analyseAttributeChanges(loadedJson);
+    let attributeChanges = jirifyJsonStep.analyseAttributeChanges(loadedJson);
     
     showWorkItemChangesPreview(attributeChanges);
     viewUtil.showButton(convertButtonId);
@@ -56,7 +56,7 @@ function handleJsonLoaded(loadedJsonText) {
 function handleconvertButtonClick(event) {
     viewUtil.hideButton(convertButtonId);
 
-    jirifiedJson = jsonToJiraWorkitems();
+    jirifiedJson = jirifyJsonStep.jsonToJiraWorkitems(loadedJson);
     const dataPresentationHTML = renderDataAsRawJson(jirifiedJson, 'JSON Preview');
 
     showDataViewer(dataPresentationHTML);
