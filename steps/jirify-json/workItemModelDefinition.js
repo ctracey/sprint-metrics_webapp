@@ -21,3 +21,7 @@ const defaultWorkitemModelDefinition = {
         'Custom field (Story Points)',
     ]
 };
+
+function getDefaultWorkitemModelDefinition() {
+    return defaultWorkitemModelDefinition;
+}

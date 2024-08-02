@@ -16,7 +16,6 @@ document.getElementById(downloadButtonId).addEventListener('click', handleDownlo
 
 
 
-
 /*----------------------------------------
   ACTION HANDLERS
   --------------------------------------*/
@@ -48,18 +47,17 @@ function handleJsonLoaded(loadedJsonText) {
     loadedJson = JSON.parse(loadedJsonText);
     console.log(loadedJson);
 
-    const workItemModelDefinition = workitemModelDefinition();
-    const loadedWorkitemAttributes = scanWorkitemAttributes(loadedJson);
-
-    //TODO: enable config changes checkboxes   
-    showWorkItemChangesPreview(workItemModelDefinition, loadedWorkitemAttributes);
+    setWorkitemModelDefinition(getDefaultWorkitemModelDefinition());
+    let attributeChanges = analyseAttributeChanges(getWorkitemModelDefinition(), loadedJson);
+    
+    showWorkItemChangesPreview(attributeChanges);
     showButton(convertButtonId);
 }
 
 function handleconvertButtonClick(event) {
     hideButton(convertButtonId);
 
-    jirifiedJson = jsonToJiraWorkitems();
+    jirifiedJson = jsonToJiraWorkitems(getWorkitemModelDefinition());
     const dataPresentationHTML = renderDataAsRawJson(jirifiedJson, 'JSON Preview');
 
     showDataViewer(dataPresentationHTML);
@@ -84,103 +82,12 @@ function downloadFileName() {
 
 
 /*----------------------------------------
-  DATA PROCESSING
-  --------------------------------------*/
-
-function workitemModelDefinition() {
-    return getDefaultWorkitemModelDefinition();
-}
-
-function getDefaultWorkitemModelDefinition() {
-    //value set by including defaultWorkitemModelDefinition.js in html where this js script is used
-    return defaultWorkitemModelDefinition;
-}
-
-function scanWorkitemAttributes(workitemsJson) {
-    let scannedAttributes = [];
-
-    workitemsJson.forEach(function(workitem) {
-        workitemAttributes = Object.keys(workitem);
-        workitemAttributes.forEach(function(attribute) {
-            if (!scannedAttributes.includes(attribute)) {
-                scannedAttributes.push(attribute);
-            }
-        });
-    });
-
-    return scannedAttributes;
-}
-
-function jsonToJiraWorkitems() {
-    let jiraWorkitems = [];
-
-    loadedJson.forEach(function(jsonObject) {
-        let jiraWorkitem = jsonToJiraWorkitem(jsonObject);
-        jiraWorkitems.push(jiraWorkitem);
-    });
-
-    return jiraWorkitems;
-}
-
-function jsonToJiraWorkitem(jsonObject) {
-    let jiraWorkitem = {};
-
-    let modelDefinition = workitemModelDefinition();
-    let attributes = modelDefinition.attributes;
-    
-    //only keep attributes in model definition
-    attributes.forEach(function(attribute) {
-        let jsonValue = jsonObject[attribute];
-        if (Array.isArray(jsonValue) && isAttributeLimitedToSingleValue(attribute)) {
-            jsonValue = jsonValue[0];
-        }
-        jiraWorkitem[attribute] = jsonValue;
-    });
-
-    return jiraWorkitem;
-}
-
-function isAttributeLimitedToSingleValue(attribute) {
-    return workitemModelDefinition().singleValueLimitAttributes.includes(attribute);
-}
-
-
-
-
-/*----------------------------------------
   PRESENTATION LOGIC
   --------------------------------------*/
 
-function showWorkItemChangesPreview(workitemModelDefinition, availableAttributes) {
-    let attributeChanges = [];
-    availableAttributes.forEach(function (attribute) {
-        let keepingAttribute = workitemModelDefinition.attributes.includes(attribute);
-        let limitedToSingleValue = isAttributeLimitedToSingleValue(attribute);
-        attributeChange = renderAttributeChangeItem(attribute, keepingAttribute, limitedToSingleValue);
-        attributeChanges.push(attributeChange);
-    });
-
-    let previewHTML = `
-        <div>
-            <hr>
-            <span class='sub-title'>Workitem Changes Preview</span>
-            <span class='attribute-heading'>attributes to keep:</span>
-
-            <div class='attribute-preview'>
-                <ul class='attributeChangesPreviewList'>
-                    <li>${attributeChanges.join('</li><li>')}</li>
-                </ul>
-            </div>
-        </div>
-    `;
-
+function showWorkItemChangesPreview(attributeChanges) {
+    let previewHTML = renderWorkItemChangesPreview(attributeChanges);
     showDataViewer(previewHTML);
-}
-
-function renderAttributeChangeItem(attribute, keepingAttribute, limitedToSingleValue) {
-    let checked = keepingAttribute ? 'x' : '';
-    let onlyUseFirstValueWarning = limitedToSingleValue ? '(LIMITED TO SINGLE VALUE)' : '';
-    return `[${checked}] ${attribute} ${onlyUseFirstValueWarning}`;
 }
 
 function showDataViewer(htmlContent) {
