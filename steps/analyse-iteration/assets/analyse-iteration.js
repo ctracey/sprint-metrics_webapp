@@ -102,7 +102,7 @@ function prepareAnalysisAsCsv(analysedStatsJson) {
     let flattenedJson = getFlattenedStats(analysedStatsJson);
     console.log('flattenedJson', flattenedJson);
 
-    let statsCsv = convertJsonToCSV(flattenedJson);
+    let statsCsv = dataConverterUtil.convertJsonToCSV(flattenedJson);
     console.log('statsCsv', statsCsv);
 
     return statsCsv;
@@ -147,7 +147,7 @@ function getStats() {
 }
 
 function getFlattenedStats() {
-    return flattenJSON(getStats());
+    return dataConverterUtil.flattenJSON(getStats());
 }
 
 function analyseIteration(allWorkitems) {

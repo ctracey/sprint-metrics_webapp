@@ -40,7 +40,7 @@ function handleCsvLoaded(csvRows) {
     console.log('handle loaded CSV data');
 
     //process loaded data to structured data model
-    convertedJsonData = csvToJson(csvRows);
+    convertedJsonData = dataConverterUtil.csvToJson(csvRows);
     console.log('convertedJsonData', convertedJsonData);
     const dataPresentationHTML = renderDataAsRawJson(convertedJsonData, 'JSON Preview');
 

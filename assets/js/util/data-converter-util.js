@@ -1,52 +1,65 @@
+const dataConverterUtil = {
+	/*----------------------------------------
+	  RESTRUCTURE JSON
+	  --------------------------------------*/
+
+	flattenJSON: (obj, prefix = '') => {
+	  return flattenJsonObject(obj, prefix);
+	},
+
+
+
+
+	/*----------------------------------------
+	  JSON TO CSV
+	  --------------------------------------*/
+
+	convertJsonToCSV: (jsonObject) => {
+	    console.log('jsonObject', jsonObject);
+	    let csvString = '';
+
+	    let attributes = Object.keys(jsonObject);
+	    let values = Object.values(jsonObject);
+
+	    csvString = `${attributes.toString()}\n${values.toString()}`;
+	    console.log('csvString  ', csvString);
+
+	    return csvString;
+	},
+
+
+
+
+	/*----------------------------------------
+	  CSV TO JSON
+	  --------------------------------------*/
+
+	csvToJson: (csvRows) => {
+	    console.log('PARSING csv data to json');
+	    
+	    const headers = csvHeaders(csvRows);
+
+	    return csvRowsToJson(csvRows, headers);
+	},
+}
+
+
+
+
 /*----------------------------------------
-  RESTRUCTURE JSON
+  PRIVATE
   --------------------------------------*/
 
-function flattenJSON(obj, prefix = '') {
+function flattenJsonObject(obj, prefix = '')  {
   return Object.keys(obj).reduce((acc, key) => {
     const pre = prefix.length ? prefix + '_' : '';
     if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-      Object.assign(acc, flattenJSON(obj[key], pre + key));
+      Object.assign(acc, flattenJsonObject(obj[key], pre + key));
     } else {
       acc[pre + key] = obj[key];
     }
     return acc;
   }, {});
-}
-
-
-
-
-/*----------------------------------------
-  JSON TO CSV
-  --------------------------------------*/
-
-function convertJsonToCSV(jsonObject) {
-    console.log('jsonObject', jsonObject);
-    let csvString = '';
-
-    let attributes = Object.keys(jsonObject);
-    let values = Object.values(jsonObject);
-
-    csvString = `${attributes.toString()}\n${values.toString()}`;
-    console.log('csvString  ', csvString);
-
-    return csvString;
-}
-
-
-
-
-/*----------------------------------------
-  CSV TO JSON
-  --------------------------------------*/
-
-function csvToJson(csvRows) {
-    console.log('PARSING csv data to json');
-    
-    const headers = csvHeaders(csvRows);
-
-    return csvRowsToJson(csvRows, headers);
 }
 
 function csvHeaders(csvRows) {
