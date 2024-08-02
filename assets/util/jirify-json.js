@@ -1,8 +1,8 @@
-function analyseAttributeChanges(workItemModelDefinition, workitemsJson) {
+function analyseAttributeChanges(workitemsJson) {
     const workitemAttributes = scanWorkitemAttributes(workitemsJson);
 
     //TODO: enable config changes checkboxes
-    let attributeChanges = identifyAttributeChanges(workItemModelDefinition, workitemAttributes);
+    let attributeChanges = identifyAttributeChanges(workitemAttributes);
 
     return attributeChanges;
 }
@@ -22,14 +22,17 @@ function scanWorkitemAttributes(workitemsJson) {
     return scannedAttributes;
 }
 
-function identifyAttributeChanges(workitemModelDefinition, availableAttributes) {
+function identifyAttributeChanges(availableAttributes) {
     let attributeChanges = [];
 
-    availableAttributes.forEach(function (attribute) {
+    let workitemModelDefinition = WorkitemModel.getInstance().getDefinition();
+    let workitemModel = WorkitemModel.getInstance();
+
+    availableAttributes.forEach((attribute) => {
         let attributeChange = {
             attribute: attribute,
-            keep: workitemModelDefinition.attributes.includes(attribute),
-            limitedToSingleValue: isAttributeLimitedToSingleValue(attribute)
+            keep: workitemModel.hasAttribute(attribute),
+            limitedToSingleValue: workitemModel.isAttributeLimitedToSingleValue(attribute)
         }
 
         attributeChanges.push(attributeChange);
@@ -38,34 +41,30 @@ function identifyAttributeChanges(workitemModelDefinition, availableAttributes) 
     return attributeChanges;
 }
 
-function jsonToJiraWorkitems(workitemModelDefinition) {
+function jsonToJiraWorkitems() {
     let jiraWorkitems = [];
 
     loadedJson.forEach(function(jsonObject) {
-        let jiraWorkitem = jsonToJiraWorkitem(jsonObject, workitemModelDefinition);
+        let jiraWorkitem = jsonToJiraWorkitem(jsonObject);
         jiraWorkitems.push(jiraWorkitem);
     });
 
     return jiraWorkitems;
 }
 
-function jsonToJiraWorkitem(jsonObject, workitemModelDefinition) {
+function jsonToJiraWorkitem(jsonObject) {
     let jiraWorkitem = {};
 
-    let attributes = workitemModelDefinition.attributes;
+    let workitemModel = WorkitemModel.getInstance();
     
     //only keep attributes in model definition
-    attributes.forEach(function(attribute) {
+    workitemModel.getDefinitionAttributes().forEach(function(attribute) {
         let jsonValue = jsonObject[attribute];
-        if (Array.isArray(jsonValue) && isAttributeLimitedToSingleValue(attribute)) {
+        if (Array.isArray(jsonValue) && workitemModel.isAttributeLimitedToSingleValue(attribute)) {
             jsonValue = jsonValue[0];
         }
         jiraWorkitem[attribute] = jsonValue;
     });
 
     return jiraWorkitem;
-}
-
-function isAttributeLimitedToSingleValue(attribute) {
-    return getWorkitemModelDefinition().singleValueLimitAttributes.includes(attribute);
 }

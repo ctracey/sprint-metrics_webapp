@@ -1,4 +1,4 @@
-//needs defaultWorkitemModelDefinition.js to be sourced in html
+//needs config/workitem-model-definition-config.js to be sourced in html
 
 let loadedJsonFilename = '';
 let loadedJson;
@@ -47,8 +47,7 @@ function handleJsonLoaded(loadedJsonText) {
     loadedJson = JSON.parse(loadedJsonText);
     console.log(loadedJson);
 
-    setWorkitemModelDefinition(getDefaultWorkitemModelDefinition());
-    let attributeChanges = analyseAttributeChanges(getWorkitemModelDefinition(), loadedJson);
+    let attributeChanges = analyseAttributeChanges(loadedJson);
     
     showWorkItemChangesPreview(attributeChanges);
     viewUtil.showButton(convertButtonId);
@@ -57,7 +56,7 @@ function handleJsonLoaded(loadedJsonText) {
 function handleconvertButtonClick(event) {
     viewUtil.hideButton(convertButtonId);
 
-    jirifiedJson = jsonToJiraWorkitems(getWorkitemModelDefinition());
+    jirifiedJson = jsonToJiraWorkitems();
     const dataPresentationHTML = renderDataAsRawJson(jirifiedJson, 'JSON Preview');
 
     showDataViewer(dataPresentationHTML);
