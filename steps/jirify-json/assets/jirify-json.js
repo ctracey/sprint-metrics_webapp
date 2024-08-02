@@ -34,7 +34,7 @@ function handleFilePickerChange(event) {
         loadedJsonFilename = file.name;
         showFilename(loadedJsonFilename);
 
-        loadJSONFile(file, handleJsonLoaded);
+        fileUtil.loadJSONFile(file, handleJsonLoaded);
     } else {
         showFilename('No file selected');
         showDataViewer('');
@@ -68,7 +68,7 @@ function handleconvertButtonClick(event) {
 function handleDownloadJsonButtonClick(event) {
     const jsonString = JSON.stringify(jirifiedJson);
 
-    const link = setupJsonDownloadLink(jsonString, downloadFileName());
+    const link = fileUtil.setupJsonDownloadLink(jsonString, downloadFileName());
     link.click();
 
     showNextStepButton();
