@@ -40,7 +40,6 @@ const fileUtil = {
 	    const fileType = 'text/csv';
 	    return setupDownloadLink(jsonString, downloadFilename, fileType);
 	},
-
 	
 }
 

@@ -51,7 +51,7 @@ function handleFilePickerChange(event) {
         loadedJsonFilename = file.name;
         showFilename(loadedJsonFilename);
 
-        loadJSONFile(file, handleJsonLoaded);
+        fileUtil.loadJSONFile(file, handleJsonLoaded);
     } else {
         showFilename('No file selected');
         showDataViewer('');
@@ -84,10 +84,10 @@ function handleDownloadJsonButtonClick(event) {
     let analysedStatsJson = getStats();
 
     // const analysisContent = prepareAnalysisAsJson(analysedStatsJson);
-    // const link = setupJsonDownloadLink(analysisContent, downloadFileName('json'));
+    // const link = fileUtil.setupJsonDownloadLink(analysisContent, downloadFileName('json'));
 
     const analysisContent = prepareAnalysisAsCsv(analysedStatsJson);
-    const link = setupCsvDownloadLink(analysisContent, downloadFileName('csv'));
+    const link = fileUtil.setupCsvDownloadLink(analysisContent, downloadFileName('csv'));
 
     link.click();
 

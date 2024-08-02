@@ -29,7 +29,7 @@ function handleFilePickerChange(event) {
         loadedCsvFilename = file.name;
         showFilename(loadedCsvFilename);
 
-        parseCSVFile(file, handleCsvLoaded);
+        fileUtil.parseCSVFile(file, handleCsvLoaded);
     } else {
         showFilename('No file selected');
         showDataViewer('');
@@ -54,7 +54,7 @@ function handleDownloadJsonButtonClick(event) {
     const jsonString = JSON.stringify(convertedJsonData);
     const downloadFilename = convertCSVFilenameToJsonFilename(loadedCsvFilename);
 
-    const link = setupJsonDownloadLink(jsonString, downloadFilename);
+    const link = fileUtil.setupJsonDownloadLink(jsonString, downloadFilename);
     link.click();
 
     showNextStepButton();
