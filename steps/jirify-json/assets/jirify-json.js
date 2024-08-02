@@ -29,7 +29,7 @@ function handleFilePickerChange(event) {
 
     const file = event.target.files[0];
     if (file) {
-        hideButton(loadJsonButtonId);
+        viewUtil.hideButton(loadJsonButtonId);
 
         loadedJsonFilename = file.name;
         showFilename(loadedJsonFilename);
@@ -51,18 +51,18 @@ function handleJsonLoaded(loadedJsonText) {
     let attributeChanges = analyseAttributeChanges(getWorkitemModelDefinition(), loadedJson);
     
     showWorkItemChangesPreview(attributeChanges);
-    showButton(convertButtonId);
+    viewUtil.showButton(convertButtonId);
 }
 
 function handleconvertButtonClick(event) {
-    hideButton(convertButtonId);
+    viewUtil.hideButton(convertButtonId);
 
     jirifiedJson = jsonToJiraWorkitems(getWorkitemModelDefinition());
     const dataPresentationHTML = renderDataAsRawJson(jirifiedJson, 'JSON Preview');
 
     showDataViewer(dataPresentationHTML);
     enableJsonPreviewToggle();
-    showButton(downloadButtonId);
+    viewUtil.showButton(downloadButtonId);
 }
 
 function handleDownloadJsonButtonClick(event) {

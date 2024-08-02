@@ -46,7 +46,7 @@ function handleFilePickerChange(event) {
 
     const file = event.target.files[0];
     if (file) {
-        hideButton(loadJsonButtonId);
+        viewUtil.hideButton(loadJsonButtonId);
 
         loadedJsonFilename = file.name;
         showFilename(loadedJsonFilename);
@@ -68,7 +68,7 @@ function handleJsonLoaded(loadedJsonText) {
 }
 
 function handleAnalyseButtonClick() {
-    hideButton(analyseButtonId);
+    viewUtil.hideButton(analyseButtonId);
     hideSprintDetailsForm();
 
     processManualSprintDetails();
@@ -77,7 +77,7 @@ function handleAnalyseButtonClick() {
     // showAnalysisPreview(getFlattenedStats());
     showAnalysisPreview(getStats());
 
-    showButton(downloadButtonId);
+    viewUtil.showButton(downloadButtonId);
 }
 
 function handleDownloadJsonButtonClick(event) {
@@ -506,7 +506,7 @@ function showSprintDetailsForm() {
     let sprintDetailsFornHTML = renderSprintDetailsForm();
     document.getElementById(userInputSectionId).innerHTML = sprintDetailsFornHTML;
 
-    showButton(analyseButtonId);
+    viewUtil.showButton(analyseButtonId);
 }
 
 function renderSprintDetailsForm() {

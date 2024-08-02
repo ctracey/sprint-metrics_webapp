@@ -24,7 +24,7 @@ function handleFilePickerChange(event) {
 
     const file = event.target.files[0];
     if (file) {
-        hideButton(loadCSVButtonId);
+        viewUtil.hideButton(loadCSVButtonId);
 
         loadedCsvFilename = file.name;
         showFilename(loadedCsvFilename);
@@ -47,7 +47,7 @@ function handleCsvLoaded(csvRows) {
     showDataViewer(dataPresentationHTML);
     enableJsonPreviewToggle();
 
-    showButton(downloadButtonId);
+    viewUtil.showButton(downloadButtonId);
 }
 
 function handleDownloadJsonButtonClick(event) {
