@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+    <link rel='stylesheet' href='../assets/css/sprint-metrics_webapp.css'>
+    <link rel='stylesheet' href='../assets/css/steps/jirify-json.css'>
+
+    <link rel='stylesheet' href='../assets/components/steps/steps.css'>
+    <link rel='stylesheet' href='../assets/components/json-preview/json-preview.css'>
+
+    <title>Jirify JSON</title>
+</head>
+<body>
+	<div class='steps'>
+        <a href='../start.html' class='steps_step steps_step-0'>overview</a>
+        <a href='./export-csv.html' class='steps_step steps_step-1' title='export work items from jira (csv)'>export csv</a>
+        <a href='./jsonify-csv.html' class='steps_step steps_step-2' title='convert downloaded csv to json (json)'>jsonify csv</a>
+        <a href='./jirify-json.html' class='steps_active-step steps_step steps_step-3' title='convert downloaded json to data model (json)'>jirify json</a>
+        <a href='./analyse-iteration.html' class='steps_step steps_step-4' title='convert data model to calculated metrics (csv)'>analyse iteration</a>
+        <a href='./visualise-metrics.html' class='steps_step steps_step-5' title='convert downloaded metrics data to visualised dashboard (xlxs)'>visualise metrics</a>
+    </div>
+
+    <div class='steps_header-bar steps_step-3'></div>
+    <div class='steps_header'>
+        <span class='title steps_step-3-text'>Jirify JSON</span>
+        <span class='sub-title'>Convert Jira export JSON to consistently structured data representing Jira Workitems</span>
+    </div>
+
+    <div class='content'>
+        <div class='properties'>
+            <span id='fileName'></span>
+        </div>
+
+        <div class='controls'>
+            <button id='loadJsonButton' title='select JSON file to structure' class='control-button steps_step-3'>load JSON</button>
+            <input type='file' id='filePicker' accept='.json' style='display:none'>
+
+            <button id='convertButton' title='create new json file for work item structure' style='display:none' class='control-button steps_step-3'>convert</button>
+
+            <button id='downloadButton' style='display:none' class='control-button steps_step-3'>download Jirified JSON</button>
+            <button id='nextStepButton' style='display:none' href='./analyse-iteration.html' class='control-button steps_step-4'>next step</button>
+        </div>
+
+        <div id='dataViewer'></div>
+    </div>
+
+    <script src='../assets/components/json-preview/json-preview.js'></script>
+    <script src='../assets/components/next-step_button/next-step_button.js'></script>
+    <script src='../assets/components/workitem-changes_preview/workitem-changes_preview.js'></script>
+    <script src='../assets/js/util/view-util.js'></script>
+
+    <script src='../config//workitem-model-definition-config.js'></script>
+    <script src='../assets/js/workitem-model.js'></script>
+    <script src='../assets/js/util/file-util.js'></script>
+    <script src='../assets/js/steps/jirify-json-step.js'></script>
+    <script src='../assets/js/view/jirify-json.js'></script>
+</body>
+</html>
