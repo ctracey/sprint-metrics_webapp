@@ -19,6 +19,11 @@ body {
 	padding-bottom: 0.2em;
 }
 
+.navigation {
+	text-decoration: none;
+	color: inherit;
+}
+
 .sub-title {
 	font-size: 1.5em;
 }

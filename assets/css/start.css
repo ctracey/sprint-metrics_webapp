@@ -1,0 +1,16 @@
+.content {
+	color: #000;
+}
+
+.process-overview {
+	margin-top: 10em;
+}
+
+.step-descriptions {
+	gap: 0em;
+}
+
+.step-description {
+	margin-left: 8em;
+	margin-right: 8em;
+}

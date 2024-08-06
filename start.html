@@ -5,87 +5,39 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 
     <link rel='stylesheet' href='./assets/css/sprint-metrics_webapp.css'>
-    <link rel='stylesheet' href='./assets/css/steps/start.css'>
-
     <link rel='stylesheet' href='./assets/components/steps/steps.css'>
+    <link rel='stylesheet' href='./assets/css/start.css'>
 
     <title>Sprint Metrics Webapp</title>
 </head>
 <body>
-    <div class='steps'>
-        <a href='./start.html' class='steps_active-step steps_step steps_step-0'>overview</a>
-        <a href='./steps/export-csv.html' class='steps_step steps_step-1' title='export work items from jira (csv)'>export csv</a>
-        <a href='./steps/jsonify-csv.html' class='steps_step steps_step-2' title='convert downloaded csv to json (json)'>jsonify csv</a>
-        <a href='./steps/jirify-json.html' class='steps_step steps_step-3' title='convert downloaded json to data model (json)'>jirify json</a>
-        <a href='./steps/analyse-iteration.html' class='steps_step steps_step-4' title='convert data model to calculated metrics (csv)'>analyse iteration</a>
-        <a href='./steps/visualise-metrics.html' class='steps_step steps_step-5' title='convert downloaded metrics data to visualised dashboard (xlxs)'>visualise metrics</a>
-    </div>
-
-    <div class='steps_header-bar steps_step-0'></div>
     <div class='steps_header'>
         <span class='title steps_step-0-text'>Sprint Metrics Webapp</span>
         <span class='sub-title'>Generate sprint analytics from Jira csv export</span>
     </div>
 
     <div class='content'>
-        <div class='controls'>
-            <button id='nextStepButton' href='./steps/export-csv.html' class='control-button steps_step-1'>get started</button>
-        </div>
-
         <div class='process-overview'>
-            <div class='title steps_step-0-text'>Process Overview</div>
             <div class='step-descriptions'>
-                <div class='step-description steps_step-1'>
-                    <div class='step-description_title'>STEP 1:</div>
-                    <div class='sub-title'>export csv</div>
+                <a href='./streamline/overview.html' class='step-description steps_step-4'>
+                    <div class='step-description_title'>Streamline:</div>
+                    <div class='sub-title'>Maximise Automation</div>
 
                     <div class=step-description_text>
-                        <div>export csv</div>
-                        <div>from jira</div>
-                    </div>
-                </div>
-                <a href='./steps/jsonify-csv.html' class='step-description steps_step-2'>
-                    <div class='step-description_title'>STEP 2:</div>
-                    <div class='sub-title'>jsonify csv</div>
-
-                    <div class=step-description_text>
-                        <div>convert csv</div>
-                        <div>to json</div>
+                        <div>Automate as much of the process as possible</div>
                     </div>
                 </a>
-                <a href='./steps/jirify-json.html' class='step-description steps_step-3'>
-                    <div class='step-description_title'>STEP 3:</div>
-                    <div class='sub-title'>jirify json</div>
+                <a href='./step-by-step/overview.html' class='step-description steps_step-2'>
+                    <div class='step-description_title'>Step By Step:</div>
+                    <div class='sub-title'>Evaluate data at each step</div>
 
                     <div class=step-description_text>
-                        <div>convert json</div>
-                        <div>to data model (json)</div>
-                    </div>
-                </a>
-                <a href='./steps/analyse-iteration.html' class='step-description steps_step-4'>
-                    <div class='step-description_title'>STEP 4:</div>
-                    <div class='sub-title'>analyse iteration</div>
-
-                    <div class=step-description_text>
-                        <div>convert data model (json)</div>
-                        <div>to calculated metrics (csv)</div>
-                        
-                    </div>
-                </a>
-                <a href='./steps/visualise-metrics.html' class='step-description steps_step-5'>
-                    <div class='step-description_title'>STEP 5:</div>
-                    <div class='sub-title'>visualise metrics</div>
-
-                    <div class=step-description_text>
-                        <div>convert calculated metrics (csv)</div>
-                        <div>to visualised dashboard (xlsx)</div>
+                        <div>Useful if need to configure this process for a new data scenario</div>
                     </div>
                 </a>
             </div>
         </div>
     </div>
-
-    <script src='./assets/components/next-step_button/next-step_button.js'></script>
 
     <script src='./assets/js/view/start.js'></script>
 </body>
