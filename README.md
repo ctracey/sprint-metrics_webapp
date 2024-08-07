@@ -13,13 +13,10 @@ download [latest package](./_packages/), extract and open start.html in the brow
 
 Here is the process broken down into a few steps.
  - export csv from Jira for a sprint
- - load data from a local csv file
- - convert data to json format
- - build basic data model from json data
+ - load exported csv
  - collect additional data from user
  - download raw calculate stats as csv
  - load calculated stats csv into excel template to present dashboard of sprint metrics
-
 
 ## Under the hood
 
