@@ -2,7 +2,7 @@
 
 Tool to help generate metrics based on csv export from Jira.
 
-This is web app solution designed to be light to run for users.
+This is lightweight web app solution designed to be run in the browser from local files.
 
 
 ## getting started
@@ -23,6 +23,10 @@ You can see a few screenshots [here](./_other/screenshots)
 ## Under the hood
 
 - html with css & javascript
-- used Claude Sonnet 3.5 / ChatGPT to generate some code
+- logs can be found by inspecting the browsers javascript console
+
+
+- used Claude Sonnet 3.5 / ChatGPT / Perplexity to generate some code and fasttrack technology referencing
+- using PapaParse lib
 
 
