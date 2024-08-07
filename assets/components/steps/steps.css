@@ -66,27 +66,27 @@
 }
 
 .steps_step-0-text {
-	color: #fff; /* reddish-orange */
+	color: #fff !important; /* reddish-orange */
 }
 
 .steps_step-1-text {
-	color: #f27b3f; /* reddish-orange */
+	color: #f27b3f !important; /* reddish-orange */
 }
 
 .steps_step-2-text {
-	color: #f2b03f; /* orange */
+	color: #f2b03f !important; /* orange */
 }
 
 .steps_step-3-text {
-	color: #F2CE3F; /* yellow */
+	color: #F2CE3F !important; /* yellow */
 }
 
 .steps_step-4-text {
-	color: #bfbf2c; /* green */
+	color: #bfbf2c !important; /* green */
 }
 
 .steps_step-5-text {
-	color: #9fbf2c; /* green */
+	color: #9fbf2c !important; /* green */
 }
 
 .step-descriptions {

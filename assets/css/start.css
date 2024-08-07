@@ -11,6 +11,20 @@
 }
 
 .step-description {
+	background-color: inherit;
+
 	margin-left: 8em;
 	margin-right: 8em;
+}
+
+.step-description_title {
+	font-size: 2.5em;
+}
+
+.choose_button {
+	text-align: center;
+}
+
+.italic_text {
+	font-style: italic;
 }
