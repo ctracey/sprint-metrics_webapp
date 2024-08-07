@@ -18,6 +18,8 @@ Here is the process broken down into a few steps.
  - download raw calculate stats as csv
  - load calculated stats csv into excel template to present dashboard of sprint metrics
 
+You can see a few screenshots [here](./_other/screenshots)
+
 ## Under the hood
 
 - html with css & javascript
