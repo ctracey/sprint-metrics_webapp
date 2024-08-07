@@ -1,0 +1,12 @@
+.content {
+	color: #000;
+	padding-top: 10em;
+}
+
+.step-descriptions {
+	gap: 0.1em;
+}
+
+.step-description__twotone {
+	margin: 0.5em;
+}

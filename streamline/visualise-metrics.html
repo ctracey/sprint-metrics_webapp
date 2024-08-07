@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+    <link rel='stylesheet' href='../assets/css/sprint-metrics_webapp.css'>
+    <link rel='stylesheet' href='../assets/css/view/streamline/visualise-metrics.css'>
+
+    <link rel='stylesheet' href='../assets/components/steps/steps.css'>
+
+    <title>Visualise Metrics</title>
+</head>
+<body>
+    <div class='steps'>
+        <a href='./overview.html' class='steps_step steps_step-0'>overview</a>
+        <a href='./export-csv.html' class='steps_step steps_step-1' title='export work items from jira (csv)'>export csv</a>
+        <a href='./analyse-iteration.html' class='steps_step steps_step-3' title='convert data model to calculated metrics (csv)'>analyse iteration</a>
+        <a href='./visualise-metrics.html' class='steps_active-step steps_step steps_step-5' title='convert downloaded metrics data to visualised dashboard (xlxs)'>visualise metrics</a>
+    </div>
+
+    <div class='steps_header-bar steps_step-5'></div>
+    <div class='steps_header'>
+        <span class='title steps_step-5-text'>Visualise Metrics</span>
+        <span class='sub-title'>Visualise sprint analytics in excel from csv of calculated iteration metrics</span>
+    </div>
+
+    <div class='content'>
+        <div class='step-descriptions'>
+            <div class='step-description__twotone'>
+                <div class='step-description_title__twotone steps_step-5'>step 1:</div>
+                <div class='step-description_sub-title'>open excel</div>
+
+                <div class=step-description_text__twotone>
+                <a href='../assets/xlsx/visualise-metrics.xlsx'>download excel template</a>
+                </div>
+            </div>
+            <div class='step-description__twotone'>
+                <div class='step-description_title__twotone steps_step-5'>step 2:</div>
+                <div class='step-description_sub-title'>import analytics</div>
+
+                <div class=step-description_text__twotone>
+                    <div>In the visualise metrics excel workbook</div>
+                    <div>(use provided template)</div>
+                    <ul>
+                        <li>navigate to the tab called "raw data | iteration analysis"</li>
+                        <li>then replace all the contents of this worksheet tab with the contents of the csv we just downloaded from the analyse iteration step ending with "_analysis.csv"</li>
+                    </ul>
+                </div>
+            </div>
+            <div class='step-description__twotone'>
+                <div class='step-description_title__twotone steps_step-5'>step 3:</div>
+                <div class='step-description_sub-title'>configure metadata</div>
+
+                <div class=step-description_text__twotone>On the Calculate Stats worksheet, specify the labels for your projects and components for your streams</div>
+            </div>
+            <div class='step-description__twotone'>
+                <div class='step-description_title__twotone steps_step-5'>step 3:</div>
+                <div class='step-description_sub-title'>check summary</div>
+
+                <div class=step-description_text__twotone>look at sprint summary tab</div>
+            </div>
+            <div class='step-description__twotone'>
+                <div class='step-description_title__twotone steps_step-5'>step 4:</div>
+                <div class='step-description_sub-title'>burnup & velocity chart</div>
+
+                <div class=step-description_text__twotone>grab screenshots from jira and replace samples on the dashboard</div>
+            </div>
+            <div class='step-description__twotone'>
+                <div class='step-description_title__twotone steps_step-5'>step 5:</div>
+                <div class='step-description_sub-title'>screenshot</div>
+
+                <div class=step-description_text__twotone>screenshot for sharable report</div>
+            </div>
+        </div>
+    </div>
+
+    <script src='../assets/js/view/streamline/visualise-metrics.js'></script>
+</body>
+</html>

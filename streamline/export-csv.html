@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+    <link rel='stylesheet' href='../assets/css/sprint-metrics_webapp.css'>
+    <link rel='stylesheet' href='../assets/css/view/streamline/export-csv.css'>
+
+    <link rel='stylesheet' href='../assets/components/steps/steps.css'>
+
+    <title>Export CSV</title>
+</head>
+<body>
+    <div class='steps'>
+        <a href='./overview.html' class='steps_step steps_step-0'>overview</a>
+        <a href='./export-csv.html' class='steps_active-step steps_step steps_step-1' title='export work items from jira (csv)'>export csv</a>
+        <a href='./analyse-iteration.html' class='steps_step steps_step-3' title='convert data model to calculated metrics (csv)'>analyse iteration</a>
+        <a href='./visualise-metrics.html' class='steps_step steps_step-5' title='convert downloaded metrics data to visualised dashboard (xlxs)'>visualise metrics</a>
+    </div>
+
+    <div class='steps_header-bar steps_step-1'></div>
+    <div class='steps_header'>
+        <span class='title steps_step-1-text'>Export CSV</span>
+        <span class='sub-title'>Export iteration work items from Jira</span>
+    </div>
+
+    <div class='content'>
+        <div class='step-descriptions'>
+            <div class='step-description__twotone'>
+                <div class='step-description_title__twotone steps_step-1'>step 1:</div>
+                <div class='step-description_sub-title'>Find work items</div>
+
+                <div class=step-description_text__twotone>
+                In jira, search for all work items in your iteration using issue search
+                </div>
+            </div>
+            <div class='step-description__twotone'>
+                <div class='step-description_title__twotone steps_step-1'>step 2:</div>
+                <div class='step-description_sub-title'>Export issues</div>
+
+                <div class=step-description_text__twotone>Export issues with the "Export CSV (all fields)" option</div>
+            </div>
+        </div>
+
+        <div class='controls'>
+            <button id='nextStepButton' href='./analyse-iteration.html' class='control-button steps_step-3'>next step</button>
+        </div>
+    </div>
+
+    <script src='../assets/components/next-step_button/next-step_button.js'></script>
+    
+    <script src='../assets/js/view/streamline/export-csv.js'></script>
+</body>
+</html>
