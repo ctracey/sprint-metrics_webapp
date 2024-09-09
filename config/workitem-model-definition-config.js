@@ -16,6 +16,8 @@ const defaultWorkitemModelDefinitionConfig = {
         'Resolution',
         'Resolved',
         'Custom field ([CHART] Time in Status)',
+        'Parent',
+        'Parent summary',
     ],
     singleValueLimitAttributes: [
         'Custom field (Story Points)',

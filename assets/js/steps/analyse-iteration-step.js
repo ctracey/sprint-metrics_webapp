@@ -26,6 +26,8 @@ const analyseIterationStep = {
 	    stats.completedLabels = analyseLabels(completedWorkitems);
 	    stats.completedComponents = analyseComponents(completedWorkitems);
 
+        stats.parents = analyseParents(workitems);
+
 	    stats.emergentWork = analyseEmergentWork(stats.labels);
 
 	    stats.metricConfidence = analyseMetricConfidence(workitems, stats.sprintOverview.backlogSize);
@@ -68,6 +70,8 @@ const ATTRIBUTE_STATUS = 'Status';
 const ATTRIBUTE_STATUS_CATEGORY = 'Status Category';
 const ATTRIBUTE_LABELS = 'Labels';
 const ATTRIBUTE_COMPONENTS = 'Components';
+const ATTRIBUTE_PARENT = 'Parent';
+const ATTRIBUTE_PARENT_SUMMARY = 'Parent summary';
 
 
 
@@ -214,6 +218,24 @@ function analyseAttribute(workitems, attribute) {
     });
 
     return analysis;
+}
+
+function analyseParents(workitems) {
+    let parent_analysis = {};
+    
+    let parents = analyseAttribute(workitems, ATTRIBUTE_PARENT);
+    Object.keys(parents).forEach(function(parent_id) {
+        let parent_summary;
+
+        if (parent_id && (parent_id != 'undefined')) {
+            let child_workitems = filterByAttributeValue(workitems, ATTRIBUTE_PARENT, parent_id);
+            parent_summary = child_workitems[0][ATTRIBUTE_PARENT_SUMMARY];      
+        }
+
+        parent_analysis[parent_summary] = parents[parent_id];
+    });
+
+    return parent_analysis;
 }
 
 
