@@ -13,3 +13,8 @@
 .inputField {
 	padding-top: 0.5em;
 }
+
+.form-footnote {
+	font-size: 0.7em;
+	font-style: italic;
+}

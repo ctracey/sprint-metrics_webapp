@@ -25,38 +25,38 @@ const sprintDetailsForm = {
 
           <div id='sprintDetailsForm' class='sprintDetailsForm'>
               <div class='inputField'>
-                  <label for'${input_squadNameId}'>squad name</label>
+                  <label for'${input_squadNameId}'>squad name*</label>
                   <input id='${input_squadNameId}' type='text'>
               </div>
               <div class='inputField'>
-                  <label for'${input_sprintNameId}'>sprint name</label>
+                  <label for'${input_sprintNameId}'>sprint name*</label>
                   <input id='${input_sprintNameId}' type='text'>
               </div>
 
               <div class='formSection'>
                   <span class='formSection-heading'>Extra Jira Data</span>
                   <div class='inputField'>
-                      <label for'${input_sprintDateStartId}'>sprint start date</label>
+                      <label for'${input_sprintDateStartId}'>sprint start date*</label>
                       <input id='${input_sprintDateStartId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_sprintDateEndId}'>sprint end date</label>
+                      <label for'${input_sprintDateEndId}'>sprint end date*</label>
                       <input id='${input_sprintDateEndId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_committedAtStartOfSprintEstimateId}'>committed at start of sprint (estimate)</label>
+                      <label for'${input_committedAtStartOfSprintEstimateId}'>committed at start of sprint (estimate)*</label>
                       <input id='${input_committedAtStartOfSprintEstimateId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_committedAtStartOfSprintThroughputId}'>committed at start of sprint (throughput)</label>
+                      <label for'${input_committedAtStartOfSprintThroughputId}'>committed at start of sprint (throughput)*</label>
                       <input id='${input_committedAtStartOfSprintThroughputId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_removedFromSprintEstimateId}'>removed from sprint (estimate)</label>
+                      <label for'${input_removedFromSprintEstimateId}'>removed from sprint (estimate)*</label>
                       <input id='${input_removedFromSprintEstimateId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_removedFromSprintThroughputId}'>removed from sprint (throughput)</label>
+                      <label for'${input_removedFromSprintThroughputId}'>removed from sprint (throughput)*</label>
                       <input id='${input_removedFromSprintThroughputId}' type='text'>
                   </div>
               </div>
@@ -68,21 +68,25 @@ const sprintDetailsForm = {
                       <input id='${input_strategy_bauCapacityAllocationPercentageId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_sprintPlanning_targetCapacity_estimateId}'>Sprint Planning Target Capacity (estimate)</label>
+                      <label for'${input_sprintPlanning_targetCapacity_estimateId}'>Sprint Planning Target Capacity (estimate)*</label>
                       <input id='${input_sprintPlanning_targetCapacity_estimateId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_sprintPlanning_targetCapacity_throughputId}'>Sprint Planning Target Capacity (throughput)</label>
+                      <label for'${input_sprintPlanning_targetCapacity_throughputId}'>Sprint Planning Target Capacity (throughput)*</label>
                       <input id='${input_sprintPlanning_targetCapacity_throughputId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_trends_velocityTrends_estimateId}'>Velocity Trends (estimate)</label>
+                      <label for'${input_trends_velocityTrends_estimateId}'>Velocity Trends (estimate)*</label>
                       <input id='${input_trends_velocityTrends_estimateId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_trends_velocityTrends_throughputId}'>Velocity Trends (throughput)</label>
+                      <label for'${input_trends_velocityTrends_throughputId}'>Velocity Trends (throughput)*</label>
                       <input id='${input_trends_velocityTrends_throughputId}' type='text'>
                   </div>
+              </div>
+
+              <div class='formSection'>
+                <div class='form-footnote'>* denotes mandatory fields</div>
               </div>
           </div>
       `;
