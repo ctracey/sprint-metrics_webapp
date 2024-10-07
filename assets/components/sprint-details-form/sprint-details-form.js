@@ -64,23 +64,23 @@ const sprintDetailsForm = {
               <div class='formSection'>
                   <span class='formSection-heading'>Scrum Master Intel</span>
                   <div class='inputField'>
-                      <label for'${input_strategy_bauCapacityAllocationPercentageId}'>BAU Capacity Allocation Percentage</label>
+                      <label for'${input_strategy_bauCapacityAllocationPercentageId}'>BAU capacity allocation percentage</label>
                       <input id='${input_strategy_bauCapacityAllocationPercentageId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_sprintPlanning_targetCapacity_estimateId}'>Sprint Planning Target Capacity (estimate)*</label>
+                      <label for'${input_sprintPlanning_targetCapacity_estimateId}'>sprint planning target capacity (estimate)*</label>
                       <input id='${input_sprintPlanning_targetCapacity_estimateId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_sprintPlanning_targetCapacity_throughputId}'>Sprint Planning Target Capacity (throughput)*</label>
+                      <label for'${input_sprintPlanning_targetCapacity_throughputId}'>sprint planning target capacity (throughput)*</label>
                       <input id='${input_sprintPlanning_targetCapacity_throughputId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_trends_velocityTrends_estimateId}'>Velocity Trends (estimate)*</label>
+                      <label for'${input_trends_velocityTrends_estimateId}'>velocity trends (estimate)*</label>
                       <input id='${input_trends_velocityTrends_estimateId}' type='text'>
                   </div>
                   <div class='inputField'>
-                      <label for'${input_trends_velocityTrends_throughputId}'>Velocity Trends (throughput)*</label>
+                      <label for'${input_trends_velocityTrends_throughputId}'>velocity trends (throughput)*</label>
                       <input id='${input_trends_velocityTrends_throughputId}' type='text'>
                   </div>
               </div>
