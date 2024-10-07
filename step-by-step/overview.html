@@ -28,14 +28,14 @@
     </div>
 
     <div class='content'>
-        <div class='controls'>
+        <!-- <div class='controls'>
             <button id='nextStepButton' href='./export-csv.html' class='control-button steps_step-1'>get started</button>
-        </div>
+        </div> -->
 
         <div class='process-overview'>
             <div class='title steps_step-0-text'>Step By Step Process</div>
             <div class='step-descriptions'>
-                <a href='./export-csv.html' class='step-description steps_step-1'>
+                <div class='step-description steps_step-1'>
                     <div class='step-description_title'>STEP 1:</div>
                     <div class='sub-title'>export csv</div>
 
@@ -43,8 +43,8 @@
                         <div>export csv</div>
                         <div>from jira</div>
                     </div>
-                </a>
-                <a href='./jsonify-csv.html' class='step-description steps_step-2'>
+                </div>
+                <div class='step-description steps_step-2'>
                     <div class='step-description_title'>STEP 2:</div>
                     <div class='sub-title'>jsonify csv</div>
 
@@ -52,8 +52,8 @@
                         <div>convert csv</div>
                         <div>to json</div>
                     </div>
-                </a>
-                <a href='./jirify-json.html' class='step-description steps_step-3'>
+                </div>
+                <div class='step-description steps_step-3'>
                     <div class='step-description_title'>STEP 3:</div>
                     <div class='sub-title'>jirify json</div>
 
@@ -61,8 +61,8 @@
                         <div>convert json</div>
                         <div>to data model (json)</div>
                     </div>
-                </a>
-                <a href='./analyse-iteration.html' class='step-description steps_step-4'>
+                </div>
+                <div class='step-description steps_step-4'>
                     <div class='step-description_title'>STEP 4:</div>
                     <div class='sub-title'>analyse iteration</div>
 
@@ -71,8 +71,8 @@
                         <div>to calculated metrics (csv)</div>
                         
                     </div>
-                </a>
-                <a href='./visualise-metrics.html' class='step-description steps_step-5'>
+                </div>
+                <div class='step-description steps_step-5'>
                     <div class='step-description_title'>STEP 5:</div>
                     <div class='sub-title'>visualise metrics</div>
 
@@ -80,9 +80,20 @@
                         <div>convert calculated metrics (csv)</div>
                         <div>to visualised dashboard (xlsx)</div>
                     </div>
-                </a>
+                </div>
             </div>
         </div>
+
+        <div class='step-descriptions'>
+            <button id='nextStepButton' href='./export-csv.html' class='step-description__button steps_step-1 '>
+                get started
+            </button>
+            <div class='step-description__hidden'></div>
+            <div class='step-description__hidden'></div>
+            <div class='step-description__hidden'></div>
+            <div class='step-description__hidden'></div>
+        </div>
+        
     </div>
 
     <script src='../assets/components/next-step_button/next-step_button.js'></script>

@@ -109,6 +109,35 @@
 	padding-bottom: 1em;
 }
 
+.step-description__button {
+	width: 100%;
+
+	background-color: #FFF;
+	text-decoration: none;
+	color: inherit;
+
+	margin: 0.6em;
+	
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+
+	font-size: 1.5em;
+	cursor: pointer
+}
+
+.step-description__hidden {
+	width: 100%;
+
+	background-color: inherit;
+	text-decoration: none;
+	color: inherit;
+
+	margin: 1em;
+	padding-left: 0.2em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
 .step-description__twotone {
 	width: 100%;
 
