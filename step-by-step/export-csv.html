@@ -5,7 +5,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 
     <link rel='stylesheet' href='../assets/css/sprint-metrics_webapp.css'>
-    <link rel='stylesheet' href='../assets/css/view/step-by-step/export-csv.css'>
+    <link rel='stylesheet' href='../assets/css/view/streamline/export-csv.css'>
 
     <link rel='stylesheet' href='../assets/components/steps/steps.css'>
 
@@ -15,9 +15,7 @@
     <div class='steps'>
         <a href='./overview.html' class='steps_step steps_step-0'>overview</a>
         <a href='./export-csv.html' class='steps_active-step steps_step steps_step-1' title='export work items from jira (csv)'>export csv</a>
-        <a href='./jsonify-csv.html' class='steps_step steps_step-2' title='convert downloaded csv to json (json)'>jsonify csv</a>
-        <a href='./jirify-json.html' class='steps_step steps_step-3' title='convert downloaded json to data model (json)'>jirify json</a>
-        <a href='./analyse-iteration.html' class='steps_step steps_step-4' title='convert data model to calculated metrics (csv)'>analyse iteration</a>
+        <a href='./analyse-iteration.html' class='steps_step steps_step-3' title='convert data model to calculated metrics (csv)'>analyse iteration</a>
         <a href='./visualise-metrics.html' class='steps_step steps_step-5' title='convert downloaded metrics data to visualised dashboard (xlxs)'>visualise metrics</a>
     </div>
 
@@ -30,11 +28,50 @@
     <div class='content'>
         <div class='step-descriptions'>
             <div class='step-description__twotone'>
+                <div class='step-description_title__twotone steps_note'>NOTE: Data Accuracy:</div>
+                
+                <div class='step-description_sub-title'>Timing is essential</div>
+                <div class=step-description_text__twotone>
+                The Scrum Master needs to identify the point in time that the sprint ends.
+                To avoid noise in the exported data, it is essential to run this export at this time.
+                <br><br>
+                Example: When Jira sprint end date differs to time that new sprint is actually kicked off.
+                </div>
+
+                <br></br>
+                <div class='step-description_sub-title'>Risk of Inaccuracy</div>
+                <div class=step-description_text__twotone>
+                The further from the point in time that the export happens the higher the risk of inaccuracy in the data, especially if there are items that carry over into the next sprint.
+                </div>
+
+                <br></br>
+                <div class='step-description_sub-title'>Acknowledged Limitation</div>
+                <div class=step-description_text__twotone>
+                This is an acknowledged limitation of this metrics automation technique/tool which is based on this manual csv export.
+                <br><br>
+                As an alternative, consider more complex metrics solutions.
+                </div>
+            </div>
+            <div class='step-description__twotone'>
                 <div class='step-description_title__twotone steps_step-1'>step 1:</div>
                 <div class='step-description_sub-title'>Find work items</div>
 
                 <div class=step-description_text__twotone>
-                In jira, search for all work items in your iteration using issue search
+                In jira, search for all work items in your iteration using issue search.
+                </div>
+
+                <br></br>
+                <div class='step-description_sub-title'>JQL Search Query</div>
+                <div class=step-description_text__twotone>
+                project = 'ABC' AND sprint=1234 ORDER by created DESC
+                
+                <br><br><br>
+                To find the sprint ID:
+                    <ul>
+                        <li>Open one of the sprint reports like sprint report.</li>
+                        <li>Check that the appropriate sprint is selected.</li>
+                        <li>Copy the number at the end of the url.</li>
+                    </ul>
                 </div>
             </div>
             <div class='step-description__twotone'>
@@ -46,12 +83,12 @@
         </div>
 
         <div class='controls'>
-            <button id='nextStepButton' href='./jsonify-csv.html' class='control-button steps_step-2'>next step</button>
+            <button id='nextStepButton' href='./analyse-iteration.html' class='control-button steps_step-3'>next step</button>
         </div>
     </div>
 
     <script src='../assets/components/next-step_button/next-step_button.js'></script>
     
-    <script src='../assets/js/view/step-by-step/export-csv.js'></script>
+    <script src='../assets/js/view/streamline/export-csv.js'></script>
 </body>
 </html>

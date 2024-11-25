@@ -31,6 +31,10 @@
 	font-size: 1.1em;
 }
 
+.steps_note {
+	background-color: #808080 !important; /* grey */
+}
+
 .steps_step-0 {
 	color: #b3b3b3;
 	background-color: #282828 !important; /* redish-orange */
