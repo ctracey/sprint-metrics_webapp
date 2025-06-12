@@ -1,4 +1,4 @@
-const defaultWorkitemModelDefinitionConfig = { 
+const defaultWorkitemModelDefinitionConfig = {
     attributes: [
         'Components',
         'Labels',
@@ -21,5 +21,9 @@ const defaultWorkitemModelDefinitionConfig = {
     ],
     singleValueLimitAttributes: [
         'Custom field (Story Points)',
-    ]
+    ],
+    attributeValueReference: {
+      'workitemStatus_Done': 'Done',
+      'workitemStatusCategory_Done': 'Done'
+    }
 };

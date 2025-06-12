@@ -6,7 +6,7 @@ const analyseIterationStep = {
 
 	    let workitems = filterNonStructuralWorkitems(allWorkitems);
 	    console.log('total non structural work items in dataset: ', workitems.length);
-	    
+
 	    let stats = {};
 
 	    stats.sprintName = manualSprintData.sprintName;
@@ -20,7 +20,7 @@ const analyseIterationStep = {
 	    stats.sprintCompletion = analyseSprintCompletion(workitems);
 
 	    let completedWorkitems = filterCompletedWorkItems(workitems);
-	    
+
 	    stats.labels = analyseLabels(workitems);
 	    stats.components = analyseComponents(workitems);
 	    stats.completedLabels = analyseLabels(completedWorkitems);
@@ -52,14 +52,16 @@ const analyseIterationStep = {
 /*----------------------------------------
   PRIVATE
   --------------------------------------*/
+let workitemModel = WorkitemModel.getInstance();
 
 const WORKITEMTYPE_STORY = 'Story';
 const WORKITEMTYPE_TASK = 'Task';
 const WORKITEMTYPE_EXTERNALDEPENDENCY = 'External Dependency';
-const WORKITEMSTATUS_DONE = 'Done';
+const WORKITEMSTATUS_DONE = workitemModel.getAttributeValue(WorkitemModel.ATTRIBUTE_VALUE_KEY__WORKITEM_STATUS__DONE);
+
 const WORKITEMSTATUSCATEGORY_NOTSTARTED = 'To Do';
 const WORKITEMSTATUSCATEGORY_INPROGRESS = 'In Progress';
-const WORKITEMSTATUSCATEGORY_DONE = 'Done';
+const WORKITEMSTATUSCATEGORY_DONE = workitemModel.getAttributeValue(WorkitemModel.ATTRIBUTE_VALUE_KEY__WORKITEM_STATUS_CATEGORY__DONE);
 
 //TODO: configure this list
 const EMERGENTWORK_LABELS = ['BAU', 'Improvement'];
@@ -80,7 +82,7 @@ const ATTRIBUTE_PARENT_SUMMARY = 'Parent summary';
   SCAN WORKITEMS
   --------------------------------------*/
 
-function scanWorkitemTypes(workitems) {   
+function scanWorkitemTypes(workitems) {
     return scanWorkitemAttributeValues(workitems, ATTRIBUTE_ISSUETYPE);
 }
 
@@ -93,7 +95,7 @@ function scanWorkitemAttributeValues(workitems, attribute) {
             workitemValue.forEach(function (value) {
                 if (!attributeValues.includes(value)) {
                     attributeValues.push(value);
-                }    
+                }
             });
         } else {
             if (!attributeValues.includes(workitemValue)) {
@@ -141,7 +143,7 @@ function analyseHealthyPerformanceTarget(completedInSprint, velocityTrend) {
     if ((completedInSprint - velocityTrend > 0) || (Math.abs(completedInSprint - velocityTrend) <= 5)) {
         return true;
     }
-    
+
     return false;
 }
 
@@ -162,7 +164,7 @@ function analyseEmergentWork(labels) {
         labelStats = labels[label];
         if (labelStats) {
             emergentWork.count += labelStats.count;
-            emergentWork.storyPoints += labelStats.storyPoints;    
+            emergentWork.storyPoints += labelStats.storyPoints;
         }
     });
 
@@ -208,7 +210,7 @@ function analyseComponents(workitems) {
 
 function analyseAttribute(workitems, attribute) {
     let analysis = {};
-    
+
     scanWorkitemAttributeValues(workitems, attribute).forEach(function(value) {
         filtered_workitems = filterByAttributeValue(workitems, attribute, value);
         analysis[value] = {
@@ -222,14 +224,14 @@ function analyseAttribute(workitems, attribute) {
 
 function analyseParents(workitems) {
     let parent_analysis = {};
-    
+
     let parents = analyseAttribute(workitems, ATTRIBUTE_PARENT);
     Object.keys(parents).forEach(function(parent_id) {
         let parent_summary;
 
         if (parent_id && (parent_id != 'undefined')) {
             let child_workitems = filterByAttributeValue(workitems, ATTRIBUTE_PARENT, parent_id);
-            parent_summary = child_workitems[0][ATTRIBUTE_PARENT_SUMMARY];      
+            parent_summary = child_workitems[0][ATTRIBUTE_PARENT_SUMMARY];
         }
 
         parent_analysis[parent_summary] = parents[parent_id];
@@ -258,7 +260,7 @@ function analyseSprintOverview(workitems){
         estimate: countStoryPoints(completedWorkitems),
         throughput: completedWorkitems.length
     };
-    
+
     //not completed in sprint
     let notCompletedInSprint = {
         estimate: analyseNotCompletedInSprint(backlogSize.estimate, completedTotal.estimate),

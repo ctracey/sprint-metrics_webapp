@@ -1,5 +1,7 @@
 class WorkitemModel {
-	
+  static ATTRIBUTE_VALUE_KEY__WORKITEM_STATUS__DONE = 'workitemStatus_Done';
+  static ATTRIBUTE_VALUE_KEY__WORKITEM_STATUS_CATEGORY__DONE = 'workitemStatusCategory_Done';
+
 	static getInstance() {
         if (!WorkitemModel.instance) {
             WorkitemModel.instance = new WorkitemModel();
@@ -37,4 +39,13 @@ class WorkitemModel {
 	getSingleValueLimitAttributes() {
 		return this.getDefinition().singleValueLimitAttributes;
 	}
+
+  getAttributeValueReference() {
+		return this.getDefinition().attributeValueReference;
+  }
+
+  getAttributeValue(attributeValueKey) {
+		return this.getAttributeValueReference()[attributeValueKey];
+  }
+
 }
