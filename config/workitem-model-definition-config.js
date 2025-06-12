@@ -24,6 +24,15 @@ const defaultWorkitemModelDefinitionConfig = {
     ],
     attributeValueReference: {
       'workitemStatus_Done': 'Done',
+      // 'workitemStatus_Done': 'Closed',
       'workitemStatusCategory_Done': 'Done'
-    }
+    },
+    nonStructuralWorkitemTypes: [
+      'Story',
+      'Task',
+      // 'QA Defect',
+      // 'Bug',
+      // 'Enabler',
+      'External Dependency'
+    ]
 };

@@ -54,11 +54,7 @@ const analyseIterationStep = {
   --------------------------------------*/
 let workitemModel = WorkitemModel.getInstance();
 
-const WORKITEMTYPE_STORY = 'Story';
-const WORKITEMTYPE_TASK = 'Task';
-const WORKITEMTYPE_EXTERNALDEPENDENCY = 'External Dependency';
 const WORKITEMSTATUS_DONE = workitemModel.getAttributeValue(WorkitemModel.ATTRIBUTE_VALUE_KEY__WORKITEM_STATUS__DONE);
-
 const WORKITEMSTATUSCATEGORY_NOTSTARTED = 'To Do';
 const WORKITEMSTATUSCATEGORY_INPROGRESS = 'In Progress';
 const WORKITEMSTATUSCATEGORY_DONE = workitemModel.getAttributeValue(WorkitemModel.ATTRIBUTE_VALUE_KEY__WORKITEM_STATUS_CATEGORY__DONE);
@@ -432,10 +428,5 @@ function filterWorkItems(workitems, filter) {
   --------------------------------------*/
 
 function nonStructuralWorkitemTypes() {
-    //TODO: configure this list
-    return [
-        WORKITEMTYPE_STORY,
-        WORKITEMTYPE_TASK,
-        WORKITEMTYPE_EXTERNALDEPENDENCY
-    ];
+  return workitemModel.getNonStructuralWorkitemTypes();
 }

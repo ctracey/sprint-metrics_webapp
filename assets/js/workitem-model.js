@@ -40,6 +40,10 @@ class WorkitemModel {
 		return this.getDefinition().singleValueLimitAttributes;
 	}
 
+  getNonStructuralWorkitemTypes() {
+		return this.getDefinition().nonStructuralWorkitemTypes;
+  }
+
   getAttributeValueReference() {
 		return this.getDefinition().attributeValueReference;
   }
